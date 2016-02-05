@@ -42,8 +42,8 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Register</a></li>
-                <li><a href="#">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="login.html">Login</a></li>
                 <li><a href="#">Username</a></li>
                 <li><a href="#">Logout</a></li>
             </ul>
@@ -55,9 +55,9 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">Admin</a></li>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="admin.html">Admin</a></li>
                 <li class="active"><a href="#">Forms <span class="sr-only">(current)</span></a></li>
             </ul>
         </div>
@@ -67,7 +67,7 @@
             <div>
 
                 <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist">
+                <ul id="optionTabs" class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#forms" aria-controls="home" role="tab" data-toggle="tab">Forms</a></li>
                     <li role="presentation"><a href="#fields" aria-controls="profile" role="tab" data-toggle="tab">Fields</a></li>
                 </ul>
@@ -76,7 +76,7 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="forms">
                         <div class="table table-responsive">
-                            <table id="no-more-tables" class="table table-striped table-bordered">
+                            <table id="responsive-table" class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
                                     <th>
@@ -86,10 +86,10 @@
                                 </tr>
                                 </thead>
                                 <tr>
-                                    <td>
+                                    <td data-title="Form Name">
                                         <input type="text" class="form-control" id="inputName" placeholder="name">
                                     </td>
-                                    <td>
+                                    <td data-title="Action">
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-default outline" aria-label="Add User">
                                                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -101,8 +101,10 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Registration Form</td>
-                                    <td>
+                                    <td data-title="Form Name">
+                                        <a class="form-name" href="#" onclick="loadFormFields('form1')">Registration Form</a>
+                                    </td>
+                                    <td data-title="Action">
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-default outline" aria-label="Remove User">
                                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -114,8 +116,10 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Contact List</td>
-                                    <td>
+                                    <td data-title="Form Name">
+                                        <a class="form-name" href="#" onclick="loadFormFields('form2')">Contact List</a>
+                                    </td>
+                                    <td data-title="Action">
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-default outline" aria-label="Remove User">
                                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -127,8 +131,10 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>To Do List</td>
-                                    <td>
+                                    <td data-title="Form Name">
+                                        <a class="form-name" href="#" onclick="loadFormFields('form3')">To Do List</a>
+                                    </td>
+                                    <td data-title="Action">
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-default outline" aria-label="Remove User">
                                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>

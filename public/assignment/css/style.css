@@ -120,43 +120,48 @@ body {
     border: none;
 }
 
-.empty-span{
+.empty-span {
     visibility: hidden;
+}
+
+.form-name {
+    color: rgb(51, 51, 51);
+    text-decoration: none !important;
 }
 
 @media only screen and (max-width: 768px) {
 
     /* Force table to not be like tables anymore */
-    #no-more-tables table,
-    #no-more-tables thead,
-    #no-more-tables tbody,
-    #no-more-tables th,
-    #no-more-tables td,
-    #no-more-tables tr {
+    #responsive-table table,
+    #responsive-table thead,
+    #responsive-table tbody,
+    #responsive-table th,
+    #responsive-table td,
+    #responsive-table tr {
         display: block;
     }
 
     /* Hide table headers (but not display: none;, for accessibility) */
-    #no-more-tables thead tr {
+    #responsive-table thead tr {
         position: absolute;
         top: -9999px;
         left: -9999px;
     }
 
-    #no-more-tables tr { border: 1px solid #eee;}
+    #responsive-table tr { border: 1px solid #eee;}
 
-    #no-more-tables td {
+    #responsive-table td {
         /* Behave  like a "row" */
         line-height: 25px;
         border: none;
         border-bottom: 1px solid #eee;
         position: relative;
-        padding-left: 30%;
+        padding-left: 35%;
         white-space: normal;
         text-align:left;
     }
 
-    #no-more-tables td:before {
+    #responsive-table td:before {
         /* Now like a table header */
         position: absolute;
         line-height: 25px;
@@ -173,5 +178,5 @@ body {
     /*
     Label the data
     */
-    #no-more-tables td:before { content: attr(data-title); }
+    #responsive-table td:before { content: attr(data-title); }
 }

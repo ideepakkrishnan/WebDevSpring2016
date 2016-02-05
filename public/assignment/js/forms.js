@@ -9,3 +9,7 @@
  */
 
 $('#fields').load('form-fields.html');
+
+function loadFormFields(formName) {
+    $('#optionTabs a[href="#fields"]').tab('show');
+}
