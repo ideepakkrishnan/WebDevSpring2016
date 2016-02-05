@@ -129,6 +129,26 @@ body {
     text-decoration: none !important;
 }
 
+.top-padding {
+    padding-top: 8px;
+}
+
+.divider {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.form-control {
+    margin-top: 5px;
+}
+
+.control-edit-options {
+    text-align: right;
+}
+
+.field-container {
+    border: 1px solid #e0e0e0;
+}
+
 @media only screen and (max-width: 768px) {
 
     /* Force table to not be like tables anymore */
