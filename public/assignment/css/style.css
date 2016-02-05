@@ -112,10 +112,6 @@ body {
     text-align: left;
 }
 
-/*
- * Override default styles
- */
-
 .btn.outline {
     background: none;
 }
@@ -124,23 +120,11 @@ body {
     border: none;
 }
 
-.divider {
-    border-bottom: 1px solid #e0e0e0;
+.empty-span{
+    visibility: hidden;
 }
 
-.form-control {
-    margin-top: 5px;
-}
-
-.control-edit-options {
-    text-align: right;
-}
-
-.field-containter {
-    border: 1px solid #e0e0e0;
-}
-
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 768px) {
 
     /* Force table to not be like tables anymore */
     #no-more-tables table,
@@ -159,14 +143,15 @@ body {
         left: -9999px;
     }
 
-    #no-more-tables tr { border: 1px solid #ccc; }
+    #no-more-tables tr { border: 1px solid #eee;}
 
     #no-more-tables td {
         /* Behave  like a "row" */
+        line-height: 25px;
         border: none;
         border-bottom: 1px solid #eee;
         position: relative;
-        padding-left: 50%;
+        padding-left: 30%;
         white-space: normal;
         text-align:left;
     }
@@ -174,10 +159,11 @@ body {
     #no-more-tables td:before {
         /* Now like a table header */
         position: absolute;
+        line-height: 25px;
         /* Top/left values mimic padding */
-        top: 6px;
-        left: 6px;
-        width: 45%;
+        top: 8px;
+        left: 8px;
+        width: 30%;
         padding-right: 10px;
         white-space: nowrap;
         text-align:left;
