@@ -83,6 +83,7 @@
                 "lastName": user.lastName,
                 "username": user.username,
                 "password": user.password,
+                "email": user.email,
                 "roles": user.roles
             };
 
