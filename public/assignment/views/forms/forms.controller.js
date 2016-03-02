@@ -13,8 +13,16 @@
         $scope.deleteForm = deleteForm;
         $scope.selectForm = selectForm;
 
+        var userId = $rootScope.currentUser._id;
+
         if ($rootScope.currentUser) {
-            var userId = $rootScope.currentUser.userId;
+            FormService.findAllFormsForUser(
+                userId,
+                function(response){
+                    console.log(response);
+                    $scope.myForms = response;
+                }
+            )
         }
 
         function addForm(formName) {
@@ -23,12 +31,36 @@
                 {title: formName},
                 function(response) {
                     console.log(response);
+                    FormService.findAllFormsForUser(
+                        userId,
+                        function(response){
+                            console.log(response);
+                            $scope.formName = "";
+                            $scope.myForms = response;
+                        }
+                    )
                 }
             )
         }
 
-        function updateForm(formId) {
-            console.log("Updating form: " + formId);
+        function updateForm() {
+            $scope.newForm.title = $scope.formName;
+            FormService.updateFormById(
+                $scope.newForm._id,
+                $scope.newForm,
+                function(response){
+                    console.log(response);
+                    $scope.formName = "";
+                    FormService.findAllFormsForUser(
+                        userId,
+                        function(response){
+                            console.log(response);
+                            $scope.myForms = response;
+                            $scope.newForm = null;
+                        }
+                    )
+                }
+            )
         }
 
         function deleteForm(formId) {
@@ -36,12 +68,20 @@
                 formId,
                 function(response) {
                     console.log(response);
+                    FormService.findAllFormsForUser(
+                        userId,
+                        function(response){
+                            console.log(response);
+                            $scope.myForms = response;
+                        }
+                    )
                 }
             )
         }
 
-        function selectForm(formID) {
-
+        function selectForm(form) {
+            $scope.formName = form.title;
+            $scope.newForm = form;
         }
     }
 })();

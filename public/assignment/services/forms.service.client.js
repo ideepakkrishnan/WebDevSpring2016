@@ -36,29 +36,27 @@
         function findAllFormsForUser(userId, callback) {
             var response = [];
             for (var i=0; i<api.forms.length; i++) {
-                var curr_form = api.forms[i];
-                if (curr_form.userId == userId) {
-                    response.push(curr_form);
+                if (api.forms[i].userId == userId) {
+                    response.push(api.forms[i]);
                 }
             }
             callback(response);
         }
 
-        function filterForms(form, formId) {
-            return form._id != formId;
-        }
-
         function deleteFormById(formId, callback) {
-            api.forms = api.forms.filter(filterForms, formId);
-            callback(api.forms);
+            for (var i=0; i<api.forms.length; i++) {
+                if (api.forms[i]._id == formId) {
+                    api.forms.splice(i, 1);
+                    callback(api.forms);
+                }
+            }
         }
 
         function updateFormById(formId, newForm, callback) {
             for (var i=0; i<api.forms.length; i++) {
-                var curr_form = api.forms[i];
-                if (curr_form._id == formId) {
-                    curr_form = newForm;
-                    callback(curr_form);
+                if (api.forms[i]._id == formId) {
+                    api.forms[i] = newForm;
+                    callback(api.forms[i]);
                 }
             }
         }
