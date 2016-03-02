@@ -1,10 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="FormBuilderApp">
 <head>
-    <meta charset="UTF-8">
-    <title>Project Home</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="A FitBit data visualization application">
+    <meta name="author" content="krishnan.d[at]husky[dot]neu[dot]edu">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>PerformX</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
-<body>
-    <h1>Project</h1>
+
+<body ng-controller="MainController">
+
+<!-- Load the header menu for the application -->
+<ng-include src="'views/header/header.view.html'"></ng-include>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <!-- Load the sidebar for the application -->
+            <ng-include src="'views/sidebar/sidebar.view.html'"></ng-include>
+        </div>
+
+        <!-- Placeholder for application content -->
+        <div ng-view class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript files
+================================================== -->
+<!-- Add CDNs -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+<!-- Adding core app logic and routing -->
+
+<!-- Inject services -->
+
+<!-- Add view controllers -->
+
+<!-- Add page specific logic -->
+
 </body>
 </html>
