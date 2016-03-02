@@ -7,7 +7,7 @@
         .module("FormBuilderApp")
         .controller("RegisterController", registerController);
 
-    function registerController($scope, $rootScope, $http, $location, UserService) {
+    function registerController($scope, $rootScope, $location, UserService) {
         $scope.register = register;
 
         function register(username, password, verifyPassword, email) {
@@ -29,9 +29,8 @@
                 newUser,
                 function(response) {
                     console.log(response);
-                    $rootScope.user = response;
-                    $location.url("#/profile/"+response.username);
-                    $http.get("#/profile/"+response.username);
+                    $rootScope.currentUser = response;
+                    $location.url("/profile");
             });
         }
     }
