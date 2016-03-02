@@ -8,7 +8,7 @@
  * placeholders and on clicking the fields tab, the corresponding page which  contains the data is loaded
  */
 
-$('#fields').load('form-fields.html');
+$('#fields').load('form-fields.view.html');
 
 function loadFormFields(formName) {
     $('#optionTabs a[href="#fields"]').tab('show');
