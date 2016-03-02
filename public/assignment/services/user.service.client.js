@@ -66,14 +66,13 @@
 
         function updateUser(userId, user, callback) {
             for (var i=0; i<api.userList.length; i++) {
-                var currUser = api.userList[i];
-                if (currUser._id == userId) {
-                    currUser.firstName = user.firstName;
-                    currUser.lastName = user.lastName;
-                    currUser.username = user.username;
-                    currUser.password = user.password;
-                    currUser.roles = user.roles;
-                    callback(currUser);
+                if (api.userList[i]._id == userId) {
+                    api.userList[i].firstName = user.firstName;
+                    api.userList[i].lastName = user.lastName;
+                    api.userList[i].username = user.username;
+                    api.userList[i].password = user.password;
+                    api.userList[i].roles = user.roles;
+                    callback(api.userList[i]);
                 }
             }
         }

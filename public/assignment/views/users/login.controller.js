@@ -6,7 +6,7 @@
         .module("FormBuilderApp")
         .controller("LoginController", loginController);
 
-    function loginController($scope, UserService, $location, $rootScope) {
+    function loginController($scope, $location, $rootScope, UserService) {
         $scope.login = login;
 
         function login(username, password) {
@@ -17,10 +17,10 @@
                     console.log(response);
                     if (response) {
                         $rootScope.currentUser = response;
-                        $location.path("#/profile");
+                        $location.url("/profile");
                     }
                 }
-            );
+            )
         }
     }
 })();

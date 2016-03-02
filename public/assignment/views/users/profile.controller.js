@@ -7,21 +7,23 @@
         .module("FormBuilderApp")
         .controller("ProfileController", profileController);
 
-    function profileController($rootScope, UserService) {
+    function profileController($scope, $rootScope, $location, UserService) {
         $scope.update = update;
 
         if ($rootScope.currentUser) {
-            userId = $rootScope.currentUser.userId;
-            username = $rootScope.currentUser.username;
-            password = $rootScope.currentUser.password;
-            firstName = $rootScope.currentUser.firstName;
-            lastName = $rootScope.currentUser.lastName;
-            userEmail = $rootScope.currentUser.email;
+            $scope.userId = $rootScope.currentUser._id;
+            $scope.username = $rootScope.currentUser.username;
+            $scope.password = $rootScope.currentUser.password;
+            $scope.firstName = $rootScope.currentUser.firstName;
+            $scope.lastName = $rootScope.currentUser.lastName;
+            $scope.userEmail = $rootScope.currentUser.email;
+        } else {
+            $location.path("#/home");
         }
 
         function update(username, password, firstName, lastName, userEmail) {
             UserService.updateUser(
-                userId,
+                $scope.userId,
                 {"username": username, "firstName": firstName, "lastName": lastName, "password": password, "email": userEmail},
                 function(response){
                     console.log(response);
