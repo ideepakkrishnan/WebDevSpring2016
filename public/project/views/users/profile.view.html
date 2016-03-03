@@ -1,0 +1,73 @@
+<h1 class="page-header">Profile</h1>
+
+<div id="updateAlert" class="alert alert-success alert-dismissible" role="alert" ng-show="updated">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="updated=null"><span aria-hidden="true">&times;</span></button>
+    <strong>Success!</strong> The recent changes you made were saved.
+</div>
+
+<form ng-controller="ProfileController" class="form-horizontal">
+    <div class="form-group">
+        <label for="inputUsername" class="col-sm-2 control-label">Username: </label>
+        <div class="col-sm-10">
+            <input ng-model="username" type="text" class="form-control" id="inputUsername" placeholder="Username">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword" class="col-sm-2 control-label">Password: </label>
+        <div class="col-sm-10">
+            <input ng-model="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputFirstName" class="col-sm-2 control-label">First Name: </label>
+        <div class="col-sm-10">
+            <input ng-model="firstName" type="text" class="form-control" id="inputFirstName" placeholder="First Name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputLastName" class="col-sm-2 control-label">Last Name: </label>
+        <div class="col-sm-10">
+            <input ng-model="lastName" type="text" class="form-control" id="inputLastName" placeholder="Last Name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputEmail" class="col-sm-2 control-label">Email: </label>
+        <div class="col-sm-10">
+            <input ng-model="userEmail" type="email" class="form-control" id="inputEmail" placeholder="Email">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="teamsContainer" class="col-sm-2 control-label">Teams: </label>
+        <div id="teamsContainer" class="col-sm-10">
+            <div ng-repeat="team in myTeams" class="col-sm-6 alert alert-warning" role="alert">
+                <div class="media">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="deleteTeam(team.teamId)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object" width="50px" ng-src="{{team.image}}" alt="team.name">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">{{team.name}}</h4>
+                        {{team.description}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 input-group">
+                <input ng-model="newTeamName" type="text" class="form-control searchTeamInput" placeholder="Add new team...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" aria-label="Search">
+                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                  </button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button ng-click="update(username, password, firstName, lastName, userEmail)" type="submit" class="btn btn-primary btn-block btn-lg">Update</button>
+        </div>
+    </div>
+</form>
