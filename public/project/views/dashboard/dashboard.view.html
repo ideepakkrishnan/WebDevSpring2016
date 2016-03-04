@@ -1,0 +1,301 @@
+<h1 class="page-header">Dashboard</h1>
+<p>Here is a quick snapshot of your activities since your last visit</p>
+
+<div ng-controller="DashboardController" id='outer' class="container-fluid">
+    <div id="main" class="row">
+        <blockquote>
+            <p>Personal Goals <span class="badge">3</span></p>
+            <small>You are well on the way to achieve all your personal goals!</small>
+        </blockquote>
+
+        <div id="div1" class="col-sm-3"></div>
+        <div id="div2" class="col-sm-3"></div>
+        <div id="div3" class="col-sm-3"></div>
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#newGoalModal">Add a new goal</button>
+            <button type="button" class="btn btn-default">View goals</button>
+        </div>
+    </div>
+
+    <!-- New Goal Modal -->
+    <div class="modal fade" id="newGoalModal" tabindex="-1" role="dialog" aria-labelledby="newGoalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="newGoalLabel">Add a personal goal</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Calories: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="calories" type="number" class="form-control" placeholder="Calories">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Weight: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="weight" type="number" class="form-control" placeholder="Weight">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Fat: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="fat" type="number" class="form-control" placeholder="Fat">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Steps: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="steps" type="number" class="form-control" placeholder="Steps">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Distance: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="distance" type="number" class="form-control" placeholder="Distance">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Duration: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="duration" type="number" class="form-control" placeholder="Duration">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Floors: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="floors" type="number" class="form-control" placeholder="Floors">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Date: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="date" type="date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row newSection">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="divider"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <h5>Goal Type</h5>
+                            <label class="checkbox-inline">
+                                <input ng-model="weightGoal" type="checkbox" value="weight" />
+                                Weight
+                            </label>
+                            <label class="checkbox-inline">
+                                <input ng-model="sleepGoal" type="checkbox" value="sleep" />
+                                Sleep
+                            </label>
+                            <label class="checkbox-inline">
+                                <input ng-model="activityGoal" type="checkbox" value="activity" />
+                                Activity
+                            </label>
+                            <label class="checkbox-inline">
+                                <input ng-model="fatGoal" type="checkbox" value="fat" />
+                                Fat
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Add Goal</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="watchersContainer" class="row newSection">
+        <blockquote>
+            <p>Watchers <span class="badge">1</span></p>
+            <small>People tracking your progress</small>
+        </blockquote>
+
+        <div class="col-sm-6 alert alert-warning" role="alert">
+            <div class="media">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" width="50px" src="http://www.villard.biz/assets/Uploads/projects/portrait-o.jpg" alt="team.name">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Adam</h4>
+                    Northeastern Soccer, Northeastern Hockey
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 input-group">
+            <input ng-model="newWatcherName" type="text" class="form-control searchTeamInput" placeholder="Add new watcher...">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" aria-label="Search" data-toggle="modal" data-target="#newWatcherModal">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+              </button>
+            </span>
+        </div>
+    </div>
+
+    <!-- New Watcher Modal -->
+    <div class="modal fade" id="newWatcherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Search members</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-6 alert alert-warning" role="alert">
+                                <div class="media">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="media-object" width="50px" src="http://www.villard.biz/assets/Uploads/projects/portrait-o.jpg" alt="team.name">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">Adam</h4>
+                                        Northeastern Soccer, Northeastern Hockey
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-repeat="team in myTeams" class="col-sm-6 alert alert-warning" role="alert">
+                                <div class="media">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="deleteTeam(team.teamId)">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="media-object" width="50px" ng-src="{{team.image}}" alt="team.name">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{team.name}}</h4>
+                                        {{team.description}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="divider"></div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <h5>Permissions</h5>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="goalSetting" checked="checked" />
+                                    Set my personal goals
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="activityAlert" />
+                                    Set activity alerts
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="accessVitals"/>
+                                    Access my vitals
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Add watcher</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="teamsContainer" class="row newSection">
+        <blockquote>
+            <p>Teams <span class="badge">1</span></p>
+            <small>Your affiliations</small>
+        </blockquote>
+
+        <div ng-repeat="team in myTeams" class="col-sm-6 alert alert-warning" role="alert">
+            <div class="media">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="deleteTeam(team.teamId)">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" width="50px" ng-src="{{team.image}}" alt="team.name">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">{{team.name}}</h4>
+                    {{team.description}}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 input-group">
+            <input ng-model="newTeamName" type="text" class="form-control searchTeamInput" placeholder="Add new team...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" aria-label="Search">
+                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                  </button>
+                </span>
+        </div>
+    </div>
+
+    <div id="deviceContainer" class="row newSection">
+        <blockquote>
+            <p>Devices <span class="badge">1</span></p>
+            <small>Your registered devices</small>
+        </blockquote>
+
+        <div class="col-sm-6 alert alert-warning" role="alert">
+            <div class="media">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="deleteTeam(team.teamId)">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" width="50px" src="http://www.tecnoadicto.net/blog/wp-content/uploads/2013/06/fitbit-flex.png" alt="Device">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Alice's Personal Fitbit</h4>
+                    32% Charge, 5 hours and 15 minutes remaining
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 input-group">
+            <button type="button" class="btn btn-warning">Sync with Fitbit</button>
+        </div>
+    </div>
+</div>

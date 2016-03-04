@@ -36,8 +36,12 @@
                 templateUrl: "/project/views/search/search.view.html",
                 controller: "SearchController"
             })
+            .when("/goals", {
+                templateUrl: "/project/views/goal/goal.view.html",
+                controller: "GoalController"
+            })
             .otherwise({
-                redirectTo: "/project/views/404/404.view.html"
+                redirectTo: "/home"
             });
     }
 })();

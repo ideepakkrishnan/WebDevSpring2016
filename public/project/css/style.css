@@ -208,3 +208,80 @@ body {
     */
     #responsive-table td:before { content: attr(data-title); }
 }
+
+/*
+ * D3 styling
+ */
+
+.component {
+    fill: #e1e1e1;
+}
+
+.component .label {
+    /*font-family: Myriad, "Helvetic Neue", Helvetica, Arial;*/
+    text-anchor: middle;
+    fill: #888888;
+}
+
+.arc {
+    stroke-weight:0.1;
+    fill: #4e8fff;
+}
+
+.arc2 {
+    stroke-weight:0.1;
+    fill: #3660b0;
+}
+
+.label {
+    /*font-family:  Myriad, "Helvetic Neue", Helvetica, Arial;*/
+    text-anchor: middle;
+}
+
+.radial-svg {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Dashboard styling */
+
+.background {
+    fill: #FFFFFF;
+    fill-opacity: 0.01;
+}
+
+#test .arc2 {
+    stroke-weight:0.1;
+    fill: #3660b0;
+}
+
+#outer {
+    background:#FFFFFF;
+    border-radius: 5px;
+    color: #000;
+}
+
+#div1, #div2, #div3, #div4 {
+    height: 175px;
+    box-sizing: border-box;
+    float: left;
+}
+
+#div2 .arc {
+    stroke-weight: 0.1;
+    fill: #f0a417;
+}
+
+#div2 .arc2 {
+    stroke-weight: 0.1;
+    fill: #b00d08;
+}
+
+#div3 .arc {
+    stroke-weight: 0.1;
+    fill: #1d871b;
+}
+
+.newSection {
+    margin-top: 25px;
+}
