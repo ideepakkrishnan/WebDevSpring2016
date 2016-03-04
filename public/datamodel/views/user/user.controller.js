@@ -14,19 +14,6 @@
         $scope.deleteUser = deleteUser;
         $scope.selectUser = selectUser;
 
-        /* Map models
-        $scope.firstName = firstName;
-        $scope.lastName = lastName;
-        $scope.username = username;
-        $scope.password = password;
-        $scope.email = userEmail;
-        $scope.dob = dob;
-        $scope.city = city;
-        $scope.country = country;
-        $scope.player = player;
-        $scope.watcher = watcher;
-        $scope.admin = admin;*/
-
         /* Initialize global variables */
         HealthDataService.findAllUsers(
             function(response) {
