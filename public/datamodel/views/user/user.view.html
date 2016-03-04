@@ -33,7 +33,7 @@
                 <td data-title="Email">
                     <input ng-model="userEmail" type="email" class="form-control" placeholder="Email">
                 </td>
-                <td data-title="Date of Birth">
+                <td data-title="D.O.B">
                     <input ng-model="dob" type="date" class="form-control">
                 </td>
                 <td data-title="City">
@@ -62,7 +62,7 @@
                         </label>
                     </div>
                 </td>
-                <td data-title="Action">
+                <td>
                     <div class="btn-group" role="group">
                         <button ng-click="addUser()" type="button" class="btn btn-default outline" aria-label="Add User">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -89,7 +89,7 @@
                 <td data-title="Email">
                     <a class="form-name" href="#" ng-click="loadUserDetails(user._id)">{{user.email}}</a>
                 </td>
-                <td data-title="Date of Birth">
+                <td data-title="D.O.B">
                     {{user.dob}}
                 </td>
                 <td data-title="City">
@@ -118,7 +118,7 @@
                         </label>
                     </div>
                 </td>
-                <td data-title="Action">
+                <td>
                     <div class="btn-group" role="group">
                         <button ng-click="deleteUser(user._id)" type="button" class="btn btn-default outline" aria-label="Remove User">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
