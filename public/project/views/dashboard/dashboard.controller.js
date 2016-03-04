@@ -7,14 +7,7 @@
         .module("PerformXApp")
         .controller("DashboardController", dashboardController);
 
-    function dashboardController($scope, $rootScope, UserService) {
-        var div1=d3.select(document.getElementById('div1'));
-        var div2=d3.select(document.getElementById('div2'));
-        var div3=d3.select(document.getElementById('div3'));
-        var div4=d3.select(document.getElementById('div4'));
-
-        start();
-
+    function dashboardController($scope, $rootScope, $location, UserService) {
         if ($rootScope.currentUser) {
             $scope.userId = $rootScope.currentUser._id;
             $scope.username = $rootScope.currentUser.username;
@@ -31,6 +24,15 @@
                     $scope.myTeams = response;
                 }
             );
+
+            var div1=d3.select(document.getElementById('div1'));
+            var div2=d3.select(document.getElementById('div2'));
+            var div3=d3.select(document.getElementById('div3'));
+            var div4=d3.select(document.getElementById('div4'));
+
+            start();
+        } else {
+            $location.path("#/home");
         }
 
         function onClick1() {

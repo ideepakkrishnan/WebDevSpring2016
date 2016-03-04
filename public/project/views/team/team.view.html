@@ -1,0 +1,55 @@
+<h1 class="page-header">My Team</h1>
+<span id="helpBlock" class="help-block">Click on any team member to assign personal goals</span>
+
+<div ng-controller="TeamController" id='outer' class="container-fluid newSection">
+    <div id="main" class="row">
+        <div class="col-sm-6">
+            <div class="media alert alert-warning" role="alert" ng-click="$location.url('/stats')">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="media-left">
+                    <img class="media-object" width="50px" src="http://www.villard.biz/assets/Uploads/projects/portrait-o.jpg" alt="team.name">
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Adam</h4>
+                    Northeastern Soccer, Northeastern Hockey
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="media alert alert-warning" role="alert" ng-click="$location.url('/stats')">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" width="50px" src="http://clippingpathuk.com/wp-content/uploads/2015/01/Portrait-Photography.jpg" alt="team.name">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Amy</h4>
+                    Northeastern Soccer
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row newSection">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="divider"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 input-group">
+            <input ng-model="newMember" type="text" class="form-control searchTeamInput" placeholder="Track a new member...">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" aria-label="Search">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+              </button>
+            </span>
+        </div>
+    </div>
+</div>

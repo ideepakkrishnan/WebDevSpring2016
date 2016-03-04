@@ -40,6 +40,14 @@
                 templateUrl: "/project/views/goal/goal.view.html",
                 controller: "GoalController"
             })
+            .when("/team", {
+                templateUrl: "/project/views/team/team.view.html",
+                controller: "TeamController"
+            })
+            .when("/stats", {
+                templateUrl: "/project/views/users/stats.view.html",
+                controller: "StatsController"
+            })
             .otherwise({
                 redirectTo: "/home"
             });

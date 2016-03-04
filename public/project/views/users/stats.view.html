@@ -1,0 +1,234 @@
+<h1 class="page-header">Adam Schefield</h1>
+
+<div ng-controller="StatsController" id='outer' class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+            <img class="img-responsive img-circle" src="http://www.villard.biz/assets/Uploads/projects/portrait-o.jpg" alt="team.name">
+        </div>
+        <p class="col-sm-9">
+            <div class="col-sm-9">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,
+                mattis ac neque.
+            </div>
+            <div ng-repeat="team in myTeams" class="col-sm-6 newSection">
+                <div class="media alert alert-warning" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="deleteTeam(team.teamId)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object" width="50px" ng-src="{{team.image}}" alt="team.name">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">{{team.name}}</h4>
+                        {{team.description}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main" class="row newSection">
+        <blockquote>
+            <p>Goals <span class="badge">3</span></p>
+            <small>Adam is lagging behind in certain goals you set for him!</small>
+        </blockquote>
+
+        <div id="div1" class="col-sm-3"></div>
+        <div id="div2" class="col-sm-3"></div>
+        <div id="div3" class="col-sm-3"></div>
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#newGoalModal">Add a new goal</button>
+            <button type="button" class="btn btn-default">View goals</button>
+        </div>
+    </div>
+
+    <div class="row newSection">
+        <blockquote>
+            <p>Vitals Alert <span class="badge">0</span></p>
+            <small>You may set a vitals alert for Adam</small>
+        </blockquote>
+
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#newVitalsAlertModal">Set Vitals Alert</button>
+            <button type="button" class="btn btn-default">Remove Vitals Alert</button>
+        </div>
+    </div>
+
+    <div class="row newSection">
+        <blockquote>
+            <p>User options </p>
+            <small>Admin settings for this user</small>
+        </blockquote>
+
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#newBlockModal">Block User</button>
+            <button type="button" class="btn btn-default">Remove Ban</button>
+        </div>
+    </div>
+
+    <!-- New Goal Modal -->
+    <div class="modal fade" id="newGoalModal" tabindex="-1" role="dialog" aria-labelledby="newGoalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="newGoalLabel">Add a personal goal</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Calories: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="calories" type="number" class="form-control" placeholder="Calories">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Weight: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="weight" type="number" class="form-control" placeholder="Weight">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Fat: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="fat" type="number" class="form-control" placeholder="Fat">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Steps: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="steps" type="number" class="form-control" placeholder="Steps">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Distance: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="distance" type="number" class="form-control" placeholder="Distance">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Duration: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="duration" type="number" class="form-control" placeholder="Duration">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Floors: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="floors" type="number" class="form-control" placeholder="Floors">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Date: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="date" type="date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row newSection">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="divider"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <h5>Goal Type</h5>
+                            <label class="checkbox-inline">
+                                <input ng-model="weightGoal" type="checkbox" value="weight" />
+                                Weight
+                            </label>
+                            <label class="checkbox-inline">
+                                <input ng-model="sleepGoal" type="checkbox" value="sleep" />
+                                Sleep
+                            </label>
+                            <label class="checkbox-inline">
+                                <input ng-model="activityGoal" type="checkbox" value="activity" />
+                                Activity
+                            </label>
+                            <label class="checkbox-inline">
+                                <input ng-model="fatGoal" type="checkbox" value="fat" />
+                                Fat
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Add Goal</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="newVitalsAlertModal" tabindex="-1" role="dialog" aria-labelledby="newVitalsAlertLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="newVitalsAlertLabel">Set Vitals Alert</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <img class="img-responsive" src="http://www.publicdomainpictures.net/pictures/60000/velka/heart-rate-ekg-ecg-heart-beat.jpg" alt="Vitals Alert">
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,
+                            mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
+                            eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit
+                            amet elit iaculis pretium sit amet quis magna.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger">Set Alert</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="newBlockModal" tabindex="-1" role="dialog" aria-labelledby="newBlockLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="newBlockLabel">Block User</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <img class="img-responsive" src="http://png.clipart.me/graphics/thumbs/134/prohibition-sign_134537165.jpg" alt="Block User">
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,
+                            mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
+                            eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit
+                            amet elit iaculis pretium sit amet quis magna.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger">Block User</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
