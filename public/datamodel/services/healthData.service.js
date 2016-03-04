@@ -54,11 +54,11 @@
                 {"_id": 150, "username": "alice", "fat": 14.2, "date": "29-Feb-2016"}
             ],
             activityInstances: [
-                {"_id": 100, "username": "alice", "calories": 230, "steps": 3783, "distance": 2.04, "duration": 1166},
-                {"_id": 120, "username": "alice", "calories": 210, "steps": 3541, "distance": 1.97, "duration": 945},
-                {"_id": 140, "username": "alice", "calories": 245, "steps": 4121, "distance": 2.54, "duration": 1211},
-                {"_id": 160, "username": "alice", "calories": 275, "steps": 4573, "distance": 3.56, "duration": 1456},
-                {"_id": 180, "username": "alice", "calories": 202, "steps": 3231, "distance": 1.54, "duration": 856}
+                {"_id": 100, "username": "alice", "calories": 230, "steps": 3783, "distance": 2.04, "duration": 1166, "date": "01-Mar-2016"},
+                {"_id": 120, "username": "alice", "calories": 210, "steps": 3541, "distance": 1.97, "duration": 945, "date": "02-Mar-2016"},
+                {"_id": 140, "username": "alice", "calories": 245, "steps": 4121, "distance": 2.54, "duration": 1211, "date": "03-Mar-2016"},
+                {"_id": 160, "username": "alice", "calories": 275, "steps": 4573, "distance": 3.56, "duration": 1456, "date": "28-Feb-2016"},
+                {"_id": 180, "username": "alice", "calories": 202, "steps": 3231, "distance": 1.54, "duration": 856, "date": "29-Feb-2016"}
             ],
             teamList: {
                 1: {"name": "Husky Soccer", "description": "The official account for Northeastern Soccer team",
