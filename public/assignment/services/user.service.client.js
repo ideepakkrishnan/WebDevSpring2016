@@ -30,8 +30,8 @@
         function findUserByCredentials(username, password, callback) {
             var usr = null;
             for (var i=0; i<api.userList.length; i++) {
-                usr = api.userList[i];
-                if (usr.username == username && usr.password == password) {
+                if (api.userList[i].username == username && api.userList[i].password == password) {
+                    usr = api.userList[i];
                     break;
                 }
             }
