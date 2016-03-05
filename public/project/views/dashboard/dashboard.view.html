@@ -295,7 +295,35 @@
             </div>
         </div>
         <div class="col-sm-12 input-group">
-            <button type="button" class="btn btn-warning">Sync with Fitbit</button>
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#newDeviceModal">Sync with Fitbit</button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="newDeviceModal" tabindex="-1" role="dialog" aria-labelledby="newDeviceModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="newDeviceModalLabel">Connect device</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <img class="img-responsive" src="http://www.bertrand-soulier.com/wp-content/uploads/2015/01/logo-syncsolver.png" alt="New Device">
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,
+                            mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
+                            eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit
+                            amet elit iaculis pretium sit amet quis magna.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success">Sync Device</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
