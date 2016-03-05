@@ -9,14 +9,15 @@
         .controller("FormController", formController);
 
     function formController($scope, $rootScope, $location, FormService) {
-        $scope.addForm = addForm;
-        $scope.updateForm = updateForm;
-        $scope.deleteForm = deleteForm;
-        $scope.selectForm = selectForm;
-
-        var userId = $rootScope.currentUser._id;
 
         if ($rootScope.currentUser) {
+            $scope.addForm = addForm;
+            $scope.updateForm = updateForm;
+            $scope.deleteForm = deleteForm;
+            $scope.selectForm = selectForm;
+
+            var userId = $rootScope.currentUser._id;
+
             FormService.findAllFormsForUser(
                 userId,
                 function(response){
