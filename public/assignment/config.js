@@ -3,6 +3,7 @@
  */
 
 (function(){
+    "use strict";
     angular
         .module("FormBuilderApp")
         .config(configuration);
@@ -33,8 +34,8 @@
                 controller: "FormController"
             })
             .when("/fields", {
-                templateUrl: "/assignment/views/forms/forms.view.html",
-                //controller: "FormController"
+                templateUrl: "/assignment/views/forms/form-fields.view.html",
+                controller: "FieldsController"
             })
             .otherwise({
                 redirectTo: "/home"

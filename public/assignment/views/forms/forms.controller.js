@@ -3,11 +3,12 @@
  */
 
 (function () {
+    "use strict";
     angular
         .module("FormBuilderApp")
         .controller("FormController", formController);
 
-    function formController($scope, $rootScope, FormService) {
+    function formController($scope, $rootScope, $location, FormService) {
         $scope.addForm = addForm;
         $scope.updateForm = updateForm;
         $scope.deleteForm = deleteForm;
@@ -23,6 +24,8 @@
                     $scope.myForms = response;
                 }
             )
+        } else {
+            $location.path("#/home");
         }
 
         function addForm(formName) {

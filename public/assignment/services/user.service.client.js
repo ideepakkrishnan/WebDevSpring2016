@@ -3,6 +3,8 @@
  */
 
 (function () {
+    "use strict";
+
     angular
         .module("FormBuilderApp")
         .factory("UserService", userService);
@@ -26,13 +28,14 @@
         return api;
 
         function findUserByCredentials(username, password, callback) {
+            var usr = null;
             for (var i=0; i<api.userList.length; i++) {
-                var usr = api.userList[i];
+                usr = api.userList[i];
                 if (usr.username == username && usr.password == password) {
-                    callback(usr);
+                    break;
                 }
             }
-            callback(null);
+            callback(usr);
         }
 
         function findAllUsers(callback) {
