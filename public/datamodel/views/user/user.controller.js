@@ -58,6 +58,7 @@
                 function(response) {
                     console.log(response);
                     $scope.users = response;
+                    $scope._id = "";
                     $scope.firstName = "";
                     $scope.lastName = "";
                     $scope.username = "";
@@ -92,6 +93,7 @@
                 function(response) {
                     console.log(response);
                     $scope.users = response;
+                    $scope._id = "";
                     $scope.firstName = "";
                     $scope.lastName = "";
                     $scope.username = "";
