@@ -13,8 +13,40 @@
             <ul class="nav navbar-nav navbar-right">
                 <li ng-hide="currentUser" ng-class="{'active': $location.url() == '/register'}"><a href="#/register">Register</a></li>
                 <li ng-hide="currentUser" ng-class="{'active': $location.url() == '/login'}"><a href="#/login">Login</a></li>
-                <li ng-show="currentUser.roles.indexOf('admin') >= 0" ng-class="{'active': $location.url() == '/admin'}"><a href="#/admin">Admin</a></li>
-                <li ng-show="currentUser" ng-class="{'active': $location.url() == '/profile'}"><a href="#/profile">{{currentUser.username}}</a></li>
+
+                <!-- Only for small screens -->
+                <li ng-show="currentUser.roles.indexOf('player') >= 0 || currentUser.roles.indexOf('watcher') >= 0"
+                    ng-class="{'active': $location.url() == '/dashboard'}" class="hidden-md hidden-lg">
+                    <a href="#/dashboard">Dashboard</a>
+                </li>
+                <li ng-show="currentUser.roles.indexOf('player') >= 0" ng-class="{'active': $location.url() == '/goals'}"
+                    class="hidden-md hidden-lg">
+                    <a href="#/goals">Goals</a>
+                </li>
+                <li ng-show="currentUser.roles.indexOf('player') >= 0" ng-class="{'active': $location.url() == '/users'}"
+                    class="hidden-md hidden-lg">
+                    <a href="#/users">Watchers</a>
+                </li>
+                <li ng-show="currentUser.roles.indexOf('player') >= 0" ng-class="{'active': $location.url() == '/settings'}"
+                    class="hidden-md hidden-lg">
+                    <a href="#/settings">Settings</a>
+                </li>
+                <li ng-show="currentUser.roles.indexOf('player') >= 0 || currentUser.roles.indexOf('watcher') >= 0"
+                    ng-class="{'active': $location.url() == '/team'}" class="hidden-md hidden-lg">
+                    <a href="#/team">My Team</a>
+                </li>
+                <li ng-show="currentUser.roles.indexOf('admin') >= 0" ng-class="{'active': $location.url() == '/users'}"
+                    class="hidden-md hidden-lg">
+                    <a href="#/users">Users</a>
+                </li>
+
+                <!-- Rest of the menu items -->
+                <li ng-show="currentUser.roles.indexOf('admin') >= 0" ng-class="{'active': $location.url() == '/admin'}">
+                    <a href="#/admin">Admin</a>
+                </li>
+                <li ng-show="currentUser" ng-class="{'active': $location.url() == '/profile'}">
+                    <a href="#/profile">{{currentUser.username}}</a>
+                </li>
                 <li ng-show="currentUser"><a href="#" ng-click="logout()">Logout</a></li>
             </ul>
         </div>
