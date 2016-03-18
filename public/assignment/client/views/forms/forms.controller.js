@@ -10,6 +10,7 @@
 
     function formController($location, FormService, UserService) {
         var vm = this;
+        var userId = null;
 
         function init() {
             if (UserService.getCurrentUser()) {
@@ -18,13 +19,13 @@
                 vm.deleteForm = deleteForm;
                 vm.selectForm = selectForm;
 
-                var userId = UserService.getCurrentUser()._id;
+                userId = UserService.getCurrentUser()._id;
 
                 FormService
                     .findAllFormsForUser(userId)
                     .then(function(response){
                         console.log(response);
-                        vm.myForms = response;
+                        vm.myForms = response.data;
                     });
             } else {
                 $location.path("#/home");
@@ -46,7 +47,7 @@
                         .then(function(response){
                             console.log(response);
                             vm.formName = "";
-                            vm.myForms = response;
+                            vm.myForms = response.data;
                         });
                 });
         }
@@ -65,7 +66,7 @@
                         .findAllFormsForUser(userId)
                         .then(function(response){
                             console.log(response);
-                            vm.myForms = response;
+                            vm.myForms = response.data;
                             vm.newForm = null;
                         });
                 });
@@ -80,7 +81,7 @@
                         .findAllFormsForUser(userId)
                         .then(function(response){
                             console.log(response);
-                            vm.myForms = response;
+                            vm.myForms = response.data;
                         });
                 });
         }

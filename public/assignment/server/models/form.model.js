@@ -2,7 +2,7 @@
  * Created by ideepakkrishnan on 17-03-2016.
  */
 
-var mock = require("./user.mock.json");
+var mock = require("./form.mock.json");
 var uuid = require('node-uuid');
 
 module.exports = function() {
@@ -34,7 +34,7 @@ module.exports = function() {
 
     function findAllFormsForUser(userId) {
         var response = [];
-        for (var i=0; i<mock.length; i++) {
+        for(var i in mock) {
             if (mock[i].userId == userId) {
                 response.push(mock[i]);
             }
@@ -44,7 +44,7 @@ module.exports = function() {
 
     function findFormById(formId) {
         var response = null;
-        for (var i=0; i<mock.length; i++) {
+        for(var i in mock) {
             if (mock[i]._id == formId) {
                 response = mock[i];
                 break;
@@ -54,7 +54,7 @@ module.exports = function() {
     }
 
     function deleteFormById(formId) {
-        for (var i=0; i<mock.length; i++) {
+        for(var i in mock) {
             if (mock[i]._id == formId) {
                 mock.splice(i, 1);
                 return mock;
@@ -63,7 +63,7 @@ module.exports = function() {
     }
 
     function updateFormById(formId, newForm) {
-        for (var i=0; i<mock.length; i++) {
+        for(var i in mock) {
             if (mock[i]._id == formId) {
                 mock[i] = newForm;
                 return mock[i];

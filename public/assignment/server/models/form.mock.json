@@ -34,7 +34,7 @@
           {
             "label": "New Hampshire",
             "value": "NH"
-          },
+          }
         ]
       },
       {
@@ -54,7 +54,7 @@
   {
     "_id": "010",
     "title": "ToDo",
-    "userId": 234
+    "userId": 234,
     "fields": [
       {
         "_id": "777",
@@ -72,7 +72,7 @@
         "_id": "999",
         "label": "Due Date",
         "type": "DATE"
-      },
+      }
     ]
   }
 ]
