@@ -11,63 +11,29 @@ module.exports = function(app, formModel) {
 
     function getAllFormFieldsByFormId(req, res) {
         var formId = req.params.formId;
-        formModel.findAllFormFieldsByFormId(formId)
-            .then(
-                function (doc) {
-                    console.log(doc);
-                    res.json(doc);
-                },
-                function (err) {
-                    res.status(400).send(err);
-                }
-            )
+        var formFieldList = formModel.findAllFormFieldsByFormId(formId);
+        res.json(formFieldList);
     }
 
     function getFormFieldById(req, res) {
         var formId = req.params.formId;
         var fieldId = req.params.fieldId;
-        formModel.findFormFieldById(formId, fieldId)
-            .then(
-                function (doc) {
-                    console.log(doc);
-                    res.json(doc);
-                },
-                // send error if promise rejected
-                function (err) {
-                    res.status(400).send(err);
-                }
-            )
+        var formField = formModel.findFormFieldById(formId, fieldId);
+        res.json(formField);
     }
 
     function deleteFormFieldById(req, res) {
         var formId = req.params.formId;
         var fieldId = req.params.fieldId;
-        formModel.deleteFormFieldById(formId, fieldId)
-            .then(
-                function (doc) {
-                    console.log(doc);
-                    res.json(doc);
-                },
-                // send error if promise rejected
-                function (err) {
-                    res.status(400).send(err);
-                }
-            )
+        var formFieldList = formModel.deleteFormFieldById(formId, fieldId);
+        res.json(formFieldList);
     }
 
     function cloneFormField(req, res) {
         var formId = req.params.formId;
         var field = req.body;
-        formModel.createFormField(formId, field)
-            .then(
-                function (doc) {
-                    console.log(doc);
-                    res.json(doc);
-                },
-                function ( err ) {
-                    res.status(400).send(err);
-                }
-            );
+        var newFormField = formModel.createFormField(formId, field);
+        res.json(newFormField);
     }
 
     function updateFormFieldById(req, res) {
@@ -76,17 +42,7 @@ module.exports = function(app, formModel) {
         var field = req.body;
 
         // use model to find user by id
-        formModel.updateFormFieldById(formId, fieldId, field)
-            .then(
-                // first retrieve the user by user id
-                function (doc) {
-                    console.log(doc);
-                    res.json(doc);
-                },
-                // reject promise if error
-                function (err) {
-                    res.status(400).send(err);
-                }
-            )
+        var formFields = formModel.updateFormFieldById(formId, fieldId, field);
+        res.json(formFields);
     }
 };

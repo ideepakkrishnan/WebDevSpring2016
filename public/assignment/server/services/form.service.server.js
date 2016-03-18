@@ -12,52 +12,22 @@ module.exports = function(app, formModel) {
     function getAllFormsForUserId(req, res) {
         var userId = req.params.userId;
         // use model to find user by id
-        formModel.findAllFormsForUser(userId)
-            .then(
-                // first retrieve the created user for logging purposes
-                function (doc) {
-                    console.log(doc);
-                    // Now return all the users as a json response
-                    res.json(doc);
-                },
-                // send error if promise rejected
-                function (err) {
-                    res.status(400).send(err);
-                }
-            )
+        var forms = formModel.findAllFormsForUser(userId);
+        res.json(forms);
     }
 
     function getFormById(req, res) {
         var formId = req.params.formId;
         // use model to find user by id
-        formModel.findFormById(formId)
-            .then(
-                // first retrieve the created user for logging purposes
-                function (doc) {
-                    console.log(doc);
-                    // Now return all the users as a json response
-                    res.json(doc);
-                },
-                // send error if promise rejected
-                function (err) {
-                    res.status(400).send(err);
-                }
-            )
+        var form = formModel.findFormById(formId);
+        res.json(form);
     }
 
     function createForm(req, res) {
         var userId = req.params.userId;
         var form = req.body;
-        userModel.createFormForUser(userId, form)
-            .then(
-                function (doc) {
-                    console.log(doc);
-                    res.json(doc);
-                },
-                function ( err ) {
-                    res.status(400).send(err);
-                }
-            );
+        var newForm = userModel.createFormForUser(userId, form);
+        res.json(newForm);
     }
 
     function updateFormById(req, res) {
@@ -65,31 +35,13 @@ module.exports = function(app, formModel) {
         var form = req.body;
 
         // use model to find user by id
-        formModel.updateFormById(formId, form)
-            .then(
-                // first retrieve the user by user id
-                function (doc) {
-                    console.log(doc);
-                    res.json(doc);
-                },
-                // reject promise if error
-                function (err) {
-                    res.status(400).send(err);
-                }
-            )
+        var updatedForm = formModel.updateFormById(formId, form);
+        res.json(updatedForm);
     }
 
     function deleteFormById(req, res) {
         var formId = req.params.formId;
-        formModel.deleteFormById(formId)
-            .then(
-                function (doc) {
-                    console.log(doc);
-                    req.json(doc);
-                },
-                function (err) {
-                    res.status(400).send(err);
-                }
-            )
+        var updatedList = formModel.deleteFormById(formId);
+        res.json(updatedList);
     }
 }
