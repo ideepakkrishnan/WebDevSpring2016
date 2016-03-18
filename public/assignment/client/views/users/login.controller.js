@@ -7,21 +7,28 @@
         .module("FormBuilderApp")
         .controller("LoginController", loginController);
 
-    function loginController($scope, $location, $rootScope, UserService) {
-        $scope.login = login;
+    function loginController($location, UserService) {
+
+        var vm = this;
+        vm.login = login;
+
+        function init() {
+            // Initializing statements
+        }
+        init();
 
         function login(username, password) {
-            UserService.findUserByCredentials(
-                username,
-                password,
-                function(response) {
+            UserService
+                .findUserByCredentials(
+                    username,
+                    password)
+                .then(function(response) {
                     console.log(response);
-                    if (response) {
-                        $rootScope.currentUser = response;
+                    if (response.data) {
+                        UserService.setCurrentUser(response.data);
                         $location.url("/profile");
                     }
-                }
-            )
+                });
         }
     }
 })();

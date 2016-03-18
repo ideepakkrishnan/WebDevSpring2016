@@ -8,29 +8,42 @@
         .module("FormBuilderApp")
         .controller("ProfileController", profileController);
 
-    function profileController($scope, $rootScope, $location, UserService) {
-        $scope.update = update;
+    function profileController($location, UserService) {
+        var vm = this;
+        vm.update = update;
 
-        if ($rootScope.currentUser) {
-            $scope.userId = $rootScope.currentUser._id;
-            $scope.username = $rootScope.currentUser.username;
-            $scope.password = $rootScope.currentUser.password;
-            $scope.firstName = $rootScope.currentUser.firstName;
-            $scope.lastName = $rootScope.currentUser.lastName;
-            $scope.userEmail = $rootScope.currentUser.email;
-        } else {
-            $location.path("#/home");
+        function init() {
+            // Initialization statements
+            if (UserService.getCurrentUser()) {
+                var currUser = UserService.getCurrentUser();
+                vm.userId = currUser._id;
+                vm.username = currUser.username;
+                vm.password = currUser.password;
+                vm.firstName = currUser.firstName;
+                vm.lastName = currUser.lastName;
+                vm.userEmail = currUser.email;
+            } else {
+                $location.path("#/home");
+            }
         }
+        init();
 
         function update(username, password, firstName, lastName, userEmail) {
-            UserService.updateUser(
-                $scope.userId,
-                {"username": username, "firstName": firstName, "lastName": lastName, "password": password, "email": userEmail},
-                function(response){
+            UserService
+                .updateUser(
+                    vm.userId,
+                    {
+                        "username": username,
+                        "firstName": firstName,
+                        "lastName": lastName,
+                        "password": password,
+                        "email": userEmail
+                    }
+                )
+                .then(function(response){
                     console.log(response);
-                    $rootScope.currentUser = response;
-                }
-            );
+                    UserService.setCurrentUser(response);
+                });
         }
     }
 })();

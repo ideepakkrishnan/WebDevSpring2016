@@ -8,8 +8,14 @@
         .module("FormBuilderApp")
         .controller("RegisterController", registerController);
 
-    function registerController($scope, $rootScope, $location, UserService) {
-        $scope.register = register;
+    function registerController($location, UserService) {
+        var vm = this;
+        vm.register = register;
+
+        function init() {
+            // Initialization statements
+        }
+        init();
 
         function register(username, password, verifyPassword, email) {
             if (password != verifyPassword) {
@@ -26,13 +32,13 @@
                 "roles": ["student"]
             };
 
-            UserService.createUser(
-                newUser,
-                function(response) {
+            UserService
+                .createUser(newUser)
+                .then(function(response) {
                     console.log(response);
-                    $rootScope.currentUser = response;
+                    UserService.setCurrentUser(response);
                     $location.url("/profile");
-            });
+                });
         }
     }
 })();

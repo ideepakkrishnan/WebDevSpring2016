@@ -7,8 +7,8 @@ module.exports = function(app, userModel) {
     app.get("/api/assignment/user", getAllUsers);
     app.get("/api/assignment/user/:id", getUserById);
     app.get("/api/assignment/user?username=username", getUserByUsername);
-    app.get("/api/assignment/user?username=alice&password=wonderland", getUserByCredentials)
-    app.put("/api/assignment/user/:id", updateUserById)
+    app.get("/api/assignment/user?username=alice&password=wonderland", getUserByCredentials);
+    app.put("/api/assignment/user/:id", updateUserById);
     app.delete("/api/assignment/user/:id", deleteUserById);
 
     function createUser(req, res) {
@@ -125,4 +125,5 @@ module.exports = function(app, userModel) {
                 }
             )
     }
+
 }
