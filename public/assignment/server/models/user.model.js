@@ -1,4 +1,5 @@
 var mock = require("./user.mock.json");
+
 module.exports = function() {
     var api = {
         findUserByCredentials: findUserByCredentials,

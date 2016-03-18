@@ -26,58 +26,26 @@
             .when("/profile", {
                 templateUrl: "/assignment/client/views/users/profile.view.html",
                 controller: "ProfileController",
-                controllerAs: "model",
-                resolve: {
-                    checkLoggedIn: checkLoggedIn
-                }
+                controllerAs: "model"
             })
             .when("/admin", {
                 templateUrl: "/assignment/client/views/admin/admin.view.html",
                 controller: "AdminController",
-                controllerAs: "model",
-                resolve: {
-                    checkLoggedIn: checkLoggedIn
-                }
+                controllerAs: "model"
             })
             .when("/forms", {
                 templateUrl: "/assignment/client/views/forms/forms.view.html",
                 controller: "FormController",
-                controllerAs: "model",
-                resolve: {
-                    checkLoggedIn: checkLoggedIn
-                }
+                controllerAs: "model"
             })
             .when("/fields", {
                 templateUrl: "/assignment/client/views/forms/form-fields.view.html",
                 controller: "FieldsController",
-                controllerAs: "model",
-                resolve: {
-                    checkLoggedIn: checkLoggedIn
-                }
+                controllerAs: "model"
             })
             .otherwise({
                 redirectTo: "/home"
             });
-    }
-
-    function checkLoggedIn(UserService, $q, $location) {
-
-        var deferred = $q.defer();
-
-        UserService
-            .getCurrentUser()
-            .then(function(response) {
-                var currentUser = response;
-                if(currentUser) {
-                    UserService.setCurrentUser(currentUser);
-                    deferred.resolve();
-                } else {
-                    deferred.reject();
-                    $location.url("/home");
-                }
-            });
-
-        return deferred.promise;
     }
 
 })();
