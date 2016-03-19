@@ -97,13 +97,14 @@ module.exports = function() {
     function deleteFormFieldById(formId, fieldId) {
         for(var u in mock) {
             if (mock[u]._id == formId) {
+                var updatedFields = [];
                 for(var v in mock[u].fields) {
-                    if(mock[u].fields[v]._id == fieldId) {
-                        mock[u].fields[v].splice(v, 1);
-                        return mock[u];
+                    if(mock[u].fields[v]._id != fieldId) {
+                        updatedFields.push(mock[u].fields[v]);
                     }
                 }
-                break;
+                mock[u].fields = updatedFields
+                return mock[u];
             }
         }
         return null;
@@ -115,7 +116,8 @@ module.exports = function() {
             "_id": uuid.v4(),
             "label": field.label,
             "type": field.type,
-            "placeholder": field.placeholder
+            "placeholder": field.placeholder,
+            "options": field.options
         }
 
         // Push the field into form object

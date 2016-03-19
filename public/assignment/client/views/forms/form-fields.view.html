@@ -65,7 +65,8 @@
                         <button type="button" class="btn btn-default outline" aria-label="Clone Field">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         </button>
-                        <button type="button" class="btn btn-default outline" aria-label="Remove Field">
+                        <button type="button" class="btn btn-default outline"
+                                aria-label="Remove Field" ng-click="model.deleteField(field)">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </button>
                         <button type="button" class="btn btn-default outline" aria-label="Reorder Field">
@@ -86,12 +87,12 @@
                 <div>Add New Field: </div>
                 <div class="top-padding">
                     <select ng-model="model.fieldType" class="form-control">
-                        <option>Single Line Text</option>
-                        <option>Date</option>
-                        <option>Dropdown</option>
-                        <option>Checkboxes</option>
-                        <option>Radio buttons</option>
-                        <option>Paragraph Text Field</option>
+                        <option value="TEXT">Single Line Text</option>
+                        <option value="DATE">Date</option>
+                        <option value="OPTIONS">Dropdown</option>
+                        <option value="CHECKBOXES">Checkboxes</option>
+                        <option value="RADIOS">Radio buttons</option>
+                        <option value="TEXTAREA">Paragraph Text Field</option>
                     </select>
                 </div>
             </div>
