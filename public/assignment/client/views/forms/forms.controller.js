@@ -18,6 +18,7 @@
                 vm.updateForm = updateForm;
                 vm.deleteForm = deleteForm;
                 vm.selectForm = selectForm;
+                vm.loadFormFields = loadFormFields;
 
                 userId = UserService.getCurrentUser()._id;
 
@@ -89,6 +90,10 @@
         function selectForm(form) {
             vm.formName = form.title;
             vm.newForm = form;
+        }
+
+        function loadFormFields(formId) {
+            $location.url("/fields/"+formId);
         }
     }
 })();

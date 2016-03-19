@@ -8,6 +8,7 @@ module.exports = function(app, formModel) {
     app.delete("/api/assignment/form/:formId/field/:fieldId", deleteFormFieldById);
     app.post("/api/assignment/form/:formId/field", cloneFormField);
     app.put("/api/assignment/form/:formId/field/:fieldId", updateFormFieldById);
+    app.get("/api/assignment/form/fieldTypes", getAllFieldTypes);
 
     function getAllFormFieldsByFormId(req, res) {
         var formId = req.params.formId;
@@ -44,5 +45,10 @@ module.exports = function(app, formModel) {
         // use model to find user by id
         var formFields = formModel.updateFormFieldById(formId, fieldId, field);
         res.json(formFields);
+    }
+
+    function getAllFieldTypes(req, res) {
+        var fieldTypes = formModel.getAllFieldTypes();
+        res.json(fieldTypes);
     }
 };

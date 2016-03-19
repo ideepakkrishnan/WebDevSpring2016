@@ -39,7 +39,7 @@
                     </tr>
                     <tr ng-repeat="form in model.myForms" ng-class="{'success': form==model.newForm}">
                         <td data-title="Form Name">
-                            <a class="form-name" href="#" ng-click="model.loadFormFields(form._id)">{{form.title}}</a>
+                            <a class="form-name" href ng-click="model.loadFormFields(form._id)">{{form.title}}</a>
                         </td>
                         <td data-title="Action">
                             <div class="btn-group" role="group">
