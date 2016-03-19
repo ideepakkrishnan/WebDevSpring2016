@@ -20,6 +20,9 @@
                 vm.firstName = currUser.firstName;
                 vm.lastName = currUser.lastName;
                 vm.userEmail = currUser.email;
+
+                vm.trackFieldEdit = trackFieldEdit;
+                vm.clearEditTracking = clearEditTracking;
             } else {
                 $location.path("#/home");
             }
@@ -36,7 +39,27 @@
         init();
 
         function trackFieldEdit(field) {
+            clearEditTracking();
             vm.currEditField = field;
+            vm.currEditFieldLabel = field.label;
+            if (!field.options) {
+                vm.currEditFieldPlaceholder = field.placeholder;
+            }
+            if (field.options) {
+                var txt = "";
+                for (var u in field.options) {
+                    txt += (field.options[u].label + ":" + field.options[u].value + "\n");
+                }
+                vm.currEditFieldOptions = txt;
+                console.log(txt);
+            }
+        }
+
+        function clearEditTracking() {
+            vm.currEditField = null;
+            vm.currEditFieldLabel = null;
+            vm.currEditFieldPlaceholder = null;
+            vm.currEditFieldOptions = null;
         }
     }
 })();
