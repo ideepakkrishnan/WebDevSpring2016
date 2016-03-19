@@ -10,6 +10,7 @@
     <div class="tab-content">
     <form>
     <div class="container-fluid field-container">
+        <div ui-sortable>
         <div ng-repeat="field in model.fields" class="row form-group">
             <br />
             <div ng-switch="field.type">
@@ -75,6 +76,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
