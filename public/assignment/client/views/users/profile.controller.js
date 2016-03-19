@@ -41,8 +41,8 @@
                     }
                 )
                 .then(function(response){
-                    console.log(response);
-                    UserService.setCurrentUser(response);
+                    console.log(response.data);
+                    UserService.setCurrentUser(response.data);
                 });
         }
     }
