@@ -295,7 +295,8 @@
             </div>
         </div>
         <div class="col-sm-12 input-group">
-            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#newDeviceModal">Sync with Fitbit</button>
+            <!--button type="button" class="btn btn-warning" data-toggle="modal" data-target="#newDeviceModal">Sync with Fitbit</button-->
+            <button type="button" ng-click="connectAccount()" class="btn btn-warning">Sync with Fitbit</button>
         </div>
     </div>
 
@@ -320,7 +321,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Sync Device</button>
+                    <button type="button" class="btn btn-success" ng-click="connectAccount">Sync Data</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

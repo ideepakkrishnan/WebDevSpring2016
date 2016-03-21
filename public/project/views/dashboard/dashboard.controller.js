@@ -7,7 +7,9 @@
         .module("PerformXApp")
         .controller("DashboardController", dashboardController);
 
-    function dashboardController($scope, $rootScope, $location, UserService) {
+    function dashboardController($scope, $window, $rootScope, $location, UserService) {
+        $scope.connectAccount = connectAccount;
+
         if ($rootScope.currentUser) {
             $scope.userId = $rootScope.currentUser._id;
             $scope.username = $rootScope.currentUser.username;
@@ -17,6 +19,7 @@
             $scope.userEmail = $rootScope.currentUser.email;
             $scope.teams = $rootScope.currentUser.teams;
             $scope.roles = $rootScope.currentUser.roles;
+
             UserService.fetchTeamDetails(
                 $scope.teams,
                 function(response) {
@@ -74,6 +77,12 @@
                 .maxValue(200)
                 .value(150)
                 .render();
+        }
+
+        function connectAccount() {
+            $scope.fitbit_client_id = "227G2P";
+            $window.location.href ="https://www.fitbit.com/oauth2/authorize?client_id=" + $scope.fitbit_client_id + "&response_type=token&scope=activity%20profile&expires_in=2592000";
+            console.log($location.url());
         }
     }
 })();
