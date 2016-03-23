@@ -12,7 +12,12 @@
 
         function logout() {
             $rootScope.currentUser = null;
+            destroyUserCache();
             $location.url("/home")
+        }
+
+        function destroyUserCache() {
+            window.sessionStorage.removeItem("pxUserCache");
         }
     }
 })();
