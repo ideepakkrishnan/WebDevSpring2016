@@ -18,10 +18,19 @@
                     console.log(response);
                     if (response) {
                         $rootScope.currentUser = response;
+                        cacheUserLocally(response);
                         $location.url("/profile");
                     }
                 }
             )
+        }
+
+        function cacheUserLocally(user) {
+            var userInfo = {
+                currentUser: user
+            };
+            // Caches the user info for this browser session
+            window.sessionStorage.setItem("pxUserCache", JSON.stringify(userInfo));
         }
     }
 })();
