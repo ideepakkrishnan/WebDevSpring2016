@@ -1,0 +1,7 @@
+[
+  {"_id":123, "firstName":"Alice", "lastName":"Wonderland", "username":"alice", "password":"alice", "email":"alice@fb.com", "teams": [1], "roles": ["player"]},
+  {"_id":234, "firstName":"Bob", "lastName":"Hope", "username":"bob", "password":"bob", "email":"bob@fb.com", "teams": [1], "roles": ["watcher"]},
+  {"_id":345, "firstName":"Charlie", "lastName":"Brown", "username":"charlie", "password":"charlie", "email": "charlie@fb.com", "teams": [1], "roles": ["player"]},
+  {"_id":456, "firstName":"Dan", "lastName":"Craig", "username":"dan", "password":"dan", "email": "dan@fb.com", "teams": [1], "roles": ["watcher", "admin"]},
+  {"_id":567, "firstName":"Edward", "lastName":"Norton", "username":"ed", "password":"ed", "email": "edward@fb.com", "teams": [], "roles": ["developer"]}
+]

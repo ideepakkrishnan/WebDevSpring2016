@@ -1,0 +1,7 @@
+[
+  {"_id": 100, "username": "alice", "type": ["weight"], "calories": 0, "weight": 140, "fat": 0, "steps": 0, "distance": 0, "duration": 0, "floors": 0, "date": "01-Mar-2016"},
+  {"_id": 120, "username": "alice", "type": ["sleep"], "calories": 0, "weight": 0, "fat": 0, "steps": 0, "distance": 0, "duration": 480, "floors": 0, "date": "02-Mar-2016"},
+  {"_id": 140, "username": "alice", "type": ["activity"], "calories": 2500, "weight": 0, "fat": 0, "steps": 10000, "distance": 8.00, "duration": 1211, "floors": 10, "date": "03-Mar-2016"},
+  {"_id": 160, "username": "alice", "type": ["fat"], "calories": 0, "weight": 0, "fat": 12, "steps": 0, "distance": 0, "duration": 0, "floors": 0, "date": "28-Feb-2016"},
+  {"_id": 180, "username": "bob", "type": ["weight", "fat"], "calories": 0, "weight": 145, "fat": 14, "steps": 0, "distance": 0, "duration": 0, "floors": 0, "date": "29-Feb-2016"}
+]

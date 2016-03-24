@@ -51,6 +51,8 @@
             callback(null);
         }
 
+        function cacheUserLocally(userInfo) {}
+
         function findUsersByTeam(teamId, callback) {
             var response = [];
             for (var i=0; i<api.userList.length; i++) {

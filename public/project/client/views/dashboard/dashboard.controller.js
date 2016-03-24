@@ -7,7 +7,7 @@
         .module("PerformXApp")
         .controller("DashboardController", dashboardController);
 
-    function dashboardController($scope, $window, $rootScope, $location, UserService) {
+    function dashboardController($scope, $window, $rootScope, $location, $filter, UserService, DeviceService) {
         $scope.connectAccount = connectAccount;
 
         function init() {
@@ -35,6 +35,36 @@
                     }
                 );
 
+                // Initialize provider connection details
+                retrieveConnectionDetails();
+
+                // Initialize provider profile data
+                if ($rootScope.account_user_id && $rootScope.access_token) {
+                    $scope.profileData = DeviceService.getProfileData();
+                    $scope.profileData.then(function (data) {
+                        console.log(data);
+                    });
+
+                    // Initialize activity data
+                    var dates = [];
+                    var past_days = 4;
+                    var today = new Date();
+
+                    for (var i=0; i<past_days; i++) {
+                        var curr_date = new Date();
+                        curr_date.setDate(today.getDate() - i);
+                        curr_date = $filter('date')(curr_date, "yyyy-MM-dd");
+
+                        dates.push(curr_date);
+                    }
+
+                    $scope.activityData = DeviceService.getActivityData(dates);
+                    $scope.activityData.then(function (data){
+                        console.log(data);
+                    });
+                }
+
+                // Initialize visualizations
                 var div1=d3.select(document.getElementById('div1'));
                 var div2=d3.select(document.getElementById('div2'));
                 var div3=d3.select(document.getElementById('div3'));
@@ -100,6 +130,17 @@
                 return cachedUser.currentUser;
             } else {
                 return null;
+            }
+        }
+
+        function retrieveConnectionDetails() {
+            if (JSON.parse(window.localStorage.getItem("fitbit"))) {
+                console.log("Authorized");
+                $rootScope.access_token = JSON.parse(window.localStorage.getItem("fitbit")).oauth.access_token;
+                $rootScope.expires_in = JSON.parse(window.localStorage.getItem("fitbit")).oauth.expires_in;
+                $rootScope.account_user_id = JSON.parse(window.localStorage.getItem("fitbit")).oauth.account_user_id;
+            } else {
+                console.log("Unauthorized");
             }
         }
     }
