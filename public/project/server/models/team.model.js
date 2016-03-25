@@ -6,7 +6,8 @@ var mock = require("./team.mock.json");
 
 module.exports = function () {
     var api = {
-        fetchTeamDetails: fetchTeamDetails
+        fetchTeamDetails: fetchTeamDetails,
+        findUsersByTeam: findUsersByTeam
     };
     return api;
 
@@ -16,6 +17,16 @@ module.exports = function () {
             var teamDetails = mock[teamIdList[i]];
             teamDetails["teamId"] = teamIdList[i];
             response.push(teamDetails);
+        }
+        return response;
+    }
+
+    function findUsersByTeam(teamId) {
+        var response = [];
+        for (var i=0; i<mock.length; i++) {
+            if (mock[i].teams.indexOf(teamId) >= 0) {
+                response.push(mock[i]);
+            }
         }
         return response;
     }

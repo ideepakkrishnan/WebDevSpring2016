@@ -11,18 +11,20 @@
         $scope.login = login;
 
         function login(username, password) {
-            UserService.findUserByCredentials(
-                username,
-                password,
-                function(response) {
-                    console.log(response);
-                    if (response) {
-                        $rootScope.currentUser = response;
-                        cacheUserLocally(response);
-                        $location.url("/profile");
+            UserService.findUserByCredentials(username, password)
+                .then(
+                    function (response) {
+                        console.log(response);
+                        if (response) {
+                            $rootScope.currentUser = response;
+                            cacheUserLocally(response);
+                            $location.url("/profile");
+                        }
+                    },
+                    function (err) {
+                        console.log(err);
                     }
-                }
-            )
+                );
         }
 
         function cacheUserLocally(user) {

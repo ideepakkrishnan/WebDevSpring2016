@@ -7,7 +7,7 @@
         .module("PerformXApp")
         .controller("ProfileController", profileController);
 
-    function profileController($scope, $rootScope, $location, UserService) {
+    function profileController($scope, $rootScope, $location, UserService, TeamService) {
         $scope.update = update;
         $scope.deleteTeam = deleteTeam;
 
@@ -20,28 +20,42 @@
             $scope.userEmail = $rootScope.currentUser.email;
             $scope.teams = $rootScope.currentUser.teams;
             $scope.roles = $rootScope.currentUser.roles;
-            UserService.fetchTeamDetails(
-                $scope.teams,
-                function(response) {
-                    console.log(response);
-                    $scope.myTeams = response;
-                }
-            );
+            TeamService.fetchTeamDetails($scope.teams)
+                .then(
+                    function(response) {
+                        console.log(response);
+                        $scope.myTeams = response;
+                    },
+                    function (err) {
+                        console.log(err);
+                    }
+                );
         } else {
             $location.path("#/home");
         }
 
         function update(username, password, firstName, lastName, userEmail) {
-            UserService.updateUser(
-                $scope.userId,
-                {"username": username, "firstName": firstName, "lastName": lastName, "password": password,
-                    "email": userEmail, "teams": $scope.teams, "roles": $scope.roles},
-                function(response){
-                    console.log(response);
-                    $rootScope.currentUser = response;
-                    $scope.updated = 1;
-                }
-            );
+            var updatedDetails = {
+                "username": username,
+                "firstName": firstName,
+                "lastName": lastName,
+                "password": password,
+                "email": userEmail,
+                "teams": $scope.teams,
+                "roles": $scope.roles
+            };
+
+            UserService.updateUser($scope.userId, updatedDetails)
+                .then(
+                    function(response){
+                        console.log(response);
+                        $rootScope.currentUser = response;
+                        $scope.updated = 1;
+                    },
+                    function (err) {
+                        console.log(err);
+                    }
+                );
         }
 
         function deleteTeam(teamId) {

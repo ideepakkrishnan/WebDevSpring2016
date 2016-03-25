@@ -7,7 +7,7 @@
         .module("PerformXApp")
         .controller("DashboardController", dashboardController);
 
-    function dashboardController($scope, $window, $rootScope, $location, $filter, UserService, DeviceService) {
+    function dashboardController($scope, $window, $rootScope, $location, $filter, UserService, DeviceService, GoalService) {
         $scope.connectAccount = connectAccount;
 
         function init() {
@@ -27,13 +27,16 @@
                 $scope.teams = $rootScope.currentUser.teams;
                 $scope.roles = $rootScope.currentUser.roles;
 
-                UserService.fetchTeamDetails(
-                    $scope.teams,
-                    function(response) {
-                        console.log(response);
-                        $scope.myTeams = response;
-                    }
-                );
+                GoalService.fetchTeamDetails($scope.teams)
+                    .then(
+                        function(response) {
+                            console.log(response);
+                            $scope.myTeams = response;
+                        },
+                        function (err) {
+                            console.log(err);
+                        }
+                    );
 
                 // Initialize provider connection details
                 retrieveConnectionDetails();

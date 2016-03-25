@@ -7,7 +7,7 @@
         .module("PerformXApp")
         .controller("GoalController", goalController);
 
-    function goalController($scope, $rootScope, $location, UserService) {
+    function goalController($scope, $rootScope, $location, GoalService) {
         /* Expose functions */
         $scope.addGoal = addGoal;
         $scope.updateGoal = updateGoal;
@@ -16,11 +16,15 @@
 
         /* Initialize global variables */
         if ($rootScope.currentUser) {
-            UserService.findAllGoals(
-                function (response) {
-                    $scope.goals = response;
-                }
-            );
+            GoalService.findAllGoals()
+                .then(
+                    function (response) {
+                        $scope.goals = response;
+                    },
+                    function (err) {
+                        console.log(err);
+                    }
+                );
         } else {
             $location.path("#/home");
         }
@@ -42,7 +46,7 @@
         /* Custom functions */
         Date.prototype.formatDDMMMYYYY = function() {
             return this.getDate() + "-" + month[this.getMonth()] + "-" + this.getFullYear();
-        }
+        };
 
         function addGoal() {
             var types = [];
@@ -58,28 +62,43 @@
             if ($scope.fatGoal) {
                 types.push("fat");
             }
-            UserService.createGoal(
-                {"username": $scope.username, "calories": $scope.calories, "weight": $scope.weight, "fat": $scope.fat,
-                    "steps": $scope.steps, "distance": $scope.distance, "duration": $scope.duration, "floors": $scope.floors,
-                    "date": (new Date($scope.date)).formatDDMMMYYYY(), "type": types},
-                function(response) {
-                    console.log(response);
-                    $scope.goals = response;
-                    $scope.username = "";
-                    $scope.calories = "";
-                    $scope.weight = "";
-                    $scope.fat = "";
-                    $scope.steps = "";
-                    $scope.distance = "";
-                    $scope.duration = "";
-                    $scope.floors = "";
-                    $scope.date = "";
-                    $scope.weightGoal = false;
-                    $scope.sleepGoal = false;
-                    $scope.activityGoal = false;
-                    $scope.fatGoal = false;
-                }
-            )
+
+            var newGoal = {
+                "username": $scope.username,
+                "calories": $scope.calories,
+                "weight": $scope.weight,
+                "fat": $scope.fat,
+                "steps": $scope.steps,
+                "distance": $scope.distance,
+                "duration": $scope.duration,
+                "floors": $scope.floors,
+                "date": (new Date($scope.date)).formatDDMMMYYYY(),
+                "type": types
+            };
+
+            GoalService.createGoal(newGoal)
+                .then(
+                    function(response) {
+                        console.log(response);
+                        $scope.goals = response;
+                        $scope.username = "";
+                        $scope.calories = "";
+                        $scope.weight = "";
+                        $scope.fat = "";
+                        $scope.steps = "";
+                        $scope.distance = "";
+                        $scope.duration = "";
+                        $scope.floors = "";
+                        $scope.date = "";
+                        $scope.weightGoal = false;
+                        $scope.sleepGoal = false;
+                        $scope.activityGoal = false;
+                        $scope.fatGoal = false;
+                    },
+                    function (err) {
+                        console.log(err);
+                    }
+                );
         }
 
         function updateGoal() {
@@ -96,40 +115,57 @@
             if ($scope.fatGoal) {
                 types.push("fat");
             }
-            UserService.updateGoal(
-                $scope._id,
-                {"username": $scope.username, "calories": $scope.calories, "weight": $scope.weight, "fat": $scope.fat,
-                    "steps": $scope.steps, "distance": $scope.distance, "duration": $scope.duration, "floors": $scope.floors,
-                    "date": (new Date($scope.date)).formatDDMMMYYYY(), "type": types},
-                function(response) {
-                    console.log(response);
-                    $scope.goals = response;
-                    $scope._id = -1;
-                    $scope.username = "";
-                    $scope.calories = "";
-                    $scope.weight = "";
-                    $scope.fat = "";
-                    $scope.steps = "";
-                    $scope.distance = "";
-                    $scope.duration = "";
-                    $scope.floors = "";
-                    $scope.date = "";
-                    $scope.weightGoal = false;
-                    $scope.sleepGoal = false;
-                    $scope.activityGoal = false;
-                    $scope.fatGoal = false;
-                }
-            )
+
+            var updatedGoal = {
+                "username": $scope.username,
+                "calories": $scope.calories,
+                "weight": $scope.weight,
+                "fat": $scope.fat,
+                "steps": $scope.steps,
+                "distance": $scope.distance,
+                "duration": $scope.duration,
+                "floors": $scope.floors,
+                "date": (new Date($scope.date)).formatDDMMMYYYY(),
+                "type": types
+            };
+
+            GoalService.updateGoal($scope._id, updatedGoal)
+                .then(
+                    function(response) {
+                        console.log(response);
+                        $scope.goals = response;
+                        $scope._id = -1;
+                        $scope.username = "";
+                        $scope.calories = "";
+                        $scope.weight = "";
+                        $scope.fat = "";
+                        $scope.steps = "";
+                        $scope.distance = "";
+                        $scope.duration = "";
+                        $scope.floors = "";
+                        $scope.date = "";
+                        $scope.weightGoal = false;
+                        $scope.sleepGoal = false;
+                        $scope.activityGoal = false;
+                        $scope.fatGoal = false;
+                    },
+                    function (err) {
+                        console.log(err);
+                    }
+                );
         }
 
         function deleteGoal(goalId) {
-            UserService.deleteGoalById(
-                goalId,
-                function(response) {
-                    console.log(response);
-                    $scope.goals = response;
-                }
-            )
+            GoalService.deleteGoalById(goalId)
+                .then(
+                    function(response) {
+                        console.log(response);
+                        $scope.goals = response;
+                    },
+                    function (err) {
+                        console.log(err);
+                    }
+                );
         }
 
         function selectGoal(goal) {

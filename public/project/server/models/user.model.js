@@ -7,7 +7,6 @@ var mock = require("./user.mock.json");
 module.exports = function () {
     var api = {
         findUserByCredentials: findUserByCredentials,
-        findUsersByTeam: findUsersByTeam,
         findAllUsers: findAllUsers,
         createUser: createUser,
         deleteUserById: deleteUserById,
@@ -15,31 +14,21 @@ module.exports = function () {
     };
     return api;
 
-    function findUserByCredentials(username, password, callback) {
+    function findUserByCredentials(username, password) {
         for (var i=0; i<mock.length; i++) {
             var usr = mock[i];
             if (usr.username == username && usr.password == password) {
-                callback(usr);
+                return usr;
             }
         }
-        callback(null);
+        return "";
     }
 
-    function findUsersByTeam(teamId, callback) {
-        var response = [];
-        for (var i=0; i<mock.length; i++) {
-            if (mock[i].teams.indexOf(teamId) >= 0) {
-                response.push(mock[i]);
-            }
-        }
-        callback(response);
+    function findAllUsers() {
+        return mock;
     }
 
-    function findAllUsers(callback) {
-        callback(mock);
-    }
-
-    function createUser(user, callback) {
+    function createUser(user) {
         var newUser = {
             "_id": (new Date).getTime(),
             "firstName": user.firstName,
@@ -52,20 +41,20 @@ module.exports = function () {
         };
 
         mock.push(newUser);
-        callback(newUser);
+        return newUser;
     }
 
-    function deleteUserById(userId, callback) {
+    function deleteUserById(userId) {
         for (var i=0; i<mock.length; i++) {
             if (mock[i]._id == userId) {
                 mock = mock.splice(i, 1);
-                callback(mock);
+                return mock;
             }
         }
-        callback(null);
+        return [];
     }
 
-    function updateUser(userId, user, callback) {
+    function updateUser(userId, user) {
         for (var i=0; i<mock.length; i++) {
             if (mock[i]._id == userId) {
                 mock[i].firstName = user.firstName;
@@ -74,7 +63,7 @@ module.exports = function () {
                 mock[i].password = user.password;
                 mock[i].teams = user.teams;
                 mock[i].roles = user.roles;
-                callback(mock[i]);
+                return mock[i];
             }
         }
     }
