@@ -61,6 +61,7 @@ module.exports = function () {
                 mock[i].lastName = user.lastName;
                 mock[i].username = user.username;
                 mock[i].password = user.password;
+                mock[i].email = user.email;
                 mock[i].teams = user.teams;
                 mock[i].roles = user.roles;
                 return mock[i];

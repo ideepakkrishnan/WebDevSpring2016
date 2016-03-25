@@ -16,7 +16,8 @@
             findAllUsers: findAllUsers,
             createUser: createUser,
             deleteUserById: deleteUserById,
-            updateUser: updateUser
+            updateUser: updateUser,
+            cacheUserLocally: cacheUserLocally
         };
         return api;
 
@@ -74,6 +75,14 @@
                     function (error) {
                         throw error;
                     });
+        }
+
+        function cacheUserLocally(user) {
+            var userInfo = {
+                currentUser: user
+            };
+            // Caches the user info for this browser session
+            window.sessionStorage.setItem("pxUserCache", JSON.stringify(userInfo));
         }
     }
 })();

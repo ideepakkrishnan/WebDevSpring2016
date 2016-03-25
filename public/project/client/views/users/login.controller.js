@@ -19,10 +19,9 @@
             UserService.findUserByCredentials(username, password)
                 .then(
                     function (response) {
-                        console.log(response);
                         if (response) {
                             $rootScope.currentUser = response.data;
-                            cacheUserLocally(response.data);
+                            UserService.cacheUserLocally(response.data);
                             $location.url("/profile");
                         }
                     },
@@ -30,14 +29,6 @@
                         console.log(err);
                     }
                 );
-        }
-
-        function cacheUserLocally(user) {
-            var userInfo = {
-                currentUser: user
-            };
-            // Caches the user info for this browser session
-            window.sessionStorage.setItem("pxUserCache", JSON.stringify(userInfo));
         }
     }
 })();

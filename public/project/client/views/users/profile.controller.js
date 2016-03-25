@@ -26,7 +26,6 @@
                 TeamService.fetchTeamDetails(vm.teams)
                     .then(
                         function(response) {
-                            console.log(response);
                             vm.myTeams = response.data;
                         },
                         function (err) {
@@ -53,7 +52,6 @@
             UserService.updateUser(vm.userId, updatedDetails)
                 .then(
                     function(response){
-                        console.log(response);
                         $rootScope.currentUser = response.data;
                         vm.updated = 1;
                     },
