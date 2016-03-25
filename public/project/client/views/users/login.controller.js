@@ -7,8 +7,13 @@
         .module("PerformXApp")
         .controller("LoginController", loginController);
 
-    function loginController($scope, $location, $rootScope, UserService) {
-        $scope.login = login;
+    function loginController($location, $rootScope, UserService) {
+        var vm = this;
+
+        function init() {
+            vm.login = login;
+        }
+        init();
 
         function login(username, password) {
             UserService.findUserByCredentials(username, password)

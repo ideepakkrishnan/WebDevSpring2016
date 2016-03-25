@@ -7,36 +7,41 @@
         .module("PerformXApp")
         .controller("StatsController", statsController);
 
-    function statsController($scope, $rootScope, $location, TeamService) {
-        if ($rootScope.currentUser) {
-            $scope.userId = $rootScope.currentUser._id;
-            $scope.username = $rootScope.currentUser.username;
-            $scope.password = $rootScope.currentUser.password;
-            $scope.firstName = $rootScope.currentUser.firstName;
-            $scope.lastName = $rootScope.currentUser.lastName;
-            $scope.userEmail = $rootScope.currentUser.email;
-            $scope.teams = $rootScope.currentUser.teams;
-            $scope.roles = $rootScope.currentUser.roles;
-            TeamService.fetchTeamDetails($scope.teams)
-                .then(
-                    function(response) {
-                        console.log(response);
-                        $scope.myTeams = response.data;
-                    },
-                    function (err) {
-                        console.log(err);
-                    }
-                );
+    function statsController($rootScope, $location, TeamService) {
+        var vm = this;
 
-            var div1=d3.select(document.getElementById('div1'));
-            var div2=d3.select(document.getElementById('div2'));
-            var div3=d3.select(document.getElementById('div3'));
-            var div4=d3.select(document.getElementById('div4'));
+        function init() {
+            if ($rootScope.currentUser) {
+                vm.userId = $rootScope.currentUser._id;
+                vm.username = $rootScope.currentUser.username;
+                vm.password = $rootScope.currentUser.password;
+                vm.firstName = $rootScope.currentUser.firstName;
+                vm.lastName = $rootScope.currentUser.lastName;
+                vm.userEmail = $rootScope.currentUser.email;
+                vm.teams = $rootScope.currentUser.teams;
+                vm.roles = $rootScope.currentUser.roles;
+                TeamService.fetchTeamDetails(vm.teams)
+                    .then(
+                        function(response) {
+                            console.log(response);
+                            vm.myTeams = response.data;
+                        },
+                        function (err) {
+                            console.log(err);
+                        }
+                    );
 
-            start();
-        } else {
-            $location.path("#/home");
+                var div1=d3.select(document.getElementById('div1'));
+                var div2=d3.select(document.getElementById('div2'));
+                var div3=d3.select(document.getElementById('div3'));
+                var div4=d3.select(document.getElementById('div4'));
+
+                start();
+            } else {
+                $location.path("#/home");
+            }
         }
+        init();
 
         function onClick1() {
 

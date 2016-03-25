@@ -8,6 +8,11 @@
         .controller("TeamController", teamController);
 
     function teamController() {
+        var vm = this;
 
+        function init() {
+
+        }
+        init();
     }
 })();

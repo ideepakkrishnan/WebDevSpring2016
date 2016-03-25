@@ -7,32 +7,37 @@
         .module("PerformXApp")
         .controller("ProfileController", profileController);
 
-    function profileController($scope, $rootScope, $location, UserService, TeamService) {
-        $scope.update = update;
-        $scope.deleteTeam = deleteTeam;
+    function profileController($rootScope, $location, UserService, TeamService) {
+        var vm = this;
 
-        if ($rootScope.currentUser) {
-            $scope.userId = $rootScope.currentUser._id;
-            $scope.username = $rootScope.currentUser.username;
-            $scope.password = $rootScope.currentUser.password;
-            $scope.firstName = $rootScope.currentUser.firstName;
-            $scope.lastName = $rootScope.currentUser.lastName;
-            $scope.userEmail = $rootScope.currentUser.email;
-            $scope.teams = $rootScope.currentUser.teams;
-            $scope.roles = $rootScope.currentUser.roles;
-            TeamService.fetchTeamDetails($scope.teams)
-                .then(
-                    function(response) {
-                        console.log(response);
-                        $scope.myTeams = response.data;
-                    },
-                    function (err) {
-                        console.log(err);
-                    }
-                );
-        } else {
-            $location.path("#/home");
+        function init() {
+            vm.update = update;
+            vm.deleteTeam = deleteTeam;
+
+            if ($rootScope.currentUser) {
+                vm.userId = $rootScope.currentUser._id;
+                vm.username = $rootScope.currentUser.username;
+                vm.password = $rootScope.currentUser.password;
+                vm.firstName = $rootScope.currentUser.firstName;
+                vm.lastName = $rootScope.currentUser.lastName;
+                vm.userEmail = $rootScope.currentUser.email;
+                vm.teams = $rootScope.currentUser.teams;
+                vm.roles = $rootScope.currentUser.roles;
+                TeamService.fetchTeamDetails(vm.teams)
+                    .then(
+                        function(response) {
+                            console.log(response);
+                            vm.myTeams = response.data;
+                        },
+                        function (err) {
+                            console.log(err);
+                        }
+                    );
+            } else {
+                $location.path("#/home");
+            }
         }
+        init();
 
         function update(username, password, firstName, lastName, userEmail) {
             var updatedDetails = {
@@ -41,16 +46,16 @@
                 "lastName": lastName,
                 "password": password,
                 "email": userEmail,
-                "teams": $scope.teams,
-                "roles": $scope.roles
+                "teams": vm.teams,
+                "roles": vm.roles
             };
 
-            UserService.updateUser($scope.userId, updatedDetails)
+            UserService.updateUser(vm.userId, updatedDetails)
                 .then(
                     function(response){
                         console.log(response);
                         $rootScope.currentUser = response.data;
-                        $scope.updated = 1;
+                        vm.updated = 1;
                     },
                     function (err) {
                         console.log(err);
@@ -65,7 +70,7 @@
                     teamList.push($rootScope.currentUser.teams[j]);
                 }
             }
-            $scope.teams = teamList;
+            vm.teams = teamList;
         }
     }
 })();

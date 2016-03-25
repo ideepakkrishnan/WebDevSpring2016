@@ -7,10 +7,12 @@
         .module("PerformXApp")
         .controller("DashboardController", dashboardController);
 
-    function dashboardController($scope, $window, $rootScope, $location, $filter, UserService, DeviceService, TeamService) {
-        $scope.connectAccount = connectAccount;
+    function dashboardController($window, $rootScope, $location, $filter, DeviceService, TeamService) {
+        var vm = this;
 
         function init() {
+            vm.connectAccount = connectAccount;
+
             // Handle callback
             if ($rootScope.currentUser == null) {
                 $rootScope.currentUser = retrieveCachedUserInfo();
@@ -18,20 +20,20 @@
 
             // Check if the user is logged in and redirect accordingly
             if ($rootScope.currentUser) {
-                $scope.userId = $rootScope.currentUser._id;
-                $scope.username = $rootScope.currentUser.username;
-                $scope.password = $rootScope.currentUser.password;
-                $scope.firstName = $rootScope.currentUser.firstName;
-                $scope.lastName = $rootScope.currentUser.lastName;
-                $scope.userEmail = $rootScope.currentUser.email;
-                $scope.teams = $rootScope.currentUser.teams;
-                $scope.roles = $rootScope.currentUser.roles;
+                vm.userId = $rootScope.currentUser._id;
+                vm.username = $rootScope.currentUser.username;
+                vm.password = $rootScope.currentUser.password;
+                vm.firstName = $rootScope.currentUser.firstName;
+                vm.lastName = $rootScope.currentUser.lastName;
+                vm.userEmail = $rootScope.currentUser.email;
+                vm.teams = $rootScope.currentUser.teams;
+                vm.roles = $rootScope.currentUser.roles;
 
-                TeamService.fetchTeamDetails($scope.teams)
+                TeamService.fetchTeamDetails(vm.teams)
                     .then(
                         function(response) {
                             console.log("teams: " + response);
-                            $scope.myTeams = response.data;
+                            vm.myTeams = response.data;
                         },
                         function (err) {
                             console.log(err);
@@ -43,8 +45,8 @@
 
                 // Initialize provider profile data
                 if ($rootScope.account_user_id && $rootScope.access_token) {
-                    $scope.profileData = DeviceService.getProfileData();
-                    $scope.profileData.then(function (data) {
+                    vm.profileData = DeviceService.getProfileData();
+                    vm.profileData.then(function (data) {
                         console.log(data);
                     });
 
@@ -61,8 +63,8 @@
                         dates.push(curr_date);
                     }
 
-                    $scope.activityData = DeviceService.getActivityData(dates);
-                    $scope.activityData.then(function (data){
+                    vm.activityData = DeviceService.getActivityData(dates);
+                    vm.activityData.then(function (data){
                         console.log(data);
                     });
                 }
@@ -122,8 +124,8 @@
         }
 
         function connectAccount() {
-            $scope.fitbit_client_id = "227G2P";
-            $window.location.href ="https://www.fitbit.com/oauth2/authorize?client_id=" + $scope.fitbit_client_id + "&response_type=token&scope=activity%20profile&expires_in=2592000";
+            vm.fitbit_client_id = "227G2P";
+            $window.location.href ="https://www.fitbit.com/oauth2/authorize?client_id=" + vm.fitbit_client_id + "&response_type=token&scope=activity%20profile&expires_in=2592000";
             console.log($location.url());
         }
 

@@ -20,84 +20,84 @@
             </thead>
             <tr>
                 <td data-title="Username">
-                    <input ng-model="username" type="text" class="form-control" placeholder="Username">
+                    <input ng-model="model.username" type="text" class="form-control" placeholder="Username">
                 </td>
                 <td data-title="Calories">
-                    <input ng-model="calories" type="number" class="form-control" placeholder="Calories">
+                    <input ng-model="model.calories" type="number" class="form-control" placeholder="Calories">
                 </td>
                 <td data-title="Weight">
-                    <input ng-model="weight" type="number" class="form-control" placeholder="Weight">
+                    <input ng-model="model.weight" type="number" class="form-control" placeholder="Weight">
                 </td>
                 <td data-title="Fat">
-                    <input ng-model="fat" type="number" class="form-control" placeholder="Fat">
+                    <input ng-model="model.fat" type="number" class="form-control" placeholder="Fat">
                 </td>
                 <td data-title="Steps">
-                    <input ng-model="steps" type="number" class="form-control" placeholder="Steps">
+                    <input ng-model="model.steps" type="number" class="form-control" placeholder="Steps">
                 </td>
                 <td data-title="Distance">
-                    <input ng-model="distance" type="number" class="form-control" placeholder="Distance">
+                    <input ng-model="model.distance" type="number" class="form-control" placeholder="Distance">
                 </td>
                 <td data-title="Duration">
-                    <input ng-model="duration" type="number" class="form-control" placeholder="Duration">
+                    <input ng-model="model.duration" type="number" class="form-control" placeholder="Duration">
                 </td>
                 <td data-title="Floors">
-                    <input ng-model="floors" type="number" class="form-control" placeholder="Floors">
+                    <input ng-model="model.floors" type="number" class="form-control" placeholder="Floors">
                 </td>
                 <td data-title="Date">
-                    <input ng-model="date" type="date" class="form-control">
+                    <input ng-model="model.date" type="date" class="form-control">
                 </td>
                 <td data-title="Type">
                     <div class="checkbox">
                         <label>
-                            <input ng-model="weightGoal" type="checkbox" value="weight" />
+                            <input ng-model="model.weightGoal" type="checkbox" value="weight" />
                             Weight
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input ng-model="sleepGoal" type="checkbox" value="sleep" />
+                            <input ng-model="model.sleepGoal" type="checkbox" value="sleep" />
                             Sleep
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input ng-model="activityGoal" type="checkbox" value="activity" />
+                            <input ng-model="model.activityGoal" type="checkbox" value="activity" />
                             Activity
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input ng-model="fatGoal" type="checkbox" value="fat" />
+                            <input ng-model="model.fatGoal" type="checkbox" value="fat" />
                             Fat
                         </label>
                     </div>
                 </td>
                 <td>
                     <div class="btn-group" role="group">
-                        <button ng-click="addGoal()" type="button" class="btn btn-default outline" aria-label="Add Goal">
+                        <button ng-click="model.addGoal()" type="button" class="btn btn-default outline" aria-label="Add Goal">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         </button>
-                        <button ng-click="updateGoal()" type="button" class="btn btn-default outline" aria-label="Update Goal">
+                        <button ng-click="model.updateGoal()" type="button" class="btn btn-default outline" aria-label="Update Goal">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                         </button>
                     </div>
                 </td>
             </tr>
-            <tr ng-repeat="goal in goals" ng-class="{'success': goal._id==_id}">
+            <tr ng-repeat="goal in model.goals" ng-class="{'success': goal._id==_id}">
                 <td data-title="Username">
-                    <a class="form-name" href="#" ng-click="loadUserDetails(goal._id)">{{goal.username}}</a>
+                    <a class="form-name" href="#" ng-click="model.loadUserDetails(goal._id)">{{goal.username}}</a>
                 </td>
                 <td data-title="Calories">
-                    <a class="form-name" href="#" ng-click="loadUserDetails(goal._id)">{{goal.calories}}</a>
+                    <a class="form-name" href="#" ng-click="model.loadUserDetails(goal._id)">{{goal.calories}}</a>
                 </td>
                 <td data-title="Weight">
-                    <a class="form-name" href="#" ng-click="loadUserDetails(goal._id)">{{goal.weight}}</a>
+                    <a class="form-name" href="#" ng-click="model.loadUserDetails(goal._id)">{{goal.weight}}</a>
                 </td>
                 <td data-title="Fat">
                     {{goal.fat}}
                 </td>
                 <td data-title="Steps">
-                    <a class="form-name" href="#" ng-click="loadUserDetails(goal._id)">{{goal.steps}}</a>
+                    <a class="form-name" href="#" ng-click="model.loadUserDetails(goal._id)">{{goal.steps}}</a>
                 </td>
                 <td data-title="Distance">
                     {{goal.distance}}
@@ -139,10 +139,10 @@
                 </td>
                 <td>
                     <div class="btn-group" role="group">
-                        <button ng-click="deleteGoal(goal._id)" type="button" class="btn btn-default outline" aria-label="Remove User">
+                        <button ng-click="model.deleteGoal(goal._id)" type="button" class="btn btn-default outline" aria-label="Remove User">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </button>
-                        <button ng-click="selectGoal(goal)" type="button" class="btn btn-default outline" aria-label="Select User">
+                        <button ng-click="model.selectGoal(goal)" type="button" class="btn btn-default outline" aria-label="Select User">
                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                         </button>
                     </div>

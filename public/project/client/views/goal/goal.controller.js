@@ -7,27 +7,32 @@
         .module("PerformXApp")
         .controller("GoalController", goalController);
 
-    function goalController($scope, $rootScope, $location, GoalService) {
-        /* Expose functions */
-        $scope.addGoal = addGoal;
-        $scope.updateGoal = updateGoal;
-        $scope.deleteGoal = deleteGoal;
-        $scope.selectGoal = selectGoal;
+    function goalController($rootScope, $location, GoalService) {
+        var vm = this;
 
-        /* Initialize global variables */
-        if ($rootScope.currentUser) {
-            GoalService.findAllGoals()
-                .then(
-                    function (response) {
-                        $scope.goals = response.data;
-                    },
-                    function (err) {
-                        console.log(err);
-                    }
-                );
-        } else {
-            $location.path("#/home");
+        function init() {
+            /* Expose functions */
+            vm.addGoal = addGoal;
+            vm.updateGoal = updateGoal;
+            vm.deleteGoal = deleteGoal;
+            vm.selectGoal = selectGoal;
+
+            /* Initialize global variables */
+            if ($rootScope.currentUser) {
+                GoalService.findAllGoals()
+                    .then(
+                        function (response) {
+                            vm.goals = response.data;
+                        },
+                        function (err) {
+                            console.log(err);
+                        }
+                    );
+            } else {
+                $location.path("#/home");
+            }
         }
+        init();
 
         var month = new Array();
         month[0] = "Jan";
@@ -50,29 +55,29 @@
 
         function addGoal() {
             var types = [];
-            if ($scope.weightGoal) {
+            if (vm.weightGoal) {
                 types.push("weight");
             }
-            if ($scope.sleepGoal) {
+            if (vm.sleepGoal) {
                 types.push("sleep");
             }
-            if ($scope.activityGoal) {
+            if (vm.activityGoal) {
                 types.push("activity");
             }
-            if ($scope.fatGoal) {
+            if (vm.fatGoal) {
                 types.push("fat");
             }
 
             var newGoal = {
-                "username": $scope.username,
-                "calories": $scope.calories,
-                "weight": $scope.weight,
-                "fat": $scope.fat,
-                "steps": $scope.steps,
-                "distance": $scope.distance,
-                "duration": $scope.duration,
-                "floors": $scope.floors,
-                "date": (new Date($scope.date)).formatDDMMMYYYY(),
+                "username": vm.username,
+                "calories": vm.calories,
+                "weight": vm.weight,
+                "fat": vm.fat,
+                "steps": vm.steps,
+                "distance": vm.distance,
+                "duration": vm.duration,
+                "floors": vm.floors,
+                "date": (new Date(vm.date)).formatDDMMMYYYY(),
                 "type": types
             };
 
@@ -80,20 +85,20 @@
                 .then(
                     function(response) {
                         console.log(response);
-                        $scope.goals = response.data;
-                        $scope.username = "";
-                        $scope.calories = "";
-                        $scope.weight = "";
-                        $scope.fat = "";
-                        $scope.steps = "";
-                        $scope.distance = "";
-                        $scope.duration = "";
-                        $scope.floors = "";
-                        $scope.date = "";
-                        $scope.weightGoal = false;
-                        $scope.sleepGoal = false;
-                        $scope.activityGoal = false;
-                        $scope.fatGoal = false;
+                        vm.goals = response.data;
+                        vm.username = "";
+                        vm.calories = "";
+                        vm.weight = "";
+                        vm.fat = "";
+                        vm.steps = "";
+                        vm.distance = "";
+                        vm.duration = "";
+                        vm.floors = "";
+                        vm.date = "";
+                        vm.weightGoal = false;
+                        vm.sleepGoal = false;
+                        vm.activityGoal = false;
+                        vm.fatGoal = false;
                     },
                     function (err) {
                         console.log(err);
@@ -103,51 +108,51 @@
 
         function updateGoal() {
             var types = [];
-            if ($scope.weightGoal) {
+            if (vm.weightGoal) {
                 types.push("weight");
             }
-            if ($scope.sleepGoal) {
+            if (vm.sleepGoal) {
                 types.push("sleep");
             }
-            if ($scope.activityGoal) {
+            if (vm.activityGoal) {
                 types.push("activity");
             }
-            if ($scope.fatGoal) {
+            if (vm.fatGoal) {
                 types.push("fat");
             }
 
             var updatedGoal = {
-                "username": $scope.username,
-                "calories": $scope.calories,
-                "weight": $scope.weight,
-                "fat": $scope.fat,
-                "steps": $scope.steps,
-                "distance": $scope.distance,
-                "duration": $scope.duration,
-                "floors": $scope.floors,
-                "date": (new Date($scope.date)).formatDDMMMYYYY(),
+                "username": vm.username,
+                "calories": vm.calories,
+                "weight": vm.weight,
+                "fat": vm.fat,
+                "steps": vm.steps,
+                "distance": vm.distance,
+                "duration": vm.duration,
+                "floors": vm.floors,
+                "date": (new Date(vm.date)).formatDDMMMYYYY(),
                 "type": types
             };
 
-            GoalService.updateGoal($scope._id, updatedGoal)
+            GoalService.updateGoal(vm._id, updatedGoal)
                 .then(
                     function(response) {
                         console.log(response);
-                        $scope.goals = response.data;
-                        $scope._id = -1;
-                        $scope.username = "";
-                        $scope.calories = "";
-                        $scope.weight = "";
-                        $scope.fat = "";
-                        $scope.steps = "";
-                        $scope.distance = "";
-                        $scope.duration = "";
-                        $scope.floors = "";
-                        $scope.date = "";
-                        $scope.weightGoal = false;
-                        $scope.sleepGoal = false;
-                        $scope.activityGoal = false;
-                        $scope.fatGoal = false;
+                        vm.goals = response.data;
+                        vm._id = -1;
+                        vm.username = "";
+                        vm.calories = "";
+                        vm.weight = "";
+                        vm.fat = "";
+                        vm.steps = "";
+                        vm.distance = "";
+                        vm.duration = "";
+                        vm.floors = "";
+                        vm.date = "";
+                        vm.weightGoal = false;
+                        vm.sleepGoal = false;
+                        vm.activityGoal = false;
+                        vm.fatGoal = false;
                     },
                     function (err) {
                         console.log(err);
@@ -160,7 +165,7 @@
                 .then(
                     function(response) {
                         console.log(response);
-                        $scope.goals = response.data;
+                        vm.goals = response.data;
                     },
                     function (err) {
                         console.log(err);
@@ -169,20 +174,20 @@
         }
 
         function selectGoal(goal) {
-            $scope._id = goal._id;
-            $scope.username = goal.username;
-            $scope.calories = goal.calories;
-            $scope.weight = goal.weight;
-            $scope.fat = goal.fat;
-            $scope.steps = goal.steps;
-            $scope.distance = goal.distance;
-            $scope.duration = goal.duration;
-            $scope.floors = goal.floors;
-            $scope.date = new Date(goal.date);
-            $scope.weightGoal = goal.type.indexOf('weight') >= 0;
-            $scope.sleepGoal = goal.type.indexOf('sleep') >= 0;
-            $scope.activityGoal = goal.type.indexOf('activity') >= 0;
-            $scope.fatGoal = goal.type.indexOf('fat') >= 0;
+            vm._id = goal._id;
+            vm.username = goal.username;
+            vm.calories = goal.calories;
+            vm.weight = goal.weight;
+            vm.fat = goal.fat;
+            vm.steps = goal.steps;
+            vm.distance = goal.distance;
+            vm.duration = goal.duration;
+            vm.floors = goal.floors;
+            vm.date = new Date(goal.date);
+            vm.weightGoal = goal.type.indexOf('weight') >= 0;
+            vm.sleepGoal = goal.type.indexOf('sleep') >= 0;
+            vm.activityGoal = goal.type.indexOf('activity') >= 0;
+            vm.fatGoal = goal.type.indexOf('fat') >= 0;
         }
     }
 })();
