@@ -10,8 +10,8 @@ module.exports = function(app, userModel) {
     app.delete("/api/project/user/:id", deleteUserById);
 
     function getUserByCredentials(req, res) {
-        var username = req.body.username;
-        var password = req.body.password;
+        var username = req.query.username;
+        var password = req.query.password;
         var user = userModel.findUserByCredentials(username, password);
         res.json(user);
     }

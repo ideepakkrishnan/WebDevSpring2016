@@ -16,8 +16,8 @@
                     function (response) {
                         console.log(response);
                         if (response) {
-                            $rootScope.currentUser = response;
-                            cacheUserLocally(response);
+                            $rootScope.currentUser = response.data;
+                            cacheUserLocally(response.data);
                             $location.url("/profile");
                         }
                     },

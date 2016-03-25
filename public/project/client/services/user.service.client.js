@@ -21,14 +21,10 @@
         return api;
 
         function findUserByCredentials(username, password) {
-            var credentials = {
-                username: username,
-                password: password
-            };
-
-            return $http.get("/api/project/user", credentials)
+            return $http.get("/api/project/user?username=" + username + "&password=" + password)
                 .then(
                     function (response) {
+                        console.log("user info: " + response.data);
                         return response;
                     },
                     function (error) {

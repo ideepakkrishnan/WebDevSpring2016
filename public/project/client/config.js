@@ -10,48 +10,48 @@
     function configuration($routeProvider) {
         $routeProvider
             .when("/home", {
-                templateUrl: "/project/views/home/home.view.html",
+                templateUrl: "/project/client/views/home/home.view.html",
                 controller: "HomeController",
                 controllerAs: "model"
             })
             .when("/register", {
-                templateUrl: "/project/views/users/register.view.html",
+                templateUrl: "/project/client/views/users/register.view.html",
                 controller: "RegisterController"
             })
             .when("/login", {
-                templateUrl: "/project/views/users/login.view.html",
+                templateUrl: "/project/client/views/users/login.view.html",
                 controller: "LoginController"
             })
             .when("/profile", {
-                templateUrl: "/project/views/users/profile.view.html",
+                templateUrl: "/project/client/views/users/profile.view.html",
                 controller: "ProfileController"
             })
             .when("/admin", {
-                templateUrl: "/project/views/admin/admin.view.html",
+                templateUrl: "/project/client/views/admin/admin.view.html",
                 controller: "AdminController"
             })
             .when("/dashboard", {
-                templateUrl: "/project/views/dashboard/dashboard.view.html",
+                templateUrl: "/project/client/views/dashboard/dashboard.view.html",
                 controller: "DashboardController",
             })
             .when("/search", {
-                templateUrl: "/project/views/search/search.view.html",
+                templateUrl: "/project/client/views/search/search.view.html",
                 controller: "SearchController"
             })
             .when("/goals", {
-                templateUrl: "/project/views/goal/goal.view.html",
+                templateUrl: "/project/client/views/goal/goal.view.html",
                 controller: "GoalController"
             })
             .when("/team", {
-                templateUrl: "/project/views/team/team.view.html",
+                templateUrl: "/project/client/views/team/team.view.html",
                 controller: "TeamController"
             })
             .when("/stats", {
-                templateUrl: "/project/views/users/stats.view.html",
+                templateUrl: "/project/client/views/users/stats.view.html",
                 controller: "StatsController"
             })
             .when("/callback", {
-                templateUrl: "/project/views/provider/callback.view.html",
+                templateUrl: "/project/client/views/provider/callback.view.html",
                 controller: "CallbackController",
                 controllerAs: "model"
             })

@@ -21,7 +21,7 @@
                 .then(
                     function(response) {
                         console.log(response);
-                        $scope.myTeams = response;
+                        $scope.myTeams = response.data;
                     },
                     function (err) {
                         console.log(err);

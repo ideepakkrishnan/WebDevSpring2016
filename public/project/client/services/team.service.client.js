@@ -17,7 +17,7 @@
         return api;
 
         function fetchTeamDetails(teamIdList) {
-            return $http.get("/api/project/team", teamIdList)
+            return $http.get("/api/project/team/" + teamIdList)
                 .then(
                     function (response) {
                         return response;

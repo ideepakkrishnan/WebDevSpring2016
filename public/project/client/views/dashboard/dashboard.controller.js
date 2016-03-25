@@ -7,7 +7,7 @@
         .module("PerformXApp")
         .controller("DashboardController", dashboardController);
 
-    function dashboardController($scope, $window, $rootScope, $location, $filter, UserService, DeviceService, GoalService) {
+    function dashboardController($scope, $window, $rootScope, $location, $filter, UserService, DeviceService, TeamService) {
         $scope.connectAccount = connectAccount;
 
         function init() {
@@ -27,11 +27,11 @@
                 $scope.teams = $rootScope.currentUser.teams;
                 $scope.roles = $rootScope.currentUser.roles;
 
-                GoalService.fetchTeamDetails($scope.teams)
+                TeamService.fetchTeamDetails($scope.teams)
                     .then(
                         function(response) {
-                            console.log(response);
-                            $scope.myTeams = response;
+                            console.log("teams: " + response);
+                            $scope.myTeams = response.data;
                         },
                         function (err) {
                             console.log(err);
@@ -130,6 +130,7 @@
         function retrieveCachedUserInfo() {
             var cachedUser = JSON.parse(window.sessionStorage.getItem("pxUserCache"));
             if (cachedUser) {
+                console.log("cached team info: " + cachedUser.currentUser.teams);
                 return cachedUser.currentUser;
             } else {
                 return null;

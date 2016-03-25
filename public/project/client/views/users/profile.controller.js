@@ -24,7 +24,7 @@
                 .then(
                     function(response) {
                         console.log(response);
-                        $scope.myTeams = response;
+                        $scope.myTeams = response.data;
                     },
                     function (err) {
                         console.log(err);
@@ -49,7 +49,7 @@
                 .then(
                     function(response){
                         console.log(response);
-                        $rootScope.currentUser = response;
+                        $rootScope.currentUser = response.data;
                         $scope.updated = 1;
                     },
                     function (err) {

@@ -21,7 +21,7 @@ module.exports = function () {
                 return usr;
             }
         }
-        return "";
+        return "Username: " + username + ", password: " + password;
     }
 
     function findAllUsers() {

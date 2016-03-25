@@ -19,7 +19,7 @@
             GoalService.findAllGoals()
                 .then(
                     function (response) {
-                        $scope.goals = response;
+                        $scope.goals = response.data;
                     },
                     function (err) {
                         console.log(err);
@@ -80,7 +80,7 @@
                 .then(
                     function(response) {
                         console.log(response);
-                        $scope.goals = response;
+                        $scope.goals = response.data;
                         $scope.username = "";
                         $scope.calories = "";
                         $scope.weight = "";
@@ -133,7 +133,7 @@
                 .then(
                     function(response) {
                         console.log(response);
-                        $scope.goals = response;
+                        $scope.goals = response.data;
                         $scope._id = -1;
                         $scope.username = "";
                         $scope.calories = "";
@@ -160,7 +160,7 @@
                 .then(
                     function(response) {
                         console.log(response);
-                        $scope.goals = response;
+                        $scope.goals = response.data;
                     },
                     function (err) {
                         console.log(err);

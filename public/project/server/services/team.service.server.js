@@ -3,11 +3,11 @@
  */
 
 module.exports = function (app, teamModel) {
-    app.get("/api/project/team", getTeamDetails);
+    app.get("/api/project/team/:idList", getTeamDetails);
     app.get("/api/project/team/:id/user", getUsersByTeam);
 
     function getTeamDetails(req, res) {
-        var teamIds = req.body;
+        var teamIds = req.params.idList;
         var teamDetails = teamModel.fetchTeamDetails(teamIds);
         res.json(teamDetails);
     }
