@@ -23,7 +23,6 @@
                 TeamService.fetchTeamDetails(vm.teams)
                     .then(
                         function(response) {
-                            console.log(response);
                             vm.myTeams = response.data;
                         },
                         function (err) {

@@ -13,7 +13,6 @@
 
         function init() {
             if(UserService.getCurrentUser()) {
-                console.log($location.url());
                 var response = $location.url().split("#")[1];
                 var responseParams = response.split("&");
                 var paramMap = [];
@@ -28,7 +27,6 @@
                             account_user_id: paramMap.user_id
                         }
                     };
-                    console.log(fitbit);
                     window.localStorage.setItem("fitbit", JSON.stringify(fitbit));
 
                     // Change this redirect link to wherever your dashboard is located.

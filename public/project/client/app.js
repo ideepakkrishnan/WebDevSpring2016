@@ -4,5 +4,5 @@
 
 (function() {
     angular
-        .module("PerformXApp", ["ngRoute"]);
+        .module("PerformXApp", ["ngRoute", "chart.js"]);
 })();

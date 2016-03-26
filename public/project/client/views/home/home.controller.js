@@ -16,10 +16,6 @@
                 $rootScope.access_token = JSON.parse(window.localStorage.getItem("fitbit")).oauth.access_token;
                 $rootScope.expires_in = JSON.parse(window.localStorage.getItem("fitbit")).oauth.expires_in;
                 $rootScope.account_user_id = JSON.parse(window.localStorage.getItem("fitbit")).oauth.account_user_id;
-
-                console.log("Access Token: " + $rootScope.access_token);
-                console.log("Expires in: " + $rootScope.expires_in);
-                console.log("Account User ID: " + $rootScope.account_user_id);
             } else {
                 console.log("Unauthorized");
             }

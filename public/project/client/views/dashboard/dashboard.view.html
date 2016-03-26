@@ -1,20 +1,43 @@
 <h1 class="page-header">Dashboard</h1>
-<p>Here is a quick snapshot of your activities since your last visit</p>
+<p>Here is a quick snapshot of your activities in the past week</p>
 
 <div ng-controller="DashboardController" id='outer' class="container-fluid">
-    <div id="main" class="row">
+    <div class="row">
+        <canvas id="line" class="chart chart-line" chart-data="model.data"
+                chart-labels="model.labels" chart-legend="true" chart-series="model.series"
+                chart-click="model.chartHandle">
+        </canvas>
+    </div>
+
+    <div id="main" class="row newSection">
         <blockquote>
             <p>Personal Goals <span class="badge">3</span></p>
-            <small>You are well on the way to achieve all your personal goals!</small>
+            <small>A glance at your physical activities today</small>
         </blockquote>
 
-        <div id="div1" class="col-sm-3"></div>
+        <div class="col-sm-4">
+            <canvas id="stepDoughnut" class="chart chart-doughnut" chart-legend="true"
+                    chart-data="model.todayStepData" chart-labels="model.todayStepLabels">
+            </canvas>
+        </div>
+        <div class="col-sm-4">
+            <canvas id="caloriesDoughnut" class="chart chart-doughnut" chart-legend="true"
+                    chart-data="model.todayCaloriesData" chart-labels="model.todayCaloriesLabels">
+            </canvas>
+        </div>
+        <div class="col-sm-4">
+            <canvas id="distanceDoughnut" class="chart chart-doughnut" chart-legend="true"
+                    chart-data="model.todayDistanceData" chart-labels="model.todayDistanceLabels">
+            </canvas>
+        </div>
+
+        <!--div id="div1" class="col-sm-3"></div>
         <div id="div2" class="col-sm-3"></div>
         <div id="div3" class="col-sm-3"></div>
         <div class="col-sm-12">
             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#newGoalModal">Add a new goal</button>
             <button type="button" class="btn btn-default">View goals</button>
-        </div>
+        </div-->
     </div>
 
     <!-- New Goal Modal -->

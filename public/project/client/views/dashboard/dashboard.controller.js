@@ -12,6 +12,11 @@
 
         function init() {
             vm.connectAccount = connectAccount;
+            vm.chartHandle = chartHandle;
+
+            vm.series = ['Steps', 'Calories Burned'];
+            vm.data = [[], []];
+            vm.labels = [];
 
             // Handle callback
             if ($rootScope.currentUser == null) {
@@ -32,7 +37,6 @@
                 TeamService.fetchTeamDetails(vm.teams)
                     .then(
                         function(response) {
-                            console.log("teams: " + response);
                             vm.myTeams = response.data;
                         },
                         function (err) {
@@ -52,12 +56,12 @@
 
                     // Initialize activity data
                     var dates = [];
-                    var past_days = 4;
+                    var past_days = 7;
                     var today = new Date();
 
-                    for (var i=0; i<past_days; i++) {
+                    for (var i=1; i<=past_days; i++) {
                         var curr_date = new Date();
-                        curr_date.setDate(today.getDate() - i);
+                        curr_date.setDate(today.getDate() - (past_days - i));
                         curr_date = $filter('date')(curr_date, "yyyy-MM-dd");
 
                         dates.push(curr_date);
@@ -65,7 +69,7 @@
 
                     vm.activityData = DeviceService.getActivityData(dates);
                     vm.activityData.then(function (data){
-                        console.log(data);
+                        initializeChart(data, dates);
                     });
                 }
 
@@ -126,13 +130,11 @@
         function connectAccount() {
             vm.fitbit_client_id = "227G2P";
             $window.location.href ="https://www.fitbit.com/oauth2/authorize?client_id=" + vm.fitbit_client_id + "&response_type=token&scope=activity%20profile&expires_in=2592000";
-            console.log($location.url());
         }
 
         function retrieveCachedUserInfo() {
             var cachedUser = JSON.parse(window.sessionStorage.getItem("pxUserCache"));
             if (cachedUser) {
-                console.log("cached team info: " + cachedUser.currentUser.teams);
                 return cachedUser.currentUser;
             } else {
                 return null;
@@ -148,6 +150,62 @@
             } else {
                 console.log("Unauthorized");
             }
+        }
+
+        function chartHandle (points, evt) {
+            console.log(points, evt);
+        }
+
+        function initializeChart(data, dates) {
+            var activities = [];
+            var idx = 0;
+            var goals =  [];
+
+            for (var i=0; i<dates.length; i++) {
+                var curr_date = dates[i];
+
+                curr_date = $filter('date')(curr_date, "EEE d");
+                vm.labels.push(curr_date);
+            }
+
+            angular.forEach(data, function(value, key) {
+
+                var activity = value.data.summary;
+                var goal = value.data.goals;
+                var info = {};
+
+                goals.push(goal);
+
+                info.steps = activity.steps;
+                info.calories = activity.caloriesOut;
+                info.caloriesBMR = activity.caloriesBMR;
+
+                activities.push(info);
+                activities[idx].day = dates[idx];
+
+                idx++;
+            });
+
+            for (var i = 0; i < activities.length; i++) {
+                vm.data[0].push(activities[i].steps);
+                vm.data[1].push(activities[i].calories);
+            }
+
+            //vm.labels = activities;
+            vm.todayStepData = [activities[6].steps, goals[6].steps - activities[6].steps];
+            vm.todayStepLabels = ["Steps taken", "Away from goal"];
+
+            vm.todayCaloriesData = [activities[6].calories, goals[6].caloriesOut - activities[6].calories];
+            vm.todayCaloriesLabels = ["Calories Burned", "Away from goal"];
+
+            var netDistance = 0;
+            if (activities[6].distances) {
+                for (var i=0; i<activities[6].distances.length; i++) {
+                    netDistance += activities[6].distances[i].distance;
+                }
+            }
+            vm.todayDistanceData = [netDistance, goals[6].distance - netDistance];
+            vm.todayDistanceLabels = ["Distance Covered", "Away from goal"];
         }
     }
 })();

@@ -84,7 +84,6 @@
             GoalService.createGoal(newGoal)
                 .then(
                     function(response) {
-                        console.log(response);
                         vm.goals = response.data;
                         vm.username = "";
                         vm.calories = "";
@@ -137,7 +136,6 @@
             GoalService.updateGoal(vm._id, updatedGoal)
                 .then(
                     function(response) {
-                        console.log(response);
                         vm.goals = response.data;
                         vm._id = -1;
                         vm.username = "";
@@ -164,7 +162,6 @@
             GoalService.deleteGoalById(goalId)
                 .then(
                     function(response) {
-                        console.log(response);
                         vm.goals = response.data;
                     },
                     function (err) {
