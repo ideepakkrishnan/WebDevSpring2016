@@ -2,7 +2,7 @@
  * Created by ideepakkrishnan on 25-03-2016.
  */
 
-var mock = require("./user.mock.json");
+var mock = require("./developer.mock.json");
 
 module.exports = function () {
     var api = {

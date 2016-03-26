@@ -285,3 +285,7 @@ body {
 .newSection {
     margin-top: 25px;
 }
+
+.apiPanelBody {
+    word-wrap: break-word;
+}

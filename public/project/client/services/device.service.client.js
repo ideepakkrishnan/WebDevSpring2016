@@ -10,7 +10,8 @@
     function deviceService($http, $q, $rootScope) {
         var api = {
             getProfileData: getProfileData,
-            getActivityData: getActivityData
+            getActivityData: getActivityData,
+            makeRequest: makeRequest
         };
         return api;
 
@@ -39,6 +40,18 @@
             });
 
             return $q.all(promises);
+        }
+
+        function makeRequest(requestURI) {
+            var info = $q.defer();
+
+            info = $http({
+                method  : 'GET',
+                url     : requestURI,
+                headers : {'Authorization': 'Bearer ' + $rootScope.access_token}
+            });
+
+            return $q.all([info]);
         }
     }
 })();

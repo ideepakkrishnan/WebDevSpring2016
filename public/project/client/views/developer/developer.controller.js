@@ -7,12 +7,14 @@
         .module("PerformXApp")
         .controller("DeveloperController", developerController);
 
-    function developerController($rootScope, $location, DeveloperService) {
+    function developerController($rootScope, $location, DeveloperService, DeviceService) {
         var vm = this;
 
         function init() {
             if ($rootScope.currentUser) {
                 vm.selectRequest = selectRequest;
+                vm.makeRequest = makeRequest;
+                vm.account_user_id = $rootScope.account_user_id;
 
                 DeveloperService.getAllAPIRequests()
                     .then(
@@ -31,13 +33,25 @@
         init();
 
         function selectRequest(requestName) {
+            console.log("Searching for: " + requestName);
             for (var i=0; i<vm.apiRequestList.length; i++) {
                 if (vm.apiRequestList[i].reqName == requestName) {
                     vm.currentRequest = vm.apiRequestList[i];
-                    console.log(vm.currentRequest);
                     break;
                 }
             }
+        }
+
+        function makeRequest(requestURI) {
+            DeviceService.makeRequest(requestURI)
+                .then(
+                    function (response) {
+                        vm.currentResponse = JSON.stringify(response[0].data);
+                    },
+                    function (err) {
+                        vm.currentResponse = "Error code: " + err.code + "Error message: " + err.message
+                    }
+                );
         }
     }
 })();

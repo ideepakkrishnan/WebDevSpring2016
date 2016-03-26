@@ -1,8 +1,0 @@
-[
-  {"_id": 100, "reqName": "activityData", "templateUrl": "https://api.fitbitcom/1/user/[user-id]/activities/date/[date].json", "sample": "https://api.fitbitcom/1/user/XXXXXX/activities/date/2016-03-25.json", "options": "[date]: yyyy-MM-dd, [user-id]: Encoded ID of the user"},
-  {"_id": 120, "reqname": "profileData", "templateUrl": "https://api.fitbit.com/1/user/[user-id]/profile.json", "sample": "https://api.fitbit.com/1/user/XXXXXX/profile.json", "options": "[user-id]: Encoded ID of the user"},
-  {"_id": 140, "reqname": "userDevices", "templateUrl": "https://api.fitbit.com/1/user/[user-id]/devices.json", "sample": "https://api.fitbit.com/1/user/XXXXXX/devices.json", "options": "[user-id]: Encoded ID of the user"},
-  {"_id": 160, "reqname": "friends", "templateUrl": "https://api.fitbit.com/1/user/[user-id]/friends.json", "sample": "https://api.fitbit.com/1/user/XXXXXX/friends.json", "options": "[user-id]: Encoded ID of the user"},
-  {"_id": 180, "reqname": "heartRate", "templateUrl": "https://api.fitbit.com/1/user/[user-id]/activities/heart/date/[date]/[period].json", "sample": "https://api.fitbit.com/1/user/XXXXXX/activities/heart/date/2016-03-25/1d.json", "options": "[user-id]: Encoded ID of the user, [date]: yyyy-MM-dd, [period]: 1d | 7d | 30d | 1w | 1m"},
-  {"_id": 200, "reqname": "sleepLog", "templateUrl": "https://api.fitbit.com/1/user/[user-id]/sleep/date/[date].json", "sample": "https://api.fitbit.com/1/user/XXXXXX/sleep/date/2016-03-25.json"}
-]

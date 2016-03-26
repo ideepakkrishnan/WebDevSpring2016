@@ -25,12 +25,13 @@
         <div class="col-sm-9">
             <div class="row">
                 <div class="panel panel-default">
-                    <div class="panel-body">
+                    <div class="panel-body apiPanelBody">
                         Sample request: <br/>
                         <code>{{model.currentRequest.sample}}</code><br/><br/>
                         Options: <br/>
                         <code>{{model.currentRequest.options}}</code><br/><br/>
-                        Replace the placeholders within the request URL using the required options.
+                        Replace the placeholders within the request URL using the required options.<br/><br/>
+                        You may use your user-id: <code>{{model.account_user_id}}</code>
                     </div>
                 </div>
             </div>
@@ -39,7 +40,7 @@
                     <input ng-model="model.currentRequest.templateUrl" type="text" class="form-control searchTeamInput"
                            placeholder="Enter the request URL here...">
                     <span class="input-group-btn">
-                      <button class="btn btn-default" type="button" aria-label="Request">
+                      <button ng-click="model.makeRequest(model.currentRequest.templateUrl)" class="btn btn-default" type="button" aria-label="Request">
                           <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
                       </button>
                     </span>
@@ -47,7 +48,7 @@
             </div>
             <div class="row">
                 <div class="panel panel-default newSection">
-                    <div class="panel-body">
+                    <div class="panel-body apiPanelBody">
                         Response<br/><br/>
                         <code>{{model.currentResponse}}</code>
                     </div>
