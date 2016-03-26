@@ -13,4 +13,5 @@
     </li>
     <li ng-show="currentUser.roles.indexOf('admin') >= 0" ng-class="{'active': $location.url() == '/users'}"><a href="#/users">Users</a></li>
     <li ng-show="currentUser.roles.indexOf('admin') >= 0" ng-class="{'active': $location.url() == '/admin'}"><a href="#/admin">Admin</a></li>
+    <li ng-show="currentUser.roles.indexOf('developer') >= 0" ng-class="{'active': $location.url() == '/api'}"><a href="#/api">Developer Sandbox</a></li>
 </ul>

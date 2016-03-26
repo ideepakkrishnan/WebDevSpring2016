@@ -39,6 +39,10 @@
                     class="hidden-md hidden-lg">
                     <a href="#/users">Users</a>
                 </li>
+                <li ng-show="currentUser.roles.indexOf('developer') >= 0" ng-class="{'active': $location.url() == '/api'}"
+                    class="hidden-md hidden-lg">
+                    <a href="#/api">Developer Sandbox</a>
+                </li>
 
                 <!-- Rest of the menu items -->
                 <li ng-show="currentUser.roles.indexOf('admin') >= 0" ng-class="{'active': $location.url() == '/admin'}">

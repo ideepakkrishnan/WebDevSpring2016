@@ -1,0 +1,58 @@
+<div class="jumbotron">
+    <h1>Developer Sandbox</h1>
+    <p>
+        Make API calls to Fitbit and PerformX.<br/><br/>
+        <small>
+            You need to connect a Fitbit device to start testing through this web app. You may sync with your Fitbit
+            account through the dashboard.
+        </small>
+    </p>
+    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+</div>
+
+<div ng-controller="DeveloperController" id='outer' class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="btn-group-vertical" role="group" aria-label="Available Requests">
+                <button ng-click="model.selectRequest('activityData')" type="button" class="btn btn-default" data-dismiss="modal">Activity Data</button>
+                <button ng-click="model.selectRequest('profileData')" type="button" class="btn btn-default" data-dismiss="modal">Profile Data</button>
+                <button ng-click="model.selectRequest('userDevices')" type="button" class="btn btn-default" data-dismiss="modal">User Devices</button>
+                <button ng-click="model.selectRequest('friends')" type="button" class="btn btn-default" data-dismiss="modal">Friends</button>
+                <button ng-click="model.selectRequest('heartRate')" type="button" class="btn btn-default" data-dismiss="modal">Heart Rate</button>
+                <button ng-click="model.selectRequest('sleepLog')" type="button" class="btn btn-default" data-dismiss="modal">Sleep Logs</button>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        Sample request: <br/>
+                        <code>{{model.currentRequest.sample}}</code><br/><br/>
+                        Options: <br/>
+                        <code>{{model.currentRequest.options}}</code><br/><br/>
+                        Replace the placeholders within the request URL using the required options.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 input-group">
+                    <input ng-model="model.currentRequest.templateUrl" type="text" class="form-control searchTeamInput"
+                           placeholder="Enter the request URL here...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button" aria-label="Request">
+                          <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
+                      </button>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default newSection">
+                    <div class="panel-body">
+                        Response<br/><br/>
+                        <code>{{model.currentResponse}}</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

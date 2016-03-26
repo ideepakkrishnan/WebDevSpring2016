@@ -64,6 +64,11 @@
                 controller: "CallbackController",
                 controllerAs: "model"
             })
+            .when("/api", {
+                templateUrl: "/project/client/views/developer/developer.view.html",
+                controller: "DeveloperController",
+                controllerAs: "model"
+            })
             .otherwise({
                 redirectTo: "/home"
             });
