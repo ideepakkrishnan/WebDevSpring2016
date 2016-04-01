@@ -61,7 +61,6 @@
                     vm.newForm
                 )
                 .then(function(response){
-                    console.log(response);
                     vm.formName = "";
                     FormService
                         .findAllFormsForUser(userId)
