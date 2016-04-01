@@ -21,7 +21,7 @@
                 vm.password = currUser.password;
                 vm.firstName = currUser.firstName;
                 vm.lastName = currUser.lastName;
-                vm.userEmail = currUser.email;
+                vm.userEmail = currUser.email.toString();
             } else {
                 $location.path("#/home");
             }
@@ -37,7 +37,7 @@
                         "firstName": firstName,
                         "lastName": lastName,
                         "password": password,
-                        "email": userEmail
+                        "email": userEmail.split(',')
                     }
                 )
                 .then(function(response){

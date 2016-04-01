@@ -12,29 +12,57 @@ module.exports = function(app, formModel) {
 
     function getAllFormFieldsByFormId(req, res) {
         var formId = req.params.formId;
-        var formFieldList = formModel.findAllFormFieldsByFormId(formId);
-        res.json(formFieldList);
+        var formFieldList = formModel.findAllFormFieldsByFormId(formId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function getFormFieldById(req, res) {
         var formId = req.params.formId;
         var fieldId = req.params.fieldId;
-        var formField = formModel.findFormFieldById(formId, fieldId);
-        res.json(formField);
+        var formField = formModel.findFormFieldById(formId, fieldId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function deleteFormFieldById(req, res) {
         var formId = req.params.formId;
         var fieldId = req.params.fieldId;
-        var formFieldList = formModel.deleteFormFieldById(formId, fieldId);
-        res.json(formFieldList);
+        var formFieldList = formModel.deleteFormFieldById(formId, fieldId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function createFormField(req, res) {
         var formId = req.params.formId;
         var field = req.body;
-        var updatedForm = formModel.createFormField(formId, field);
-        res.json(updatedForm);
+        var updatedForm = formModel.createFormField(formId, field)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function updateFormFieldById(req, res) {
@@ -43,12 +71,27 @@ module.exports = function(app, formModel) {
         var field = req.body;
 
         // use model to find user by id
-        var formFields = formModel.updateFormFieldById(formId, fieldId, field);
-        res.json(formFields);
+        var formFields = formModel.updateFormFieldById(formId, fieldId, field)
+            .then(
+                function (doc) {
+                    console.log("server service updated field: " + doc);
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function getAllFieldTypes(req, res) {
-        var fieldTypes = formModel.getAllFieldTypes();
-        res.json(fieldTypes);
+        var fieldTypes = formModel.getAllFieldTypes()
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 };

@@ -28,7 +28,8 @@
                 "lastName": "",
                 "username": username,
                 "password": password,
-                "email": email,
+                "email": email.split(','),
+                //"phones": ["999-999-9999"],
                 "roles": ["student"]
             };
 
