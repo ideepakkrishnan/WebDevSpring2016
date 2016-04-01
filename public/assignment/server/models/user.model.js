@@ -23,8 +23,6 @@ module.exports = function(db, mongoose) {
         var deferred = q.defer();
 
         UserModel.findOne({username: credentials.username, password: credentials.password}, function (err, doc) {
-            console.log(doc);
-
             if (err) {
                 deferred.reject(err);
             } else {
@@ -89,10 +87,8 @@ module.exports = function(db, mongoose) {
         // insert new user with mongoose user model's create()
         UserModel.create(user, function (err, doc) {
             if (err) {
-                console.log(err);
                 deferred.reject(err);
             } else {
-                console.log(doc);
                 deferred.resolve(doc);
             }
         });
@@ -105,14 +101,10 @@ module.exports = function(db, mongoose) {
         var deferred = q.defer();
 
         UserModel.findByIdAndRemove(userId, function (err, doc) {
-            console.log(doc);
-
             if (err) {
                 deferred.reject(err);
             } else {
                 UserModel.find({}, function (err, doc) {
-                    console.log(doc);
-
                     if (err) {
                         deferred.reject(err);
                     } else {

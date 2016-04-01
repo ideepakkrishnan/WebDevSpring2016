@@ -26,7 +26,10 @@
             .when("/profile", {
                 templateUrl: "/assignment/client/views/users/profile.view.html",
                 controller: "ProfileController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
             .when("/admin", {
                 templateUrl: "/assignment/client/views/admin/admin.view.html",
@@ -48,4 +51,20 @@
             });
     }
 
+    function checkLoggedIn(UserService, $q, $location) {
+        var deferred = $q.defer();
+        UserService
+            .getCurrentUser()
+            .then(function (response) {
+                var currentUser = response.data;
+                if (currentUser) {
+                    UserService.setCurrentUser(currentUser);
+                    deferred.resolve();
+                } else {
+                    deferred.reject();
+                    $location.url("/home");
+                }
+            });
+        return deferred.promise;
+    }
 })();

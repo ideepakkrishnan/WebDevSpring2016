@@ -10,6 +10,8 @@ module.exports = function(app, userModel) {
     app.get("/api/assignment/user", getUserByUsername);
     app.put("/api/assignment/user/:id", updateUserById);
     app.delete("/api/assignment/user/:id", deleteUserById);
+    app.get("/api/assignment/loggedIn", loggedIn);
+    app.post("/api/assignment/logout", logout);
 
     function createUser(req, res) {
         var user = req.body;
@@ -19,7 +21,7 @@ module.exports = function(app, userModel) {
             .then(
                 // login user if promise resolved
                 function (doc) {
-                    //req.session.currentUser = doc;
+                    req.session.currentUser = doc.data;
                     res.json(doc);
                 },
                 // send error if promise rejected
@@ -78,6 +80,9 @@ module.exports = function(app, userModel) {
 
         var user = userModel.findUserByCredentials(credentials).then(
             function (doc) {
+                console.log("Server found user: " + doc.data);
+                req.session.currentUser = doc.data;
+                console.log(req.session.currentUser);
                 res.json(doc);
             },
             function (err) {
@@ -113,4 +118,13 @@ module.exports = function(app, userModel) {
             );
     }
 
-}
+    function loggedIn(req, res) {
+        res.json(req.session.currentUser);
+    }
+
+    function logout(req, res) {
+        req.session.destroy();
+        res.send(200);
+     }
+
+};

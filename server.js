@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser    = require('body-parser');
 var cookieParser  = require('cookie-parser');
+var session = require('express-session');
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 var passport = require('passport');
@@ -23,9 +24,13 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
 // connect to the database
 var db = mongoose.connect(connectionString);
 
+console.log("secret: " + process.env.PASSPORT_SECRET);
+
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
-app.use(cookieParser())
+app.use(cookieParser());
+//app.use(session({secret: process.env.PASSPORT_SECRET}));
+app.use(session({secret: "cs5610WebDevSpring2016FormMakerDK"}));
 
 app.get('/hello', function(req, res){
     res.send('hello world');
