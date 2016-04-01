@@ -12,13 +12,14 @@
         $scope.logout = logout;
 
         function logout() {
-            //$rootScope.currentUser = null;
-            UserService
+            $rootScope.currentUser = null;
+            $location.url("/home");
+            /*UserService
                 .logout()
                 .then(function () {
                     UserService.setCurrentUser(null);
                     $location.url("/home");
-                });
+                });*/
         }
     }
 })();
