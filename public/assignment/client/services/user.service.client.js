@@ -53,8 +53,8 @@
         }
 
         function getCurrentUser() {
-            //return $rootScope.currentUser;
-            return $http.get("/api/assignment/loggedIn");
+            return $rootScope.currentUser;
+            //return $http.get("/api/assignment/loggedIn");
         }
 
         function logoutUser() {

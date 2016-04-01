@@ -80,9 +80,8 @@ module.exports = function(app, userModel) {
 
         var user = userModel.findUserByCredentials(credentials).then(
             function (doc) {
-                console.log("Server found user: " + doc.data);
+                console.log("Server found user: " + JSON.stringify(doc.data));
                 req.session.currentUser = doc.data;
-                console.log(req.session.currentUser);
                 res.json(doc);
             },
             function (err) {

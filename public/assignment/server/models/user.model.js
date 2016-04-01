@@ -26,6 +26,7 @@ module.exports = function(db, mongoose) {
             if (err) {
                 deferred.reject(err);
             } else {
+                console.log("Result: " + JSON.stringify(doc.data));
                 deferred.resolve(doc);
             }
         });

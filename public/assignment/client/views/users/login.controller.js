@@ -23,7 +23,7 @@
                     username,
                     password)
                 .then(function(response) {
-                    console.log(response);
+                    console.log("After logging in: " + JSON.stringify(response.data));
                     if (response.data) {
                         UserService.setCurrentUser(response.data);
                         $location.url("/profile");

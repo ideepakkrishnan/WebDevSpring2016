@@ -27,9 +27,9 @@
                 templateUrl: "/assignment/client/views/users/profile.view.html",
                 controller: "ProfileController",
                 controllerAs: "model",
-                resolve: {
+                /*resolve: {
                     checkLoggedIn: checkLoggedIn
-                }
+                }*/
             })
             .when("/admin", {
                 templateUrl: "/assignment/client/views/admin/admin.view.html",
@@ -57,6 +57,7 @@
             .getCurrentUser()
             .then(function (response) {
                 var currentUser = response.data;
+                console.log("Fetching current user from the server: " + JSON.stringify(response.data));
                 if (currentUser) {
                     UserService.setCurrentUser(currentUser);
                     deferred.resolve();
