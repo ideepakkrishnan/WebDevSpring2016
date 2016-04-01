@@ -30,6 +30,7 @@
                 vm.cloneField = cloneField;
 
                 vm.sortingOptions = {
+                    handle: '.reorderHandle',
                     stop: updateFieldSorting
                 }
             } else {
