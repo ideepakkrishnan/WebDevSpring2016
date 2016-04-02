@@ -112,6 +112,8 @@ module.exports = function(db, mongoose) {
 
         console.log("Updates to be saved: " + JSON.stringify(newForm));
 
+        delete newForm._id;
+
         FormModel.findByIdAndUpdate(formId, newForm, {new: true}, function (err, doc) {
             if (err) {
                 console.log("Form update error: " + err);
