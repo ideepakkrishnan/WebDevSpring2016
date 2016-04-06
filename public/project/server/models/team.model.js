@@ -5,7 +5,7 @@
 //var mock = require("./team.mock.json");
 var q = require("q");
 
-module.exports = function () {
+module.exports = function (db, mongoose) {
 
     var TeamSchema = require("./team.schema.server.js")(mongoose);
     var UserSchema = require("./user.schema.server.js")(mongoose);
