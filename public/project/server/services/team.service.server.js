@@ -8,13 +8,27 @@ module.exports = function (app, teamModel) {
 
     function getTeamDetails(req, res) {
         var teamIds = req.params.idList;
-        var teamDetails = teamModel.fetchTeamDetails(teamIds);
-        res.json(teamDetails);
+        var teamDetails = teamModel.fetchTeamDetails(teamIds)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function getUsersByTeam(req, res) {
         var teamId = req.params.id;
-        var users = teamModel.findUsersByTeam(teamId);
-        res.json(users);
+        var users = teamModel.findUsersByTeam(teamId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 };

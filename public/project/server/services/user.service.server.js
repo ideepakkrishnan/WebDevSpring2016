@@ -12,31 +12,66 @@ module.exports = function(app, userModel) {
     function getUserByCredentials(req, res) {
         var username = req.query.username;
         var password = req.query.password;
-        var user = userModel.findUserByCredentials(username, password);
-        res.json(user);
+        var user = userModel.findUserByCredentials(username, password)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function getAllUsers(req, res) {
-        var users = userModel.findAllUsers();
-        res.json(users);
+        var users = userModel.findAllUsers()
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function createUser(req, res) {
         var userDetails = req.body;
-        var newUser = userModel.createUser(userDetails);
-        res.json(newUser);
+        var newUser = userModel.createUser(userDetails)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function deleteUserById(req, res) {
         var userId = req.params.id;
-        var result = userModel.deleteUserById(userId);
-        res.json(result);
+        var result = userModel.deleteUserById(userId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     function updateUserById(req, res) {
         var userId = req.params.id;
         var user = req.body;
-        var updatedUser = userModel.updateUser(userId, user);
-        res.json(updatedUser);
+        var updatedUser = userModel.updateUser(userId, user)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 };

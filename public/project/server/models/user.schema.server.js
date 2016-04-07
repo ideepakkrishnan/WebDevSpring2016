@@ -14,7 +14,10 @@ module.exports = function (mongoose) {
         },
         teams: [String],
         roles: [String],
-        goalIds: [String] //TODO: Add support for goals in all the relevant models
+        goalIds: [String], //TODO: Add support for goals in all the relevant models
+        accessToken: String,
+        expiresIn: Number,
+        accountUserId: String
     }, {collection: 'user'});
     return userSchema;
 };

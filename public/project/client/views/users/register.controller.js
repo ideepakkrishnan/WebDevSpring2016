@@ -29,7 +29,11 @@
                 "password": password,
                 "email": email,
                 "teams": [1],
-                "roles": ["player", "watcher"]
+                "roles": ["player", "watcher"],
+                "goalIds": [],
+                "accessToken": "",
+                "expiresIn": 0,
+                "accountUserId": ""
             };
 
             UserService
