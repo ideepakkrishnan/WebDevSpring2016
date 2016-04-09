@@ -7,7 +7,7 @@
         .module("PerformXApp")
         .controller("DashboardController", dashboardController);
 
-    function dashboardController($window, $rootScope, $location, $filter, DeviceService, TeamService) {
+    function dashboardController($window, $rootScope, $location, $filter, DeviceService, TeamService, UserService) {
         var vm = this;
 
         function init() {
@@ -49,6 +49,7 @@
 
                 // Initialize provider profile data
                 if ($rootScope.account_user_id && $rootScope.access_token) {
+
                     vm.profileData = DeviceService.getProfileData();
                     vm.profileData.then(function (data) {
                         console.log(data);
@@ -147,6 +148,17 @@
                 $rootScope.access_token = JSON.parse(window.localStorage.getItem("fitbit")).oauth.access_token;
                 $rootScope.expires_in = JSON.parse(window.localStorage.getItem("fitbit")).oauth.expires_in;
                 $rootScope.account_user_id = JSON.parse(window.localStorage.getItem("fitbit")).oauth.account_user_id;
+
+                if ($rootScope.access_token && $rootScope.account_user_id) {
+                    // Store the connection details in database
+                    var conn_details = {
+                        accessToken: $rootScope.access_token,
+                        expiresIn: $rootScope.expires_in,
+                        accountUserId: $rootScope.account_user_id
+                    };
+
+                    UserService.updateDeviceConnection(vm.userId, conn_details);
+                }
             } else {
                 console.log("Unauthorized");
             }

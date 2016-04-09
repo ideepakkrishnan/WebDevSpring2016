@@ -19,47 +19,19 @@
         return api;
 
         function findAllGoals() {
-            return $http.get("/api/project/user/goal")
-                .then(
-                    function (response) {
-                        return response;
-                    },
-                    function (error) {
-                        throw error;
-                    });
+            return $http.get("/api/project/user/goal");
         }
 
         function createGoal(goal) {
-            return $http.post("/api/project/user/goal", goal)
-                .then(
-                    function (response) {
-                        return response;
-                    },
-                    function (error) {
-                        throw error;
-                    });
+            return $http.post("/api/project/user/goal", goal);
         }
 
         function deleteGoalById(goalId) {
-            return $http.delete("/api/project/user/goal/" + goalId)
-                .then(
-                    function (response) {
-                        return response;
-                    },
-                    function (error) {
-                        throw error;
-                    });
+            return $http.delete("/api/project/user/goal/" + goalId);
         }
 
         function updateGoal(goalId, goal) {
-            return $http.put("/api/project/user/goal/" + goalId, goal)
-                .then(
-                    function (response) {
-                        return response;
-                    },
-                    function (error) {
-                        throw error;
-                    });
+            return $http.put("/api/project/user/goal/" + goalId, goal);
         }
     }
 })();

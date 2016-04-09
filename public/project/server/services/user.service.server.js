@@ -7,6 +7,7 @@ module.exports = function(app, userModel) {
     app.get("/api/project/user", getUserByCredentials);
     app.get("/api/project/user", getAllUsers);
     app.put("/api/project/user/:id", updateUserById);
+    app.put("/api/project/user/:id/device", updateFitbitConnDetails);
     app.delete("/api/project/user/:id", deleteUserById);
 
     function getUserByCredentials(req, res) {
@@ -65,6 +66,20 @@ module.exports = function(app, userModel) {
         var userId = req.params.id;
         var user = req.body;
         var updatedUser = userModel.updateUser(userId, user)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function updateFitbitConnDetails(req, res) {
+        var userId = req.params.id;
+        var connDetails = req.body;
+        var updatedUser = userModel.updateFitbitConnDetails(userId, connDetails)
             .then(
                 function (doc) {
                     res.json(doc);

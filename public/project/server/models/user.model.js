@@ -16,7 +16,8 @@ module.exports = function (db, mongoose) {
         findAllUsers: findAllUsers,
         createUser: createUser,
         deleteUserById: deleteUserById,
-        updateUser: updateUser
+        updateUser: updateUser,
+        updateFitbitConnDetails: updateFitbitConnDetails
     };
     return api;
 
@@ -102,7 +103,10 @@ module.exports = function (db, mongoose) {
                 password: user.password,
                 email: user.email,
                 teams: user.teams,
-                roles: user.roles
+                roles: user.roles,
+                accessToken: user.accessToken,
+                expiresIn: user.expiresIn,
+                accountUserId: user.accountUserId
             }},
             {new: true},
             function (err, doc) {
@@ -115,6 +119,28 @@ module.exports = function (db, mongoose) {
                 }
             }
         );
+
+        return deferred.promise;
+    }
+
+    function updateFitbitConnDetails(userId, connDetails) {
+        var deferred = q.defer();
+
+        UserModel.findByIdAndUpdate(
+            userId,
+            {$set: {
+                accessToken: connDetails.accessToken,
+                expiresIn: connDetails.expiresIn,
+                accountUserId: connDetails.accountUserId
+            }},
+            {new: true},
+            function (err, doc) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(doc);
+                }
+            });
 
         return deferred.promise;
     }

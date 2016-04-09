@@ -17,63 +17,33 @@
             createUser: createUser,
             deleteUserById: deleteUserById,
             updateUser: updateUser,
-            cacheUserLocally: cacheUserLocally
+            cacheUserLocally: cacheUserLocally,
+            updateDeviceConnection: updateDeviceConnection
         };
         return api;
 
         function findUserByCredentials(username, password) {
-            return $http.get("/api/project/user?username=" + username + "&password=" + password)
-                .then(
-                    function (response) {
-                        return response;
-                    },
-                    function (error) {
-                        throw error;
-                    });
+            return $http.get("/api/project/user?username=" + username + "&password=" + password);
         }
 
         function findAllUsers() {
-            return $http.get("/api/project/user")
-                .then(
-                    function (response) {
-                        return response;
-                    },
-                    function (error) {
-                        throw error;
-                    });
+            return $http.get("/api/project/user");
         }
 
         function createUser(user) {
-            return $http.post("/api/project/user", user)
-                .then(
-                    function (response) {
-                        return response;
-                    },
-                    function (error) {
-                        throw error;
-                    });
+            return $http.post("/api/project/user", user);
         }
 
         function deleteUserById(userId) {
-            return $http.delete("/api/project/user/" + userId)
-                .then(
-                    function (response) {
-                        return response;
-                    },
-                    function (error) {
-                        throw error;
-                    });
+            return $http.delete("/api/project/user/" + userId);
         }
 
         function updateUser(userId, user) {
-            return $http.put("/api/project/user/" + userId, user)
-                .then(
-                    function (response) {
-                        return response;
-                    },
-                    function (error) {
-                        throw error;
-                    });
+            return $http.put("/api/project/user/" + userId, user);
+        }
+
+        function updateDeviceConnection(userId, connDetails) {
+            return $http.put("/api/project/user/" + userId + "/device", connDetails);
         }
 
         function cacheUserLocally(user) {

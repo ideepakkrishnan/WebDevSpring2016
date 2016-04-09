@@ -17,25 +17,11 @@
         return api;
 
         function fetchTeamDetails(teamIdList) {
-            return $http.get("/api/project/team/" + teamIdList)
-                .then(
-                    function (response) {
-                        return response;
-                    },
-                    function (error) {
-                        throw error;
-                    });
+            return $http.get("/api/project/team/" + teamIdList);
         }
 
         function findUsersByTeam(teamId) {
-            return $http.get("/api/project/team/" + teamId + "/user")
-                .then(
-                    function (response) {
-                        return response;
-                    },
-                    function (error) {
-                        throw error;
-                    });
+            return $http.get("/api/project/team/" + teamId + "/user");
         }
     }
 })();

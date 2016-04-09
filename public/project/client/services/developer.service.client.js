@@ -16,14 +16,7 @@
         return api;
 
         function getAllAPIRequests() {
-            return $http.get("/api/project/api")
-                .then(
-                    function (response) {
-                        return response;
-                    },
-                    function (error) {
-                        throw error;
-                    });
+            return $http.get("/api/project/api");
         }
     }
 })();
