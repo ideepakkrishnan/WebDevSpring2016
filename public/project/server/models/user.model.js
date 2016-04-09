@@ -9,7 +9,7 @@ module.exports = function (db, mongoose) {
 
     var UserSchema = require("./user.schema.server.js")(mongoose);
 
-    var UserModel = mongoose.model('user', UserSchema);
+    var UserModel = mongoose.model('performXuser', UserSchema);
 
     var api = {
         findUserByCredentials: findUserByCredentials,
@@ -17,7 +17,10 @@ module.exports = function (db, mongoose) {
         createUser: createUser,
         deleteUserById: deleteUserById,
         updateUser: updateUser,
-        updateFitbitConnDetails: updateFitbitConnDetails
+        updateFitbitConnDetails: updateFitbitConnDetails,
+        addPersonalGoal: addPersonalGoal,
+        retrievePersonalGoals: retrievePersonalGoals,
+        retrieveDataForAllUsers: retrieveDataForAllUsers
     };
     return api;
 
@@ -141,6 +144,65 @@ module.exports = function (db, mongoose) {
                     deferred.resolve(doc);
                 }
             });
+
+        return deferred.promise;
+    }
+
+    function addPersonalGoal(username, goalId) {
+        var deferred = q.defer();
+        console.log("user.model: addPersonalGoal - Adding goal > " + goalId);
+
+        UserModel.update(
+            {username: username},
+            {$push: {goalIds: goalId}},
+            {upsert: true},
+            function (err, res) {
+                if (err) {
+                    console.log("user.model: addPersonalGoal - error > " + err);
+                    deferred.reject(err);
+                } else {
+                    console.log("user.model: addPersonalGoal - result > " + JSON.stringify(doc.data));
+                    deferred.resolve(res);
+                }
+            });
+
+        return deferred.promise;
+    }
+
+    function retrievePersonalGoals(username) {
+        var deferred = q.defer();
+
+        UserModel.findOne({username: username}, 'goalIds', function (err, userGoals) {
+            if (err) {
+                console.log("user.model: retrievePersonalGoals - error > " + err);
+                deferred.reject(err);
+            } else {
+                console.log("user.model: retrievePersonalGoals - result > " + JSON.stringify(userGoals.data));
+                GoalModel.find({goalId: {$in: userGoals.data}}, function (err, goals) {
+                    if (err) {
+                        console.log("user.model: retrievePersonalGoals - error > " + err);
+                        deferred.reject(err);
+                    } else {
+                        deferred.resolve(goals);
+                    }
+                });
+            }
+        });
+
+        return deferred.promise;
+    }
+
+    function retrieveDataForAllUsers(userIds) {
+        var deferred = q.defer();
+
+        UserModel.find({userId: {$in: userIds}}, function (err, res) {
+            if (err) {
+                console.log("user.model: retrieveDataForAllUsers - error > " + err);
+                deferred.reject(err);
+            } else {
+                deferred.resolve(res);
+            }
+        });
 
         return deferred.promise;
     }

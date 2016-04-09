@@ -18,6 +18,6 @@ module.exports = function (mongoose) {
         accessToken: String,
         expiresIn: Number,
         accountUserId: String
-    }, {collection: 'user'});
+    }, {collection: 'performXuser'});
     return userSchema;
 };

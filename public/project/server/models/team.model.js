@@ -5,13 +5,11 @@
 //var mock = require("./team.mock.json");
 var q = require("q");
 
-module.exports = function (db, mongoose) {
+module.exports = function (db, mongoose, userModel) {
 
     var TeamSchema = require("./team.schema.server.js")(mongoose);
-    var UserSchema = require("./user.schema.server.js")(mongoose);
 
-    var TeamModel = mongoose.model('team', TeamSchema);
-    var UserModel = mongoose.model('user', UserSchema);
+    var TeamModel = mongoose.model('performXteam', TeamSchema);
 
     var api = {
         fetchTeamDetails: fetchTeamDetails,
@@ -45,14 +43,13 @@ module.exports = function (db, mongoose) {
                 deferred.reject(err);
             } else {
                 console.log("team.model: findUsersByTeam - result > " + JSON.stringify(doc.data));
-                UserModel.find({userId: {$in: doc.data}}, function (err, res) {
-                    if (err) {
-                        console.log("team.model: findUsersByTeam - error > " + err);
-                        deferred.reject(err);
-                    } else {
+                userModel.retrieveDataForAllUsers(doc.data).then(
+                    function (res) {
                         deferred.resolve(res);
-                    }
-                })
+                    },
+                    function (err) {
+                        deferred.reject(err);
+                    });
             }
         });
 

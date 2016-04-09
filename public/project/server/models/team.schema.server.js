@@ -8,5 +8,6 @@ module.exports = function (mongoose) {
         description: String,
         image: String,
         users: [String]
-    }, {collection: 'team'});
+    }, {collection: 'performXteam'});
+    return teamSchema;
 };

@@ -42,7 +42,7 @@ app.get('/hello', function(req, res){
 app.listen(port, ipaddress);
 
 require("./public/assignment/server/app.js")(app, db, mongoose);
-require("./public/project/server/app.js")(app);
+require("./public/project/server/app.js")(app, db, mongoose);
 
 /* Passport changes */
 

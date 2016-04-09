@@ -4,8 +4,8 @@
 
 module.exports = function(app, db, mongoose) {
     var userModel = require("./models/user.model.js")(db, mongoose);
-    var goalModel = require("./models/goal.model.js")(db, mongoose);
-    var teamModel = require("./models/team.model.js")(db, mongoose);
+    var goalModel = require("./models/goal.model.js")(db, mongoose, userModel);
+    var teamModel = require("./models/team.model.js")(db, mongoose, userModel);
     var developerModel = require("./models/developer.model.js")(db, mongoose);
 
     var userService = require("./services/user.service.server.js")(app, userModel);

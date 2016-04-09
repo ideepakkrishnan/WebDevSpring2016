@@ -14,5 +14,6 @@ module.exports = function (mongoose) {
         duration: Number,
         floors: Number,
         date: Date
-    }, {collection: 'goal'});
+    }, {collection: 'performXgoal'});
+    return goalSchema;
 };

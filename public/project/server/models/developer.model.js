@@ -9,7 +9,7 @@ module.exports = function (db, mongoose) {
 
     var DeveloperSchema = require("./developer.schema.server.js")(mongoose);
 
-    var DeveloperModel = mongoose.model('developer', DeveloperSchema);
+    var DeveloperModel = mongoose.model('performXdeveloper', DeveloperSchema);
 
     var api = {
         getAllAPIRequests: getAllAPIRequests
