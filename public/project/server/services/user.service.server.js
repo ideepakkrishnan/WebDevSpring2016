@@ -4,11 +4,21 @@
 
 module.exports = function(app, userModel) {
     app.post("/api/project/user", createUser);
+    app.delete("/api/project/user/:id", deleteUserById);
     app.get("/api/project/user", getUserByCredentials);
     app.get("/api/project/user", getAllUsers);
     app.put("/api/project/user/:id", updateUserById);
     app.put("/api/project/user/:id/device", updateFitbitConnDetails);
-    app.delete("/api/project/user/:id", deleteUserById);
+    app.put("/api/project/user/:username/goals", addPersonalGoal);
+    app.get("/api/project/user/:username/goals", retrievePersonalGoals);
+    app.delete("/api/project/user/:username/goals", removePersonalGoal);
+    app.get("/api/project/user/filter", retrieveDataForAllUsers);
+    app.put("/api/project/user/:username/teams", addTeamAffiliation);
+    app.delete("/api/project/user/teams/:teamId", deleteTeamAffiliation);
+    app.put("/api/project/user/:username/subscribers", addSubscriber);
+    app.delete("/api/project/user/:username/subscribers", deleteSubscriber);
+    app.put("/api/project/user/:username/watching", addToWatching);
+    app.delete("/api/project/user/:username/subscribers", deleteFromWatching);
 
     function getUserByCredentials(req, res) {
         var username = req.query.username;
@@ -80,6 +90,144 @@ module.exports = function(app, userModel) {
         var userId = req.params.id;
         var connDetails = req.body;
         var updatedUser = userModel.updateFitbitConnDetails(userId, connDetails)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function addPersonalGoal(req, res) {
+        var username = req.params.username;
+        var goalId = req.body;
+        var updatedUser = userModel.addPersonalGoal(username, goalId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function retrievePersonalGoals(req, res) {
+        var username = req.params.username;
+        var updatedUser = userModel.retrievePersonalGoals(username)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function removePersonalGoal(req, res) {
+        var username = req.params.username;
+        var goalId = req.body;
+        var updatedUser = userModel.removePersonalGoal(username, goalId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function retrieveDataForAllUsers(req, res) {
+        var userIds = req.body;
+        var updatedUser = userModel.retrieveDataForAllUsers(userIds)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function addTeamAffiliation(req, res) {
+        var username = req.params.username;
+        var teamId = req.body;
+        var updatedUser = userModel.addTeamAffiliation(username, teamId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function deleteTeamAffiliation(req, res) {
+        var teamId = req.params.teamId;
+        var userIds = req.body;
+        var updatedUser = userModel.deleteTeamAffiliation(teamId, userIds)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function addSubscriber(req, res) {
+        var username = req.params.username;
+        var subscriberId = req.body;
+        var updatedUser = userModel.addSubscriber(username, subscriberId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function deleteSubscriber(req, res) {
+        var username = req.params.username;
+        var subscriberId = req.body;
+        var updatedUser = userModel.deleteSubscriber(username, subscriberId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function addToWatching(req, res) {
+        var username = req.params.username;
+        var subscriberId = req.body;
+        var updatedUser = userModel.addToWatching(username, subscriberId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function deleteFromWatching(req, res) {
+        var username = req.params.username;
+        var subscriberId = req.body;
+        var updatedUser = userModel.deleteFromWatching(username, subscriberId)
             .then(
                 function (doc) {
                     res.json(doc);

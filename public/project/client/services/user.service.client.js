@@ -18,7 +18,17 @@
             deleteUserById: deleteUserById,
             updateUser: updateUser,
             cacheUserLocally: cacheUserLocally,
-            updateDeviceConnection: updateDeviceConnection
+            updateDeviceConnection: updateDeviceConnection,
+            addPersonalGoal: addPersonalGoal,
+            getPersonalGoals: getPersonalGoals,
+            deletePersonalGoal: removePersonalGoal,
+            getDataForSelectedUsers: getDataForSelectedUsers,
+            addTeamAffiliation: addTeamAffiliation,
+            deleteTeamAffiliation: deleteTeamAffiliation,
+            addSubscriber: addSubscriber,
+            deleteSubscriber: deleteSubscriber,
+            addToWatching: addToWatching,
+            deleteFromWatching: deleteFromWatching
         };
         return api;
 
@@ -44,6 +54,46 @@
 
         function updateDeviceConnection(userId, connDetails) {
             return $http.put("/api/project/user/" + userId + "/device", connDetails);
+        }
+
+        function addPersonalGoal(username, goal) {
+            return $http.put("/api/project/user/" + username + "/goals", goal);
+        }
+
+        function getPersonalGoals(username) {
+            return $http.get("/api/project/user/" + username + "/goals");
+        }
+
+        function removePersonalGoal(username, goalId) {
+            return $http.delete("/api/project/user/" + username + "/goals", goalId);
+        }
+
+        function getDataForSelectedUsers(userIds) {
+            return $http.get("/api/project/user/filter", userIds);
+        }
+
+        function addTeamAffiliation(username) {
+            return $http.put("/api/project/user/" + username + "/teams");
+        }
+
+        function deleteTeamAffiliation(teamId, userIds) {
+            return $http.delete("/api/project/user/teams/" + teamId, userIds);
+        }
+
+        function addSubscriber(username, subscriberId) {
+            return $http.put("/api/project/user/" + username + "/subscribers", subscriberId);
+        }
+
+        function deleteSubscriber(username, subscriberId) {
+            return $http.delete("/api/project/user/" + username + "/subscribers", subscriberId);
+        }
+
+        function addToWatching(username, userId) {
+            return $http.put("/api/project/user/" + username + "/watching", userId);
+        }
+
+        function deleteFromWatching(username, subscriberId) {
+            return $http.delete("/api/project/user/" + username + "/subscribers", subscriberId);
         }
 
         function cacheUserLocally(user) {

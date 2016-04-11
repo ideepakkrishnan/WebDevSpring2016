@@ -12,7 +12,10 @@
     function teamService($http) {
         var api = {
             fetchTeamDetails: fetchTeamDetails,
-            findUsersByTeam: findUsersByTeam
+            findUsersByTeam: findUsersByTeam,
+            createTeam: createTeam,
+            updateTeamById: updateTeamById,
+            deleteTeamById: deleteTeamById
         };
         return api;
 
@@ -22,6 +25,18 @@
 
         function findUsersByTeam(teamId) {
             return $http.get("/api/project/team/" + teamId + "/user");
+        }
+
+        function createTeam(teamDetails) {
+            return $http.post("/api/project/team", teamDetails);
+        }
+
+        function updateTeamById(teamId, team) {
+            return $http.put("/api/project/team/" + teamId, team);
+        }
+
+        function deleteTeamById(teamId) {
+            return $http.delete("/api/project/team/" + teamId);
         }
     }
 })();

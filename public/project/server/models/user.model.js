@@ -20,7 +20,14 @@ module.exports = function (db, mongoose) {
         updateFitbitConnDetails: updateFitbitConnDetails,
         addPersonalGoal: addPersonalGoal,
         retrievePersonalGoals: retrievePersonalGoals,
-        retrieveDataForAllUsers: retrieveDataForAllUsers
+        removePersonalGoal: removePersonalGoal,
+        retrieveDataForAllUsers: retrieveDataForAllUsers,
+        addTeamAffiliation: addTeamAffiliation,
+        deleteTeamAffiliation: deleteTeamAffiliation,
+        addSubscriber: addSubscriber,
+        deleteSubscriber: deleteSubscriber,
+        addToWatching: addToWatching,
+        deleteFromWatching: deleteFromWatching
     };
     return api;
 
@@ -109,7 +116,9 @@ module.exports = function (db, mongoose) {
                 roles: user.roles,
                 accessToken: user.accessToken,
                 expiresIn: user.expiresIn,
-                accountUserId: user.accountUserId
+                accountUserId: user.accountUserId,
+                subscribers: user.subscribers,
+                watching: user.watching
             }},
             {new: true},
             function (err, doc) {
@@ -192,6 +201,27 @@ module.exports = function (db, mongoose) {
         return deferred.promise;
     }
 
+    function removePersonalGoal(username, goalId) {
+        var deferred = q.defer();
+
+        UserModel.update(
+            {username: username},
+            {$pull: {goalIds: goalId}},
+            {new: true},
+            function (err, doc) {
+                if (err) {
+                    console.log("user.model: removePersonalGoal - error > " + err);
+                    deferred.reject(err);
+                } else {
+                    //console.log("user.model: removePersonalGoal - result > " + JSON.stringify(doc.data));
+                    deferred.resolve(doc);
+                }
+            }
+        );
+
+        return deferred.promise;
+    }
+
     function retrieveDataForAllUsers(userIds) {
         var deferred = q.defer();
 
@@ -203,6 +233,129 @@ module.exports = function (db, mongoose) {
                 deferred.resolve(res);
             }
         });
+
+        return deferred.promise;
+    }
+
+    function addTeamAffiliation(username, teamId) {
+        var deferred = q.defer();
+
+        UserModel.update(
+            {username: username},
+            {$push: {teams: teamId}},
+            {upsert: true},
+            function (err, res) {
+                if (err) {
+                    console.log("user.model: addTeamAffiliation - error > " + err);
+                    deferred.reject(err);
+                } else {
+                    //console.log("user.model: addTeamAffiliation - result > " + JSON.stringify(doc.data));
+                    deferred.resolve(res);
+                }
+            });
+
+        return deferred.promise;
+    }
+
+    function deleteTeamAffiliation(userIds, teamId) {
+        var deferred = q.defer();
+
+        UserModel.update(
+            {userId: {$in: userIds}},
+            {$pull: {teams: teamId}},
+            {new: true},
+            function (err, doc) {
+                if (err) {
+                    console.log("user.model: deleteTeamAffiliation - error > " + err);
+                    deferred.reject(err);
+                } else {
+                    //console.log("user.model: deleteTeamAffiliation - result > " + JSON.stringify(doc.data));
+                    deferred.resolve(doc);
+                }
+            }
+        );
+
+        return deferred.promise;
+    }
+
+    function addSubscriber(username, subscriberId) {
+        var deferred = q.defer();
+
+        UserModel.update(
+            {username: username},
+            {$push: {subscribers: subscriberId}},
+            {upsert: true},
+            function (err, res) {
+                if (err) {
+                    console.log("user.model: addSubscriber - error > " + err);
+                    deferred.reject(err);
+                } else {
+                    //console.log("user.model: addSubscriber - result > " + JSON.stringify(doc.data));
+                    deferred.resolve(res);
+                }
+            });
+
+        return deferred.promise;
+    }
+
+    function deleteSubscriber(username, subscriberId) {
+        var deferred = q.defer();
+
+        UserModel.update(
+            {username: username},
+            {$pull: {subscribers: subscriberId}},
+            {new: true},
+            function (err, doc) {
+                if (err) {
+                    console.log("user.model: deleteSubscriber - error > " + err);
+                    deferred.reject(err);
+                } else {
+                    //console.log("user.model: deleteSubscriber - result > " + JSON.stringify(doc.data));
+                    deferred.resolve(doc);
+                }
+            }
+        );
+
+        return deferred.promise;
+    }
+
+    function addToWatching(username, subscriberId) {
+        var deferred = q.defer();
+
+        UserModel.update(
+            {username: username},
+            {$push: {watching: subscriberId}},
+            {upsert: true},
+            function (err, res) {
+                if (err) {
+                    console.log("user.model: addToWatching - error > " + err);
+                    deferred.reject(err);
+                } else {
+                    //console.log("user.model: addToWatching - result > " + JSON.stringify(doc.data));
+                    deferred.resolve(res);
+                }
+            });
+
+        return deferred.promise;
+    }
+
+    function deleteFromWatching(username, subscriberId) {
+        var deferred = q.defer();
+
+        UserModel.update(
+            {username: username},
+            {$pull: {watching: subscriberId}},
+            {new: true},
+            function (err, doc) {
+                if (err) {
+                    console.log("user.model: deleteFromWatching - error > " + err);
+                    deferred.reject(err);
+                } else {
+                    //console.log("user.model: deleteFromWatching - result > " + JSON.stringify(doc.data));
+                    deferred.resolve(doc);
+                }
+            }
+        );
 
         return deferred.promise;
     }

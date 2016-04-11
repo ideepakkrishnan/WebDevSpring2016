@@ -17,7 +17,9 @@ module.exports = function (mongoose) {
         goalIds: [String], //TODO: Add support for goals in all the relevant models
         accessToken: String,
         expiresIn: Number,
-        accountUserId: String
+        accountUserId: String,
+        subscribers: [String],
+        watching: [String]
     }, {collection: 'performXuser'});
     return userSchema;
 };

@@ -13,9 +13,77 @@ module.exports = function (db, mongoose, userModel) {
 
     var api = {
         fetchTeamDetails: fetchTeamDetails,
-        findUsersByTeam: findUsersByTeam
+        findUsersByTeam: findUsersByTeam,
+        createTeam: createTeam,
+        updateTeam: updateTeam,
+        deleteTeam: deleteTeam
     };
     return api;
+
+    function createTeam(team) {
+        var deferred = q.defer();
+
+        TeamModel.create(team, function (err, doc) {
+            if (err) {
+                console.log("team.model: createTeam - error > " + err);
+                deferred.reject(err);
+            } else {
+                console.log("team.model: createTeam - result > " + JSON.stringify(doc.data));
+                deferred.resolve(doc);
+            }
+        });
+
+        return deferred.promise;
+    }
+
+    function updateTeam(teamId, team) {
+        var deferred = q.defer();
+
+        TeamModel.findByIdAndUpdate(
+            teamId,
+            {$set: {
+                name: team.name,
+                description: team.description,
+                image: team.image,
+                users: team.users
+            }},
+            {new: true},
+            function (err, doc) {
+                if (err) {
+                    console.log("team.model: updateTeam - error > " + err);
+                    deferred.reject(err);
+                } else {
+                    console.log("team.model: updateTeam - result > " + JSON.stringify(doc.data));
+                    deferred.resolve(doc);
+                }
+            }
+        );
+
+        return deferred.promise;
+    }
+
+    function deleteTeam(teamId) {
+        var deferred = q.defer();
+
+        TeamModel.findByIdAndRemove(teamId, function (err, doc) {
+            if (err) {
+                console.log("team.model: deleteTeam - error > " + err);
+                deferred.reject(err);
+            } else {
+                userModel.deleteTeamAffiliation(doc.data.users, teamId).then(
+                    function (doc) {
+                        deferred.resolve(doc);
+                    },
+                    function (err) {
+                        console.log("team.model: deleteTeam - error > " + err);
+                        deferred.reject(err);
+                    }
+                );
+            }
+        });
+
+        return deferred.promise;
+    }
 
     function fetchTeamDetails(teamIdList) {
         var deferred = q.defer();

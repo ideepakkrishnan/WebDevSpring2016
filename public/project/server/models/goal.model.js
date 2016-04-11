@@ -65,11 +65,11 @@ module.exports = function (db, mongoose, userModel) {
                 console.log("goal.model: deleteGoalById - error > " + err);
                 deferred.reject(err);
             } else {
-                userModel.retrievePersonalGoals(res.data.username)
+                userModel.removePersonalGoal(res.data.username, goalId)
                     .then(
                         function (doc) {
                             console.log("goal.model: deleteGoalById - result > " + JSON.stringify(doc.data));
-                            GoalModel.find({goalId: {$in: doc.data}}, function (err, goals) {
+                            GoalModel.find({goalId: {$in: doc.data.goalIds}}, function (err, goals) {
                                 if (err) {
                                     console.log("goal.model: deleteGoalById - error > " + err);
                                     deferred.reject(err);
