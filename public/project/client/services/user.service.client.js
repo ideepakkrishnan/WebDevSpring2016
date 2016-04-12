@@ -72,8 +72,8 @@
             return $http.get("/api/project/user/filter", userIds);
         }
 
-        function addTeamAffiliation(username) {
-            return $http.put("/api/project/user/" + username + "/teams");
+        function addTeamAffiliation(username, teamDetails) {
+            return $http.put("/api/project/user/" + username + "/teams", teamDetails);
         }
 
         function deleteTeamAffiliation(teamId, userIds) {

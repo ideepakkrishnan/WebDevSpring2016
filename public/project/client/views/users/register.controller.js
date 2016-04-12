@@ -28,12 +28,14 @@
                 "username": username,
                 "password": password,
                 "email": email,
-                "teams": [1],
+                "teams": [],
                 "roles": ["player", "watcher"],
                 "goalIds": [],
                 "accessToken": "",
                 "expiresIn": 0,
-                "accountUserId": ""
+                "accountUserId": "",
+                "subscribers": [],
+                "watching": []
             };
 
             UserService

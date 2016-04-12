@@ -46,7 +46,13 @@
                 "password": password,
                 "email": userEmail,
                 "teams": vm.teams,
-                "roles": vm.roles
+                "roles": vm.roles,
+                "goalIds": $rootScope.currentUser.goalIds,
+                "accessToken": $rootScope.currentUser.accessToken,
+                "expiresIn": $rootScope.currentUser.expiresIn,
+                "accountUserId": $rootScope.currentUser.accountUserId,
+                "subscribers": $rootScope.currentUser.subscribers,
+                "watching": $rootScope.currentUser.watching
             };
 
             UserService.updateUser(vm.userId, updatedDetails)

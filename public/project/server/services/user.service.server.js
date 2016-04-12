@@ -156,13 +156,15 @@ module.exports = function(app, userModel) {
 
     function addTeamAffiliation(req, res) {
         var username = req.params.username;
-        var teamId = req.body;
+        var teamId = req.body.teamId;
         var updatedUser = userModel.addTeamAffiliation(username, teamId)
             .then(
                 function (doc) {
+                    console.log(doc.data);
                     res.json(doc);
                 },
                 function (err) {
+                    console.log(err);
                     res.status(400).send(err);
                 }
             );

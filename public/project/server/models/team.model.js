@@ -89,7 +89,7 @@ module.exports = function (db, mongoose, userModel) {
         var deferred = q.defer();
 
         TeamModel.find({
-            teamId: {$in: teamIdList}
+            _id: {$in: teamIdList}
         }, function (err, doc) {
             if (err) {
                 console.log("team.model: fetchTeamDetails - error > " + err);

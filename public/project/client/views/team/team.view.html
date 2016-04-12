@@ -3,6 +3,33 @@
 
 <div ng-controller="TeamController" id='outer' class="container-fluid newSection">
     <div id="main" class="row">
+        <div ng-repeat="team in model.myTeams" class="col-sm-6">
+            <div class="media alert alert-warning" role="alert" data-toggle="modal" data-target="#updateTeamModal" ng-click="model.selectTeam(team._id, team.name, team.description, team.image, team.users)">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="deleteTeam(team.teamId)">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" width="50px" ng-src="{{team.image}}" alt="team.name">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">{{team.name}}</h4>
+                    {{team.description}}
+                </div>
+            </div>
+        </div>
+
+        <div class="row newSection">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="divider"></div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 input-group">
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#newTeamModal">Add New Team</button>
+        </div>
+
         <div class="col-sm-6">
             <div class="media alert alert-warning" role="alert" ng-click="$location.url('/stats')">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -52,4 +79,111 @@
             </span>
         </div>
     </div>
+
+    <!-- Modals -->
+    <!-- New Team Modal -->
+    <div class="modal fade" id="newTeamModal" tabindex="-1" role="dialog" aria-labelledby="newTeamModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="newTeamModalLabel">Build a Team</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Team Name: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="model.newTeamName" type="text" class="form-control" placeholder="Team name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Description: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <textarea ng-model="model.newTeamDesc" class="form-control" rows="3" placeholder="Team name"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Image: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="model.newTeamImage" type="url" class="form-control" placeholder="Team logo URL">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="model.createTeam()">Create Team</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Team Modal -->
+    <div class="modal fade" id="updateTeamModal" tabindex="-1" role="dialog" aria-labelledby="updateTeamModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="updateTeamModalLabel">Update Team Info</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Team Name: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="model.updatedTeamName" type="text" class="form-control" placeholder="Team name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Description: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <textarea ng-model="model.updatedTeamDesc" class="form-control" rows="3" placeholder="Team name"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Image: </div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="model.updatedTeamImage" type="url" class="form-control" placeholder="Team logo URL">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="model.updateTeam()">Update Team</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="divider"></div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <h5>Add Team Members</h5>
+            <div class="row">
+                <div class="col-sm-12 input-group">
+                    <input ng-model="model.searchForUser" type="text" class="form-control searchTeamInput" placeholder="Search for a username...">
+                                    <span class="input-group-btn">
+                                      <button class="btn btn-default" type="button" aria-label="Search" ng-click="">
+                                          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                      </button>
+                                    </span>
+                </div>
+            </div>
+        </div>
+    </div-->
 </div>

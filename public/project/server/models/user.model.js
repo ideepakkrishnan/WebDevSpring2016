@@ -250,7 +250,14 @@ module.exports = function (db, mongoose) {
                     deferred.reject(err);
                 } else {
                     //console.log("user.model: addTeamAffiliation - result > " + JSON.stringify(doc.data));
-                    deferred.resolve(res);
+                    UserModel.findOne({username: username}, function (err, res) {
+                        if (err) {
+                            console.log("user.model: addTeamAffiliation - error > " + err);
+                            deferred.reject(err);
+                        } else {
+                            deferred.resolve(res);
+                        }
+                    });
                 }
             });
 
@@ -261,7 +268,7 @@ module.exports = function (db, mongoose) {
         var deferred = q.defer();
 
         UserModel.update(
-            {userId: {$in: userIds}},
+            {_id: {$in: userIds}},
             {$pull: {teams: teamId}},
             {new: true},
             function (err, doc) {
