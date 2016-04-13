@@ -19,7 +19,8 @@ module.exports = function (mongoose) {
         expiresIn: Number,
         accountUserId: String,
         subscribers: [String],
-        watching: [String]
+        watching: [String],
+        image: String
     }, {collection: 'performXuser'});
     return userSchema;
 };

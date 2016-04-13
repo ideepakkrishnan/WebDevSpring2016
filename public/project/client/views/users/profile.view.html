@@ -37,6 +37,12 @@
         </div>
     </div>
     <div class="form-group">
+        <label for="inputImage" class="col-sm-2 control-label">Profile Image: </label>
+        <div class="col-sm-10">
+            <input ng-model="model.userImage" type="url" class="form-control" id="inputImage" placeholder="Link to profile image">
+        </div>
+    </div>
+    <div class="form-group">
         <label for="teamsContainer" class="col-sm-2 control-label">Teams: </label>
         <div id="teamsContainer" class="col-sm-10">
             <div ng-repeat="team in model.myTeams" class="col-sm-6 alert alert-warning" role="alert">
@@ -67,7 +73,7 @@
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button ng-click="model.update(model.username, model.password, model.firstName, model.lastName, model.userEmail)" type="submit" class="btn btn-primary btn-block btn-lg">Update</button>
+            <button ng-click="model.update(model.username, model.password, model.firstName, model.lastName, model.userEmail, model.userImage)" type="submit" class="btn btn-primary btn-block btn-lg">Update</button>
         </div>
     </div>
 </form>

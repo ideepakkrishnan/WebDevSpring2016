@@ -69,6 +69,11 @@
                 controller: "DeveloperController",
                 controllerAs: "model"
             })
+            .when("/members", {
+                templateUrl: "/project/client/views/team/members.view.html",
+                controller: "MembersController",
+                controllerAs: "model"
+            })
             .otherwise({
                 redirectTo: "/home"
             });

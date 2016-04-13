@@ -1,0 +1,76 @@
+<h1 class="page-header">{{model.currentTeam.name}}</h1>
+<span id="helpBlock" class="help-block">Click on any team member to assign personal goals</span>
+
+<div ng-controller="MembersController" id='outer' class="container-fluid newSection">
+    <div id="main" class="row">
+        <div class="col-sm-12 input-group">
+            <button type="button" class="btn btn-default">Add New Team</button>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 input-group">
+                <input ng-model="model.newMember" type="text" class="form-control searchTeamInput" placeholder="Enter First Name to search...">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" data-toggle="modal" data-target="#newMemberModal" aria-label="Search" ng-click="model.searchForUser(model.newMember)">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+              </button>
+            </span>
+            </div>
+        </div>
+
+        <div class="row newSection">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="divider"></div>
+            </div>
+        </div>
+
+        <div ng-repeat="currMember in model.currTeamMembers" class="col-sm-6">
+            <div class="media alert alert-warning" role="alert" ng-click="model.selectMember(currMember._id)">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" width="50px" ng-src="{{currMember.image}}" alt="currMember.username">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">{{currMember.firstName}} {{currMember.lastName}}</h4>
+                    <h4 class="media-heading">{{currMember.username}}</h4>
+                    {{currMember.email}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- New Team Member Modal -->
+    <div class="modal fade" id="newMemberModal" tabindex="-1" role="dialog" aria-labelledby="newMemberModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="newMemberModalLabel">Add a member to your team</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div ng-repeat="currMember in model.searchResults" class="col-sm-6">
+                            <div class="media alert alert-warning" role="alert" ng-click="model.addToTeam(currMember._id)">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img class="media-object" width="50px" ng-src="{{currMember.image}}" alt="currMember.username">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">{{currMember.firstName}} {{currMember.lastName}}</h4>
+                                    <h4 class="media-heading">{{currMember.username}}</h4>
+                                    {{currMember.email}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

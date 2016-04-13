@@ -17,11 +17,13 @@ module.exports = function (db, mongoose) {
         createUser: createUser,
         deleteUserById: deleteUserById,
         updateUser: updateUser,
+        searchUsingFirstName: searchUsingFirstName,
         updateFitbitConnDetails: updateFitbitConnDetails,
         addPersonalGoal: addPersonalGoal,
         retrievePersonalGoals: retrievePersonalGoals,
         removePersonalGoal: removePersonalGoal,
-        retrieveDataForAllUsers: retrieveDataForAllUsers,
+        retrieveDataForSelectedUserIds: retrieveDataForSelectedUserIds,
+        retrieveDataForSelectedUsernames: retrieveDataForSelectedUsernames,
         addTeamAffiliation: addTeamAffiliation,
         deleteTeamAffiliation: deleteTeamAffiliation,
         addSubscriber: addSubscriber,
@@ -135,6 +137,14 @@ module.exports = function (db, mongoose) {
         return deferred.promise;
     }
 
+    function searchUsingFirstName(firstName) {
+        var deferred = q.defer();
+
+        //TODO: Add helper functions for search logic
+
+        return deferred.promise;
+    }
+
     function updateFitbitConnDetails(userId, connDetails) {
         var deferred = q.defer();
 
@@ -222,12 +232,27 @@ module.exports = function (db, mongoose) {
         return deferred.promise;
     }
 
-    function retrieveDataForAllUsers(userIds) {
+    function retrieveDataForSelectedUserIds(userIds) {
         var deferred = q.defer();
 
-        UserModel.find({userId: {$in: userIds}}, function (err, res) {
+        UserModel.find({_id: {$in: userIds}}, function (err, res) {
             if (err) {
-                console.log("user.model: retrieveDataForAllUsers - error > " + err);
+                console.log("user.model: retrieveDataForSelectedUserIds - error > " + err);
+                deferred.reject(err);
+            } else {
+                deferred.resolve(res);
+            }
+        });
+
+        return deferred.promise;
+    }
+
+    function retrieveDataForSelectedUsernames(usernames) {
+        var deferred = q.defer();
+
+        UserModel.find({username: {$in: usernames}}, function (err, res) {
+            if (err) {
+                console.log("user.model: retrieveDataForSelectedUsernames - error > " + err);
                 deferred.reject(err);
             } else {
                 deferred.resolve(res);

@@ -8,11 +8,13 @@ module.exports = function(app, userModel) {
     app.get("/api/project/user", getUserByCredentials);
     app.get("/api/project/user", getAllUsers);
     app.put("/api/project/user/:id", updateUserById);
+    app.get("/api/project/user/search/:firstName", searchUsingFirstName);
     app.put("/api/project/user/:id/device", updateFitbitConnDetails);
     app.put("/api/project/user/:username/goals", addPersonalGoal);
     app.get("/api/project/user/:username/goals", retrievePersonalGoals);
     app.delete("/api/project/user/:username/goals", removePersonalGoal);
-    app.get("/api/project/user/filter", retrieveDataForAllUsers);
+    app.get("/api/project/user/filter/userIds", retrieveDataForSelectedUserIds);
+    app.get("/api/project/user/filter/usernames", retrieveDataForSelectedUsernames);
     app.put("/api/project/user/:username/teams", addTeamAffiliation);
     app.delete("/api/project/user/teams/:teamId", deleteTeamAffiliation);
     app.put("/api/project/user/:username/subscribers", addSubscriber);
@@ -86,6 +88,19 @@ module.exports = function(app, userModel) {
             );
     }
 
+    function searchUsingFirstName(req, res) {
+        var firstName = req.params.firstName;
+        var searchResults = userModel.searchUsingFirstName(firstName)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
     function updateFitbitConnDetails(req, res) {
         var userId = req.params.id;
         var connDetails = req.body;
@@ -141,9 +156,22 @@ module.exports = function(app, userModel) {
             );
     }
 
-    function retrieveDataForAllUsers(req, res) {
+    function retrieveDataForSelectedUserIds(req, res) {
         var userIds = req.body;
-        var updatedUser = userModel.retrieveDataForAllUsers(userIds)
+        var updatedUser = userModel.retrieveDataForSelectedUserIds(userIds)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function retrieveDataForSelectedUsernames(req, res) {
+        var usernames = req.body;
+        var updatedUser = userModel.retrieveDataForSelectedUsernames(usernames)
             .then(
                 function (doc) {
                     res.json(doc);

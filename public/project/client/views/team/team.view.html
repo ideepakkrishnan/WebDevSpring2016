@@ -3,6 +3,16 @@
 
 <div ng-controller="TeamController" id='outer' class="container-fluid newSection">
     <div id="main" class="row">
+        <div class="col-sm-12 input-group">
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#newTeamModal">Add New Team</button>
+        </div>
+
+        <div class="row newSection">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="divider"></div>
+            </div>
+        </div>
+
         <div ng-repeat="team in model.myTeams" class="col-sm-6">
             <div class="media alert alert-warning" role="alert" data-toggle="modal" data-target="#updateTeamModal" ng-click="model.selectTeam(team._id, team.name, team.description, team.image, team.users)">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="deleteTeam(team.teamId)">
@@ -20,17 +30,7 @@
             </div>
         </div>
 
-        <div class="row newSection">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="divider"></div>
-            </div>
-        </div>
-
-        <div class="col-sm-12 input-group">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#newTeamModal">Add New Team</button>
-        </div>
-
-        <div class="col-sm-6">
+        <!--div class="col-sm-6">
             <div class="media alert alert-warning" role="alert" ng-click="$location.url('/stats')">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -43,30 +43,7 @@
                     Northeastern Soccer, Northeastern Hockey
                 </div>
             </div>
-        </div>
-
-        <div class="col-sm-6">
-            <div class="media alert alert-warning" role="alert" ng-click="$location.url('/stats')">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" width="50px" src="http://clippingpathuk.com/wp-content/uploads/2015/01/Portrait-Photography.jpg" alt="team.name">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Amy</h4>
-                    Northeastern Soccer
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row newSection">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="divider"></div>
-        </div>
+        </div-->
     </div>
 
     <div class="row">

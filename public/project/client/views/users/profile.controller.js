@@ -21,6 +21,7 @@
                 vm.firstName = $rootScope.currentUser.firstName;
                 vm.lastName = $rootScope.currentUser.lastName;
                 vm.userEmail = $rootScope.currentUser.email;
+                vm.userImage = $rootScope.currentUser.image;
                 vm.teams = $rootScope.currentUser.teams;
                 vm.roles = $rootScope.currentUser.roles;
                 TeamService.fetchTeamDetails(vm.teams)
@@ -38,7 +39,7 @@
         }
         init();
 
-        function update(username, password, firstName, lastName, userEmail) {
+        function update(username, password, firstName, lastName, userEmail, image) {
             var updatedDetails = {
                 "username": username,
                 "firstName": firstName,
@@ -52,7 +53,8 @@
                 "expiresIn": $rootScope.currentUser.expiresIn,
                 "accountUserId": $rootScope.currentUser.accountUserId,
                 "subscribers": $rootScope.currentUser.subscribers,
-                "watching": $rootScope.currentUser.watching
+                "watching": $rootScope.currentUser.watching,
+                "image": image
             };
 
             UserService.updateUser(vm.userId, updatedDetails)

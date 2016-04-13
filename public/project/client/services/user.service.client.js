@@ -17,12 +17,14 @@
             createUser: createUser,
             deleteUserById: deleteUserById,
             updateUser: updateUser,
+            searchUsingFirstName: searchUsingFirstName,
             cacheUserLocally: cacheUserLocally,
             updateDeviceConnection: updateDeviceConnection,
             addPersonalGoal: addPersonalGoal,
             getPersonalGoals: getPersonalGoals,
             deletePersonalGoal: removePersonalGoal,
             getDataForSelectedUsers: getDataForSelectedUsers,
+            getDataForSelectedUsernames: getDataForSelectedUsernames,
             addTeamAffiliation: addTeamAffiliation,
             deleteTeamAffiliation: deleteTeamAffiliation,
             addSubscriber: addSubscriber,
@@ -52,6 +54,10 @@
             return $http.put("/api/project/user/" + userId, user);
         }
 
+        function searchUsingFirstName(firstName) {
+            return $http.get("/api/project/user/search" + firstName);
+        }
+
         function updateDeviceConnection(userId, connDetails) {
             return $http.put("/api/project/user/" + userId + "/device", connDetails);
         }
@@ -69,7 +75,11 @@
         }
 
         function getDataForSelectedUsers(userIds) {
-            return $http.get("/api/project/user/filter", userIds);
+            return $http.get("/api/project/user/filter/userIds", userIds);
+        }
+
+        function getDataForSelectedUsernames(usernames) {
+            return $http.get("/api/project/user/filter/usernames", usernames);
         }
 
         function addTeamAffiliation(username, teamDetails) {

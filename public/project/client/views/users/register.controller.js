@@ -16,7 +16,7 @@
         }
         init();
 
-        function register(username, password, verifyPassword, firstName, lastName, email) {
+        function register(username, password, verifyPassword, firstName, lastName, email, image) {
             if (password != verifyPassword) {
                 console.log("Bad password");
                 return false;
@@ -35,7 +35,8 @@
                 "expiresIn": 0,
                 "accountUserId": "",
                 "subscribers": [],
-                "watching": []
+                "watching": [],
+                "image": image
             };
 
             UserService
