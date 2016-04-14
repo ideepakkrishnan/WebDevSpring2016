@@ -21,7 +21,9 @@
             setCurrentUser: setCurrentUser,
             getCurrentUser: getCurrentUser,
             logout: logout,
-            login: login
+            login: login,
+            createNewUser: createNewUser,
+            updateExistingUserById: updateExistingUserById
         };
         return api;
 
@@ -38,15 +40,23 @@
         }
 
         function findAllUsers() {
-            return $http.get("/api/assignment/user");
+            return $http.get("/api/assignment/admin/user");
         }
 
         function createUser(user) {
             return $http.post("/api/assignment/register", user);
         }
 
+        function createNewUser(user) {
+            return $http.post("/api/assignment/admin/user", user);
+        }
+
         function deleteUserById(userId) {
-            return $http.delete("/api/assignment/user/" + userId);
+            return $http.delete("/api/assignment/admin/user/" + userId);
+        }
+
+        function updateExistingUserById(userId, user) {
+            return $http.put("/api/assignment/admin/user/" + userId, user);
         }
 
         function updateUser(userId, user) {

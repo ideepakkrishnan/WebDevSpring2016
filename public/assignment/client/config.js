@@ -95,8 +95,10 @@
         UserService
             .getCurrentUser()
             .then(
-                function (user) {
+                function (doc) {
                     // User is Authenticated
+                    var user = doc.data;
+                    console.log("client config checkAdmin - fetched used: " + JSON.stringify(user));
                     $rootScope.errorMessage = null;
                     if (user !== '0' && user.roles.indexOf('admin') != -1) {
                         $rootScope.currentUser = user;

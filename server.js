@@ -21,13 +21,13 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
         process.env.OPENSHIFT_APP_NAME;
 }
 
-console.log("Env variable for db host: " + process.env.OPENSHIFT_MONGODB_DB_HOST);
-console.log("Connection string: " + connectionString);
+//console.log("Env variable for db host: " + process.env.OPENSHIFT_MONGODB_DB_HOST);
+//console.log("Connection string: " + connectionString);
 
 // connect to the database
 var db = mongoose.connect(connectionString);
 
-console.log("secret: " + process.env.PASSPORT_SECRET);
+//console.log("secret: " + process.env.PASSPORT_SECRET);
 
 // configuring session
 // [maintain the following order: bodyParser, session, cookieParser, passport]
@@ -51,39 +51,7 @@ app.use(passport.session());
 
 app.use(express.static(__dirname + '/public'));
 
-app.get('/hello', function(req, res){
-    res.send('hello world');
-});
-
 app.listen(port, ipaddress);
 
 require("./public/assignment/server/app.js")(app, db, mongoose);
 require("./public/project/server/app.js")(app, db, mongoose);
-
-/* Passport changes */
-
-/*
-passport.use(new OAuth2Strategy({
-        authorizationURL: 'https://www.fitbit.com/oauth2/authorize',
-        tokenURL: 'https://api.fitbit.com/oauth2/token',
-        clientID: '227G2P',
-        clientSecret: 'a26bd15fad11b063d4255831cd9b4a3a',
-        callbackURL: "http://localhost:3000/auth/example/callback"
-    },
-    function(accessToken, refreshToken, profile, done) {
-        User.findOrCreate({ exampleId: profile.id }, function (err, user) {
-            return done(err, user);
-        });
-    }
-));
-
-app.get('/auth/example',
-    passport.authenticate('oauth2'));
-
-app.get('/auth/example/callback',
-    passport.authenticate('oauth2', { failureRedirect: '/login' }),
-    function(req, res) {
-        // Successful authentication, redirect home.
-        res.redirect('/');
-    });
-*/

@@ -149,6 +149,18 @@ body {
     border: 1px solid #e0e0e0;
 }
 
+.table-header {
+    color: rgb(0, 76, 153);
+    text-decoration: none !important;
+}
+
+.sortorder:after {
+    content: '\25b2';
+}
+.sortorder.reverse:after {
+    content: '\25bc';
+}
+
 @media only screen and (max-width: 767px) {
 
     .no-border {

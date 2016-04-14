@@ -7,14 +7,14 @@
         <thead>
         <tr>
             <th>
-                <a role="button"><span class="caret"></span></a> Username
+                <span class="sortorder" ng-show="model.predicate === 'username'" ng-class="{reverse:model.reverse}"></span> <a role="button" class="table-header" ng-click="model.order('username')">Username</a>
             </th>
             <th>Password</th>
             <th>
-                <a role="button"><span class="caret"></span></a> First Name
+                <span class="sortorder" ng-show="model.predicate === 'firstName'" ng-class="{reverse:model.reverse}"></span> <a role="button" class="table-header" ng-click="model.order('firstName')">First Name</a>
             </th>
             <th>
-                <a role="button"><span class="caret"></span></a> Last Name
+                <span class="sortorder" ng-show="model.predicate === 'lastName'" ng-class="{reverse:model.reverse}"></span> <a role="button" class="table-header" ng-click="model.order('lastName')">Last Name</a>
             </th>
             <th>Role</th>
             <th>Action</th>
@@ -47,7 +47,7 @@
                 </div>
             </td>
         </tr>
-        <tr ng-repeat="user in model.users" ng-class="{'success': user==model.selectedUser}">
+        <tr ng-repeat="user in model.users | orderBy:model.predicate:model.reverse" ng-class="{'success': user==model.selectedUser}">
             <td data-title="Username">{{user.username}}</td>
             <td data-title="Password"><span class="empty-span">#</span></td>
             <td data-title="First Name">{{user.firstName}}</td>

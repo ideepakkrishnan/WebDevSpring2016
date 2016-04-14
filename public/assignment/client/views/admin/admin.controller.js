@@ -9,7 +9,7 @@
         .module("FormBuilderApp")
         .controller("AdminController", adminController);
 
-    function adminController($rootScope, UserService) {
+    function adminController(UserService) {
         var vm = this;
 
         function init() {
@@ -17,7 +17,10 @@
             vm.selectUser = selectUser;
             vm.newUser = newUser;
             vm.updateUser = updateUser;
+            vm.order = order;
 
+            vm.predicate = 'username';
+            vm.reverse = false;
             vm.selectedUser = null;
 
             // Initialize the admin screen by listing all users
@@ -25,6 +28,7 @@
                 .findAllUsers()
                 .then(
                     function (doc) {
+                        console.log("admin.controller.init() - fetched users: " + JSON.stringify(doc));
                         vm.users = doc.data;
                     },
                     function (err) {
@@ -68,6 +72,37 @@
 
         function newUser() {
             vm.selectedUser = null;
+
+            var newUserDetails = {
+                username: vm.newUsername,
+                firstName: vm.newFirstName,
+                lastName: vm.newLastName,
+                password: vm.newPassword,
+                email: [],
+                phones: [],
+                roles: vm.newRole.split(',')
+            };
+
+            UserService
+                .createNewUser(newUserDetails)
+                .then(
+                    function (doc) {
+                        return UserService.findAllUsers();
+                    },
+                    function (err) {
+                        console.log("Error while creating a new user: " + err.message);
+                    }
+                )
+                .then(
+                    function (doc) {
+                        vm.users = doc.data;
+                    },
+                    function (err) {
+                        console.log("Error while retrieving updated user list: " + err.message);
+                    }
+                );
+
+            clearFields();
         }
 
         function updateUser() {
@@ -82,10 +117,9 @@
             };
 
             UserService
-                .updateUser(vm.selectedUser._id, updatedUser)
+                .updateExistingUserById(vm.selectedUser._id, updatedUser)
                 .then(
                     function (doc) {
-                        console.log("Updated user details: " + JSON.stringify(doc.data));
                         return UserService.findAllUsers();
                     },
                     function (err) {
@@ -101,7 +135,22 @@
                     }
                 );
 
+            clearFields();
+        }
+
+        function clearFields() {
+            vm.newUsername = "";
+            vm.newFirstName = "";
+            vm.newLastName = "";
+            vm.newPassword = "";
+            vm.newRole = "";
+
             vm.selectedUser = null;
+        }
+
+        function order(predicate) {
+            vm.reverse = (vm.predicate === predicate) ? !vm.reverse : false;
+            vm.predicate = predicate;
         }
     }
 })();

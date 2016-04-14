@@ -25,7 +25,7 @@
                         vm.password = currUser.data.password;
                         vm.firstName = currUser.data.firstName;
                         vm.lastName = currUser.data.lastName;
-                        vm.userEmail = currUser.data.email.toString();
+                        vm.userEmail = (currUser.data.email.length > 0) ? currUser.data.email.toString() : "";
                     },
                     function (err) {
                         console.log("profile.controller - init: " + err.message);
@@ -49,7 +49,7 @@
                 )
                 .then(function(response){
                     console.log("profile.controller - update: " + JSON.stringify(response));
-                    UserService.setCurrentUser(response);
+                    UserService.setCurrentUser(response.data);
                 });
         }
     }

@@ -70,19 +70,19 @@ module.exports = function(db, mongoose) {
     function findAllUsers() {
         var deferred = q.defer();
 
-        if (isAdmin(req.user)) {
-            UserModel.find({}, function (err, doc) {
-                console.log("user.model - findAllUsers: " + doc);
+        console.log("inside user.model.findAllUsers");
 
-                if (err) {
-                    deferred.reject(err);
-                } else {
-                    deferred.resolve(doc);
-                }
-            });
-        } else {
-            res.status(403);
-        }
+        UserModel.find({}, function (err, doc) {
+            console.log("user.model - findAllUsers: " + doc);
+
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
+            }
+        });
+
+        console.log("exiting user.model.findAllUsers");
 
         return deferred.promise;
     }
@@ -148,13 +148,6 @@ module.exports = function(db, mongoose) {
             }
         });
         return deferred.promise;
-    }
-
-    function isAdmin(user) {
-        if (user.roles.indexOf("admin") > 0) {
-            return true
-        }
-        return false;
     }
 
 };
