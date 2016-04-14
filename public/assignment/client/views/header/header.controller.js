@@ -12,14 +12,18 @@
         $scope.logout = logout;
 
         function logout() {
-            $rootScope.currentUser = null;
-            $location.url("/home");
-            /*UserService
+            //$rootScope.currentUser = null;
+            //$location.url("/home");
+            UserService
                 .logout()
-                .then(function () {
-                    UserService.setCurrentUser(null);
-                    $location.url("/home");
-                });*/
+                .then(
+                    function (doc) {
+                        UserService.setCurrentUser(null);
+                        $location.url("/home");
+                    },
+                    function (err) {
+                        console.log("Error while logging out: " + err.message);
+                    });
         }
     }
 })();

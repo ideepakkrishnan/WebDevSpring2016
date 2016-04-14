@@ -20,7 +20,7 @@
             updateUser: updateUser,
             setCurrentUser: setCurrentUser,
             getCurrentUser: getCurrentUser,
-            logoutUser: logoutUser
+            logout: logout
         };
         return api;
 
@@ -37,7 +37,7 @@
         }
 
         function createUser(user) {
-            return $http.post("/api/assignment/user", user);
+            return $http.post("/api/assignment/register", user);
         }
 
         function deleteUserById(userId) {
@@ -53,11 +53,11 @@
         }
 
         function getCurrentUser() {
-            return $rootScope.currentUser;
-            //return $http.get("/api/assignment/loggedIn");
+            //return $rootScope.currentUser;
+            return $http.get("/api/assignment/loggedIn");
         }
 
-        function logoutUser() {
+        function logout() {
             return $http.post("/api/assignment/logout");
         }
     }

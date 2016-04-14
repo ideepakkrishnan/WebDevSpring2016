@@ -50,7 +50,22 @@ module.exports = function(app, userModel) {
 
     function createUser(req, res) {
         var userDetails = req.body;
-        var newUser = userModel.createUser(userDetails)
+        userDetails.roles = ["player", "watcher"]; // Security measure to prevent client side hacks
+
+        userModel
+            .findUserByUsername(userDetails.username) // Check if a user by the same username exists
+            .then(
+                function (doc) {
+                    if (doc) {
+                        res.json(null);
+                    } else {
+                        return userModel.createUser(userDetails);
+                    }
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
             .then(
                 function (doc) {
                     res.json(doc);

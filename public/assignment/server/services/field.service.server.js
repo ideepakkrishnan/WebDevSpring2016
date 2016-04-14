@@ -3,12 +3,21 @@
  */
 
 module.exports = function(app, formModel) {
-    app.get("/api/assignment/form/:formId/field", getAllFormFieldsByFormId);
-    app.get("/api/assignment/form/:formId/field/:fieldId", getFormFieldById);
-    app.delete("/api/assignment/form/:formId/field/:fieldId", deleteFormFieldById);
-    app.post("/api/assignment/form/:formId/field", createFormField);
-    app.put("/api/assignment/form/:formId/field/:fieldId", updateFormFieldById);
-    app.get("/api/assignment/form/fieldTypes", getAllFieldTypes);
+    // Checks whether the session is authenticated
+    var auth = function (req, res, next) {
+        if (!req.isAuthenticated()) {
+            res.send(401);
+        } else {
+            next();
+        }
+    };
+
+    app.get("/api/assignment/form/:formId/field", auth, getAllFormFieldsByFormId);
+    app.get("/api/assignment/form/:formId/field/:fieldId", auth, getFormFieldById);
+    app.delete("/api/assignment/form/:formId/field/:fieldId", auth, deleteFormFieldById);
+    app.post("/api/assignment/form/:formId/field", auth, createFormField);
+    app.put("/api/assignment/form/:formId/field/:fieldId", auth, updateFormFieldById);
+    app.get("/api/assignment/form/fieldTypes", auth, getAllFieldTypes);
 
     function getAllFormFieldsByFormId(req, res) {
         var formId = req.params.formId;

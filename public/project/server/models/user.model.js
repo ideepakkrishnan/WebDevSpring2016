@@ -13,6 +13,7 @@ module.exports = function (db, mongoose) {
 
     var api = {
         findUserByCredentials: findUserByCredentials,
+        findUserByUsername: findUserByUsername,
         findAllUsers: findAllUsers,
         createUser: createUser,
         deleteUserById: deleteUserById,
@@ -388,6 +389,22 @@ module.exports = function (db, mongoose) {
                 }
             }
         );
+
+        return deferred.promise;
+    }
+
+    function findUserByUsername(username) {
+        var deferred = q.defer();
+
+        UserModel.findOne({username: username}, function (err, doc) {
+            console.log(doc);
+
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
+            }
+        });
 
         return deferred.promise;
     }

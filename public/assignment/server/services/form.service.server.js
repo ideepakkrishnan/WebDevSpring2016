@@ -3,11 +3,20 @@
  */
 
 module.exports = function(app, formModel) {
-    app.get("/api/assignment/user/:userId/form", getAllFormsForUserId);
-    app.get("/api/assignment/form/:formId", getFormById);
-    app.delete("/api/assignment/form/:formId", deleteFormById);
-    app.post("/api/assignment/user/:userId/form", createForm);
-    app.put("/api/assignment/form/:formId", updateFormById);
+    // Checks whether the session is authenticated
+    var auth = function (req, res, next) {
+        if (!req.isAuthenticated()) {
+            res.send(401);
+        } else {
+            next();
+        }
+    };
+
+    app.get("/api/assignment/user/:userId/form", auth, getAllFormsForUserId);
+    app.get("/api/assignment/form/:formId", auth, getFormById);
+    app.delete("/api/assignment/form/:formId", auth, deleteFormById);
+    app.post("/api/assignment/user/:userId/form", auth, createForm);
+    app.put("/api/assignment/form/:formId", auth, updateFormById);
 
     function getAllFormsForUserId(req, res) {
         var userId = req.params.userId;

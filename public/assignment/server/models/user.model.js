@@ -68,15 +68,19 @@ module.exports = function(db, mongoose) {
     function findAllUsers() {
         var deferred = q.defer();
 
-        UserModel.find({}, function (err, doc) {
-            console.log(doc);
+        if (isAdmin(req.user)) {
+            UserModel.find({}, function (err, doc) {
+                console.log(doc);
 
-            if (err) {
-                deferred.reject(err);
-            } else {
-                deferred.resolve(doc);
-            }
-        });
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(doc);
+                }
+            });
+        } else {
+            res.status(403);
+        }
 
         return deferred.promise;
     }
@@ -125,7 +129,7 @@ module.exports = function(db, mongoose) {
             {$set: {
                 email: user.email,
                 //phones: user.phones,
-                //roles: user.roles,
+                roles: user.roles,
                 password: user.password,
                 username: user.username,
                 lastName: user.lastName,
@@ -143,4 +147,12 @@ module.exports = function(db, mongoose) {
         });
         return deferred.promise;
     }
+
+    function isAdmin(user) {
+        if (user.roles.indexOf("admin") > 0) {
+            return true
+        }
+        return false;
+    }
+
 };

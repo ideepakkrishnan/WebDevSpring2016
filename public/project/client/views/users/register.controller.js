@@ -29,7 +29,6 @@
                 "password": password,
                 "email": email,
                 "teams": [],
-                "roles": ["player", "watcher"],
                 "goalIds": [],
                 "accessToken": "",
                 "expiresIn": 0,
