@@ -4,6 +4,7 @@
 
 (function () {
     "use strict";
+
     angular
         .module("FormBuilderApp")
         .controller("FormController", formController);
@@ -13,24 +14,20 @@
         var userId = null;
 
         function init() {
-            if (UserService.getCurrentUser()) {
-                vm.addForm = addForm;
-                vm.updateForm = updateForm;
-                vm.deleteForm = deleteForm;
-                vm.selectForm = selectForm;
-                vm.loadFormFields = loadFormFields;
+            vm.addForm = addForm;
+            vm.updateForm = updateForm;
+            vm.deleteForm = deleteForm;
+            vm.selectForm = selectForm;
+            vm.loadFormFields = loadFormFields;
 
-                userId = UserService.getCurrentUser()._id;
+            var userId = UserService.getCurrentUser()._id;
 
-                FormService
-                    .findAllFormsForUser(userId)
-                    .then(function(response){
-                        console.log(response);
-                        vm.myForms = response.data;
-                    });
-            } else {
-                $location.path("#/home");
-            }
+            FormService
+                .findAllFormsForUser(userId)
+                .then(function(response){
+                    console.log(response);
+                    vm.myForms = response.data;
+                });
         }
 
         init();

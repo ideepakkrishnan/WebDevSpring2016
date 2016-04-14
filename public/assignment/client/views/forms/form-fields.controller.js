@@ -13,29 +13,25 @@
         var currForm = null;
 
         function init() {
-            if (UserService.getCurrentUser()) {
-                var currUser = UserService.getCurrentUser();
-                vm.userId = currUser._id;
-                vm.username = currUser.username;
-                vm.password = currUser.password;
-                vm.firstName = currUser.firstName;
-                vm.lastName = currUser.lastName;
-                vm.userEmail = currUser.email;
+            var currUser = UserService.getCurrentUser();
+            vm.userId = currUser._id;
+            vm.username = currUser.username;
+            vm.password = currUser.password;
+            vm.firstName = currUser.firstName;
+            vm.lastName = currUser.lastName;
+            vm.userEmail = currUser.email;
 
-                vm.trackFieldEdit = trackFieldEdit;
-                vm.clearEditTracking = clearEditTracking;
-                vm.addField = addField;
-                vm.deleteField = deleteField;
-                vm.updateEditField = updateEditField;
-                vm.cloneField = cloneField;
+            vm.trackFieldEdit = trackFieldEdit;
+            vm.clearEditTracking = clearEditTracking;
+            vm.addField = addField;
+            vm.deleteField = deleteField;
+            vm.updateEditField = updateEditField;
+            vm.cloneField = cloneField;
 
-                vm.sortingOptions = {
-                    handle: '.reorderHandle',
-                    stop: updateFieldSorting
-                }
-            } else {
-                $location.path("#/home");
-            }
+            vm.sortingOptions = {
+                handle: '.reorderHandle',
+                stop: updateFieldSorting
+            };
 
             if(formId) {
                 FieldService
