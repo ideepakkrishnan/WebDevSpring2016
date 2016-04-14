@@ -75,7 +75,7 @@ module.exports = function(app, userModel) {
             );
     }
 
-    //passport helper functions: localStrategy, serializeUser, deserializeUser
+    // passport helper functions: localStrategy, serializeUser, deserializeUser
     // Important Note: Configuration that glues passport with this application
     function localStrategy(username, password, done) {
         var credentials = {
@@ -83,9 +83,11 @@ module.exports = function(app, userModel) {
             password: password
         };
 
+        console.log("localStrategy - credentials: " + JSON.stringify(credentials));
+
         userModel.findUserByCredentials(credentials).then(
             function (doc) {
-                console.log("Server found user: " + JSON.stringify(doc.data));
+                console.log("Server found user: " + JSON.stringify(doc));
                 if (!doc) {
                     return done(null, false);
                 }
@@ -105,7 +107,7 @@ module.exports = function(app, userModel) {
 
     function deserializeUser(user, done) {
         userModel
-            .findUserById(user._id)
+            .findUserByUsername(user.username)
             .then(
                 function(user){
                     done(null, user);

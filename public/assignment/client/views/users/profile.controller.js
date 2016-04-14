@@ -8,23 +8,29 @@
         .module("FormBuilderApp")
         .controller("ProfileController", profileController);
 
-    function profileController($location, UserService) {
+    function profileController(UserService) {
         var vm = this;
         vm.update = update;
 
         function init() {
             // Initialization statements
-            if (UserService.getCurrentUser()) {
-                var currUser = UserService.getCurrentUser();
-                vm.userId = currUser._id;
-                vm.username = currUser.username;
-                vm.password = currUser.password;
-                vm.firstName = currUser.firstName;
-                vm.lastName = currUser.lastName;
-                vm.userEmail = currUser.email.toString();
-            } else {
-                $location.path("#/home");
-            }
+            UserService
+                .getCurrentUser()
+                .then(
+                    function (currUser) {
+                        console.log("Initializing profile page: " + JSON.stringify(currUser));
+                        vm.currUser = currUser.data;
+                        vm.userId = currUser.data._id;
+                        vm.username = currUser.data.username;
+                        vm.password = currUser.data.password;
+                        vm.firstName = currUser.data.firstName;
+                        vm.lastName = currUser.data.lastName;
+                        vm.userEmail = currUser.data.email.toString();
+                    },
+                    function (err) {
+                        console.log("profile.controller - init: " + err.message);
+                    }
+                );
         }
         init();
 
@@ -37,12 +43,13 @@
                         "firstName": firstName,
                         "lastName": lastName,
                         "password": password,
-                        "email": userEmail.split(',')
+                        "email": userEmail.split(','),
+                        "roles": vm.currUser.roles
                     }
                 )
                 .then(function(response){
-                    console.log(response.data);
-                    UserService.setCurrentUser(response.data);
+                    console.log("profile.controller - update: " + JSON.stringify(response));
+                    UserService.setCurrentUser(response);
                 });
         }
     }

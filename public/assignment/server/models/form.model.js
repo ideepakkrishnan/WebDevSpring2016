@@ -57,11 +57,11 @@ module.exports = function(db, mongoose) {
         var deferred = q.defer();
 
         FormModel.find({userId: userId}, function (err, doc) {
-            console.log(doc);
-
             if (err) {
+                console.log("form.model - findAllFormsForUser error - " + err.message);
                 deferred.reject(err);
             } else {
+                console.log("form.model - findAllFormsForUser result - " + JSON.stringify(doc));
                 deferred.resolve(doc);
             }
         });

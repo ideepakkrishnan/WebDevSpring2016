@@ -20,14 +20,22 @@
             vm.selectForm = selectForm;
             vm.loadFormFields = loadFormFields;
 
-            var userId = UserService.getCurrentUser()._id;
-
-            FormService
-                .findAllFormsForUser(userId)
-                .then(function(response){
-                    console.log(response);
-                    vm.myForms = response.data;
-                });
+            UserService
+                .getCurrentUser()
+                .then(
+                    function (currUser) {
+                        userId = currUser.data._id;
+                        FormService
+                            .findAllFormsForUser(userId)
+                            .then(function(response){
+                                console.log(response);
+                                vm.myForms = response.data;
+                            });
+                    },
+                    function (err) {
+                        console.log("form.controller - init error: " + err.message);
+                    }
+                );
         }
 
         init();

@@ -60,7 +60,7 @@
             });
     }
 
-    var checkLoggedIn = function($q, $location, UserService) {
+    var checkLoggedIn = function($q, $location, $rootScope, UserService) {
         var deferred = $q.defer();
         $rootScope.errorMessage = null;
 

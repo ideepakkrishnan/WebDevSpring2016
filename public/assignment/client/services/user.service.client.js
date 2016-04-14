@@ -20,9 +20,14 @@
             updateUser: updateUser,
             setCurrentUser: setCurrentUser,
             getCurrentUser: getCurrentUser,
-            logout: logout
+            logout: logout,
+            login: login
         };
         return api;
+
+        function login(user) {
+            return $http.post("/api/assignment/login", user);
+        }
 
         function findUserByUsername(username) {
             return $http.get("/api/assignment/user?username=" + username);

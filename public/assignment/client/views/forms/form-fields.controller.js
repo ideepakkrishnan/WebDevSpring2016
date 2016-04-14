@@ -13,13 +13,21 @@
         var currForm = null;
 
         function init() {
-            var currUser = UserService.getCurrentUser();
-            vm.userId = currUser._id;
-            vm.username = currUser.username;
-            vm.password = currUser.password;
-            vm.firstName = currUser.firstName;
-            vm.lastName = currUser.lastName;
-            vm.userEmail = currUser.email;
+            UserService
+                .getCurrentUser()
+                .then(
+                    function (currUser) {
+                        vm.userId = currUser.data._id;
+                        vm.username = currUser.data.username;
+                        vm.password = currUser.data.password;
+                        vm.firstName = currUser.data.firstName;
+                        vm.lastName = currUser.data.lastName;
+                        vm.userEmail = currUser.data.email;
+                    },
+                    function (err) {
+                        console.log("form-fields.controller - error: " + err.message);
+                    }
+                );
 
             vm.trackFieldEdit = trackFieldEdit;
             vm.clearEditTracking = clearEditTracking;

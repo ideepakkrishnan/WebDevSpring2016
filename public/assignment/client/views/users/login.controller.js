@@ -18,10 +18,13 @@
         init();
 
         function login(username, password) {
+            var user = {
+                username: username,
+                password: password
+            };
+
             UserService
-                .findUserByCredentials(
-                    username,
-                    password)
+                .login(user)
                 .then(function(response) {
                     console.log("After logging in: " + JSON.stringify(response.data));
                     if (response.data) {

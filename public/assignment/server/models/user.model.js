@@ -22,14 +22,18 @@ module.exports = function(db, mongoose) {
     function findUserByCredentials(credentials) {
         var deferred = q.defer();
 
-        UserModel.findOne({username: credentials.username, password: credentials.password}, function (err, doc) {
-            if (err) {
-                deferred.reject(err);
-            } else {
-                console.log("Result: " + JSON.stringify(doc.data));
-                deferred.resolve(doc);
-            }
-        });
+        console.log("user.model.findUserByCredentials - Checking credentials: " + JSON.stringify(credentials));
+
+        UserModel.findOne(
+            {username: credentials.username, password: credentials.password},
+            function (err, doc) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    console.log("user.model.findUserByCredentials - Result: " + JSON.stringify(doc));
+                    deferred.resolve(doc);
+                }
+            });
 
         return deferred.promise;
     }
@@ -38,7 +42,7 @@ module.exports = function(db, mongoose) {
         var deferred = q.defer();
 
         UserModel.findById(userId, function (err, doc) {
-            console.log(doc);
+            console.log("user.model - findUserById: " + JSON.stringify(doc));
 
             if (err) {
                 deferred.reject(err);
@@ -53,8 +57,6 @@ module.exports = function(db, mongoose) {
         var deferred = q.defer();
 
         UserModel.findOne({username: username}, function (err, doc) {
-            console.log(doc);
-
             if (err) {
                 deferred.reject(err);
             } else {
@@ -70,7 +72,7 @@ module.exports = function(db, mongoose) {
 
         if (isAdmin(req.user)) {
             UserModel.find({}, function (err, doc) {
-                console.log(doc);
+                console.log("user.model - findAllUsers: " + doc);
 
                 if (err) {
                     deferred.reject(err);
@@ -137,7 +139,7 @@ module.exports = function(db, mongoose) {
             }},
             {new: true},
             function (err, doc) {
-            console.log(doc);
+            console.log("user.model - updateUser: " + doc);
 
             if (err) {
                 deferred.reject(err);
