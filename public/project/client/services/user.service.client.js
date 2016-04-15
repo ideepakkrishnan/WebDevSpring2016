@@ -15,8 +15,10 @@
             findUserByCredentials: findUserByCredentials,
             findAllUsers: findAllUsers,
             createUser: createUser,
+            createNewUser: createNewUser,
             deleteUserById: deleteUserById,
             updateUser: updateUser,
+            updateExistingUserById: updateExistingUserById,
             searchUsingFirstName: searchUsingFirstName,
             cacheUserLocally: cacheUserLocally,
             updateDeviceConnection: updateDeviceConnection,
@@ -39,15 +41,23 @@
         }
 
         function findAllUsers() {
-            return $http.get("/api/project/user");
+            return $http.get("/api/project/admin/user");
         }
 
         function createUser(user) {
             return $http.post("/api/project/user", user);
         }
 
+        function createNewUser(user) {
+            return $http.post("/api/project/admin/user", user);
+        }
+
+        function updateExistingUserById(userId, user) {
+            return $http.put("/api/project/admin/user/" + userId, user);
+        }
+
         function deleteUserById(userId) {
-            return $http.delete("/api/project/user/" + userId);
+            return $http.delete("/api/project/admin/user/" + userId);
         }
 
         function updateUser(userId, user) {

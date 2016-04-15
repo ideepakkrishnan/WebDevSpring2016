@@ -2,11 +2,11 @@
  * Created by ideepakkrishnan on 24-03-2016.
  */
 
+var bcrypt = require('bcrypt-nodejs');
+
 module.exports = function(app, userModel) {
     app.post("/api/project/user", createUser);
-    app.delete("/api/project/user/:id", deleteUserById);
     app.get("/api/project/user", getUserByCredentials);
-    app.get("/api/project/user", getAllUsers);
     app.put("/api/project/user/:id", updateUserById);
     app.get("/api/project/user/search/:firstName", searchUsingFirstName);
     app.put("/api/project/user/:id/device", updateFitbitConnDetails);
@@ -21,14 +21,28 @@ module.exports = function(app, userModel) {
     app.delete("/api/project/user/:username/subscribers", deleteSubscriber);
     app.put("/api/project/user/:username/watching", addToWatching);
     app.delete("/api/project/user/:username/subscribers", deleteFromWatching);
+    // Admin specific
+    app.post("/api/project/admin/user", createNewUser);
+    app.put("/api/project/admin/user/:id", updateExistingUserById);
+    app.delete("/api/project/admin/user/:id", deleteUserById);
+    app.get("/api/project/admin/user", getAllUsers);
 
     function getUserByCredentials(req, res) {
         var username = req.query.username;
         var password = req.query.password;
-        var user = userModel.findUserByCredentials(username, password)
+
+        userModel.findUserByUsername(username)
             .then(
-                function (doc) {
-                    res.json(doc);
+                function (user) {
+                    console.log("Server found user: " + JSON.stringify(user));
+                    if (user && bcrypt.compareSync(password, user.password)) {
+                        //req.session.currentUser = user;
+                        console.log("Authorized");
+                        res.json(user);
+                    } else {
+                        console.log("Unauthorized");
+                        res.status(400).send(err);
+                    }
                 },
                 function (err) {
                     res.status(400).send(err);
@@ -59,6 +73,7 @@ module.exports = function(app, userModel) {
                     if (doc) {
                         res.json(null);
                     } else {
+                        userDetails.password = bcrypt.hashSync(userDetails.password);
                         return userModel.createUser(userDetails);
                     }
                 },
@@ -76,9 +91,54 @@ module.exports = function(app, userModel) {
             );
     }
 
-    function deleteUserById(req, res) {
+    function createNewUser(req, res) { // Admin function
+        var userDetails = req.body;
+
+        userModel
+            .findUserByUsername(userDetails.username) // Check if a user by the same username exists
+            .then(
+                function (doc) {
+                    if (doc) {
+                        res.json(null);
+                    } else {
+                        userDetails.password = bcrypt.hashSync(userDetails.password);
+                        return userModel.createUser(userDetails);
+                    }
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+            .then(
+                function (doc) {
+                    return userModel.findAllUsers();
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function deleteUserById(req, res) { // Admin function
         var userId = req.params.id;
-        var result = userModel.deleteUserById(userId)
+        userModel
+            .deleteUserById(userId)
+            .then(
+                function (doc) {
+                    return userModel.findAllUsers();
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
             .then(
                 function (doc) {
                     res.json(doc);
@@ -92,7 +152,41 @@ module.exports = function(app, userModel) {
     function updateUserById(req, res) {
         var userId = req.params.id;
         var user = req.body;
-        var updatedUser = userModel.updateUser(userId, user)
+
+        if (user.password && user.password.length > 0) {
+            user.password = bcrypt.hashSync(user.password);
+        }
+
+        userModel
+            .updateUser(userId, user)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function updateExistingUserById(req, res) { // Admin function
+        var userId = req.params.id;
+        var user = req.body;
+
+        if (user.password && user.password.length > 0) {
+            user.password = bcrypt.hashSync(user.password);
+        }
+
+        userModel
+            .updateUser(userId, user)
+            .then(
+                function (doc) {
+                    return userModel.findAllUsers();
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
             .then(
                 function (doc) {
                     res.json(doc);

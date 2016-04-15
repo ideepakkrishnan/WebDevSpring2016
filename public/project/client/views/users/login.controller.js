@@ -20,6 +20,7 @@
                 .then(
                     function (response) {
                         if (response) {
+                            console.log("login.controller - login - user: " + JSON.stringify(response));
                             $rootScope.currentUser = response.data;
                             UserService.cacheUserLocally(response.data);
                             $location.url("/profile");

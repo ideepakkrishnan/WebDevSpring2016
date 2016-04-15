@@ -17,7 +17,7 @@
             if ($rootScope.currentUser) {
                 vm.userId = $rootScope.currentUser._id;
                 vm.username = $rootScope.currentUser.username;
-                vm.password = $rootScope.currentUser.password;
+                //vm.password = $rootScope.currentUser.password;
                 vm.firstName = $rootScope.currentUser.firstName;
                 vm.lastName = $rootScope.currentUser.lastName;
                 vm.userEmail = $rootScope.currentUser.email;
@@ -27,6 +27,7 @@
                 TeamService.fetchTeamDetails(vm.teams)
                     .then(
                         function(response) {
+                            console.log("profile.controller - init - teams: " + JSON.stringify(response));
                             vm.myTeams = response.data;
                         },
                         function (err) {
@@ -44,7 +45,6 @@
                 "username": username,
                 "firstName": firstName,
                 "lastName": lastName,
-                "password": password,
                 "email": userEmail,
                 "teams": vm.teams,
                 "roles": vm.roles,
@@ -56,6 +56,10 @@
                 "watching": $rootScope.currentUser.watching,
                 "image": image
             };
+
+            if (password && password.length > 0) {
+                updatedDetails.password = password;
+            }
 
             UserService.updateUser(vm.userId, updatedDetails)
                 .then(

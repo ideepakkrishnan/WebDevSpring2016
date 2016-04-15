@@ -42,7 +42,7 @@ module.exports = function (db, mongoose) {
                 console.log("user.model: findUserByCredentials - error > " + err);
                 deferred.reject(err);
             } else {
-                console.log("user.model: findUserByCredentials - result > " + JSON.stringify(doc.data));
+                console.log("user.model: findUserByCredentials - result > " + JSON.stringify(doc));
                 deferred.resolve(doc);
             }
         });
@@ -57,7 +57,7 @@ module.exports = function (db, mongoose) {
                 console.log("user.model: findAllUsers - error > " + err);
                 deferred.reject(err);
             } else {
-                console.log("user.model: findAllUsers - result > " + JSON.stringify(doc.data));
+                console.log("user.model: findAllUsers - result > " + JSON.stringify(doc));
                 deferred.resolve(doc);
             }
         });
@@ -109,27 +109,14 @@ module.exports = function (db, mongoose) {
 
         UserModel.findByIdAndUpdate(
             userId,
-            {$set: {
-                firstName: user.firstName,
-                lastName: user.lastName,
-                username: user.username,
-                password: user.password,
-                email: user.email,
-                teams: user.teams,
-                roles: user.roles,
-                accessToken: user.accessToken,
-                expiresIn: user.expiresIn,
-                accountUserId: user.accountUserId,
-                subscribers: user.subscribers,
-                watching: user.watching
-            }},
+            {$set: user},
             {new: true},
             function (err, doc) {
                 if (err) {
                     console.log("user.model: updateUser - error > " + err);
                     deferred.reject(err);
                 } else {
-                    console.log("user.model: updateUser - result > " + JSON.stringify(doc.data));
+                    console.log("user.model: updateUser - result > " + JSON.stringify(doc));
                     deferred.resolve(doc);
                 }
             }
