@@ -22,7 +22,7 @@
                         vm.currUser = currUser.data;
                         vm.userId = currUser.data._id;
                         vm.username = currUser.data.username;
-                        vm.password = currUser.data.password;
+                        //vm.password = currUser.data.password;
                         vm.firstName = currUser.data.firstName;
                         vm.lastName = currUser.data.lastName;
                         vm.userEmail = (currUser.data.email.length > 0) ? currUser.data.email.toString() : "";
@@ -35,18 +35,21 @@
         init();
 
         function update(username, password, firstName, lastName, userEmail) {
+            var updatedDetails = {
+                "username": username,
+                "firstName": firstName,
+                "lastName": lastName,
+                "email": userEmail.split(','),
+                "roles": vm.currUser.roles
+            };
+
+            if (password && password.length > 0) {
+                console.log("Updating password");
+                updatedDetails.password = password;
+            }
+
             UserService
-                .updateUser(
-                    vm.userId,
-                    {
-                        "username": username,
-                        "firstName": firstName,
-                        "lastName": lastName,
-                        "password": password,
-                        "email": userEmail.split(','),
-                        "roles": vm.currUser.roles
-                    }
-                )
+                .updateUser(vm.userId, updatedDetails)
                 .then(function(response){
                     console.log("profile.controller - update: " + JSON.stringify(response));
                     UserService.setCurrentUser(response.data);

@@ -21,13 +21,8 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
         process.env.OPENSHIFT_APP_NAME;
 }
 
-//console.log("Env variable for db host: " + process.env.OPENSHIFT_MONGODB_DB_HOST);
-//console.log("Connection string: " + connectionString);
-
 // connect to the database
 var db = mongoose.connect(connectionString);
-
-//console.log("secret: " + process.env.PASSPORT_SECRET);
 
 // configuring session
 // [maintain the following order: bodyParser, session, cookieParser, passport]

@@ -4,6 +4,7 @@
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var bcrypt = require('bcrypt-nodejs');
 
 module.exports = function(app, userModel) {
 
@@ -42,6 +43,7 @@ module.exports = function(app, userModel) {
 
     function createUser(req, res) {
         var user = req.body;
+        user.password = bcrypt.hashSync(user.password); // Excrypt the password before storing it
         user.roles = ["student"];
 
         userModel
@@ -83,27 +85,25 @@ module.exports = function(app, userModel) {
     // passport helper functions: localStrategy, serializeUser, deserializeUser
     // Important Note: Configuration that glues passport with this application
     function localStrategy(username, password, done) {
-        var credentials = {
-            username: username,
-            password: password
-        };
-
-        console.log("localStrategy - credentials: " + JSON.stringify(credentials));
-
-        userModel.findUserByCredentials(credentials).then(
-            function (doc) {
-                console.log("Server found user: " + JSON.stringify(doc));
-                if (!doc) {
-                    return done(null, false);
+        userModel
+            .findUserByUsername(username)
+            .then(
+                function (user) {
+                    console.log("Comparing: " + password + " and " + user.password);
+                    if (user && bcrypt.compareSync(password, user.password)) {
+                        console.log("Authenticated");
+                        return done(null, user);
+                    } else {
+                        console.log("Restricted");
+                        return done(null, false);
+                    }
+                },
+                function (err) {
+                    if (err) {
+                        return done(err);
+                    }
                 }
-                return done(null, doc);
-            },
-            function (err) {
-                if (err) {
-                    return done(err);
-                }
-            }
-        );
+            );
     }
 
     function serializeUser(user, done) {
@@ -183,11 +183,17 @@ module.exports = function(app, userModel) {
             password: req.query.password
         };
 
-        var user = userModel.findUserByCredentials(credentials).then(
-            function (doc) {
-                console.log("Server found user: " + JSON.stringify(doc.data));
-                req.session.currentUser = doc.data;
-                res.json(doc);
+        userModel
+            .findUserByUsername(username)
+            .then(
+                function (user) {
+                    console.log("Server found user: " + JSON.stringify(user));
+                    if (user && bcrypt.compareSync(password, user.password)) {
+                        req.session.currentUser = user;
+                        res.json(user);
+                    } else {
+                        res.status(400).send(err);
+                    }
             },
             function (err) {
                 res.status(400).send(err);
@@ -198,7 +204,15 @@ module.exports = function(app, userModel) {
     function updateUserById(req, res) {
         var userId = req.params.id;
         var user = req.body;
-        var updatedUser = userModel.updateUser(userId, user)
+
+        console.log("user.service.server - updateUserById - updated details: " + JSON.stringify(user));
+
+        if (user.password) {
+            console.log("user.service.server - updateUserById - Encrypting password");
+            user.password = bcrypt.hashSync(user.password);
+        }
+
+        userModel.updateUser(userId, user)
             .then(
                 function (doc) {
                     res.json(doc);
@@ -251,6 +265,7 @@ module.exports = function(app, userModel) {
                         if (doc) {
                             res.json(null);
                         } else {
+                            user.password = bcrypt.hashSync(user.password);
                             return userModel.createUser(user); // Since the user doesn't exist, create one
                         }
                     },
@@ -300,6 +315,11 @@ module.exports = function(app, userModel) {
         if (isAdmin(req.user)) {
             var userId = req.params.id;
             var user = req.body;
+
+            if (user.password && user.password.length > 0) {
+                user.password = bcrypt.hashSync(user.password);
+            }
+
             userModel.updateUser(userId, user)
                 .then(
                     function (doc) {

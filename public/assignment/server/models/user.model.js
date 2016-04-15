@@ -126,17 +126,11 @@ module.exports = function(db, mongoose) {
     function updateUser(userId, user) {
         var deferred = q.defer();
 
+        console.log("Updated details for the user: " + JSON.stringify(user));
+
         UserModel.findByIdAndUpdate(
             userId,
-            {$set: {
-                email: user.email,
-                //phones: user.phones,
-                roles: user.roles,
-                password: user.password,
-                username: user.username,
-                lastName: user.lastName,
-                firstName: user.firstName
-            }},
+            {$set: user},
             {new: true},
             function (err, doc) {
             console.log("user.model - updateUser: " + doc);

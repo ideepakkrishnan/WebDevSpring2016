@@ -64,7 +64,7 @@
         function selectUser(user) {
             vm.selectedUser = user;
             vm.newUsername = user.username;
-            vm.newPassword = user.password;
+            //vm.newPassword = user.password;
             vm.newFirstName = user.firstName;
             vm.newLastName = user.lastName;
             vm.newRole = user.roles.toString();
@@ -110,11 +110,12 @@
                 username: vm.newUsername,
                 firstName: vm.newFirstName,
                 lastName: vm.newLastName,
-                password: vm.newPassword,
-                email: vm.selectedUser.email,
-                phones: vm.selectedUser.phones,
                 roles: vm.newRole.split(',')
             };
+
+            if (vm.newPassword && vm.newPassword.length > 0) {
+                updatedUser.password = vm.newPassword;
+            }
 
             UserService
                 .updateExistingUserById(vm.selectedUser._id, updatedUser)
