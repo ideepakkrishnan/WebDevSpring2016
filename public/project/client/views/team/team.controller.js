@@ -61,6 +61,7 @@
                     .then(
                         function (doc) {
                             vm.myTeams = doc.data;
+                            $('#newTeamModal').modal('hide');
                         },
                         function (err) {
                             console.log("Error while fetching team details: " + err);

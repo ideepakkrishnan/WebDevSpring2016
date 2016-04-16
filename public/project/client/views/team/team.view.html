@@ -13,19 +13,24 @@
             </div>
         </div>
 
-        <div ng-repeat="team in model.myTeams" class="col-sm-6">
-            <div class="media alert alert-warning" role="alert" data-toggle="modal" data-target="#updateTeamModal" ng-click="model.selectTeam(team._id, team.name, team.description, team.image, team.users)">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="deleteTeam(team.teamId)">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" width="50px" ng-src="{{team.image}}" alt="team.name">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">{{team.name}}</h4>
-                    {{team.description}}
+        <div class="row newSection">
+            <div ng-repeat="team in model.myTeams" class="col-sm-6">
+                <div class="media alert alert-warning" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                            ng-click="model.deleteTeam(team._id)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="media-left" data-toggle="modal" data-target="#updateTeamModal"
+                         ng-click="model.selectTeam(team._id, team.name, team.description, team.image, team.users)">
+                        <a href="#">
+                            <img class="media-object" width="50px" ng-src="{{team.image}}" alt="team.name">
+                        </a>
+                    </div>
+                    <div class="media-body" data-toggle="modal" data-target="#updateTeamModal"
+                         ng-click="model.selectTeam(team._id, team.name, team.description, team.image, team.users)">
+                        <h4 class="media-heading">{{team.name}}</h4>
+                        {{team.description}}
+                    </div>
                 </div>
             </div>
         </div>

@@ -70,8 +70,10 @@ module.exports = function (db, mongoose, userModel) {
                 console.log("team.model: deleteTeam - error > " + err);
                 deferred.reject(err);
             } else {
-                userModel.deleteTeamAffiliation(doc.data.users, teamId).then(
+                console.log("team.model - deleteTeam - findByIdAndRemove result: " + JSON.stringify(doc));
+                userModel.deleteTeamAffiliation(doc.users, teamId).then(
                     function (doc) {
+                        console.log("team.model - deleteTeam - deleteTeamAffiliation result: " + JSON.stringify(doc));
                         deferred.resolve(doc);
                     },
                     function (err) {

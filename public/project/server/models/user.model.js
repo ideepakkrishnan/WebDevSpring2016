@@ -281,7 +281,7 @@ module.exports = function (db, mongoose) {
         var deferred = q.defer();
 
         UserModel.update(
-            {_id: {$in: userIds}},
+            {username: {$in: userIds}},
             {$pull: {teams: teamId}},
             {new: true},
             function (err, doc) {
