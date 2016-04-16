@@ -8,6 +8,8 @@ module.exports = function (app, teamModel) {
     app.delete("/api/project/team/:id", deleteTeamById);
     app.get("/api/project/team/:idList", getTeamDetails);
     app.get("/api/project/team/:id/user", getUsersByTeam);
+    app.put("/api/project/team/:id/:username", addTeamMember);
+    app.delete("/api/project/team/:id/:username", deleteTeamMember);
 
     function getTeamDetails(req, res) {
         var teamIds = req.params.idList.split(',');
@@ -65,6 +67,34 @@ module.exports = function (app, teamModel) {
     function deleteTeamById(req, res) {
         var teamId = req.params.id;
         var result = teamModel.deleteTeam(teamId)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function addTeamMember(req, res) {
+        var teamId = req.params.id;
+        var username = req.params.username;
+        teamModel.addTeamMember(teamId, username)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function deleteTeamMember(req, res) {
+        var teamId = req.params.id;
+        var username = req.params.username;
+        teamModel.deleteTeamMember(teamId, username)
             .then(
                 function (doc) {
                     res.json(doc);

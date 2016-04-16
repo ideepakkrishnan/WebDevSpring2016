@@ -1,26 +1,23 @@
-<h1 class="page-header">Adam Schefield</h1>
-
 <div ng-controller="StatsController" id='outer' class="container-fluid">
+    <h1 class="page-header">{{model.firstName}} {{model.lastName}}</h1>
+
     <div class="row">
         <div class="col-sm-3">
-            <img class="img-responsive img-circle" src="http://www.villard.biz/assets/Uploads/projects/portrait-o.jpg" alt="team.name">
+            <img class="img-responsive img-circle" ng-src="{{model.selectedUser.image}}" alt="image">
         </div>
-        <p class="col-sm-9">
+        <div class="col-sm-9">
             <div class="col-sm-9">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,
-                mattis ac neque.
+                {{model.username}}<br/>
+                {{model.userEmail}}
             </div>
             <div ng-repeat="team in model.myTeams" class="col-sm-6 newSection">
                 <div class="media alert alert-warning" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="model.deleteTeam(team.teamId)">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <div class="media-left">
+                    <div class="media-left" ng-click="model.location.url('/team/' + team._id)">
                         <a href="#">
-                            <img class="media-object" width="50px" ng-src="{{team.image}}" alt="team.name">
+                            <img class="media-object" width="50px" ng-src="{{team.image}}" alt="image">
                         </a>
                     </div>
-                    <div class="media-body">
+                    <div class="media-body" ng-click="model.location.url('/team/' + team._id)">
                         <h4 class="media-heading">{{team.name}}</h4>
                         {{team.description}}
                     </div>

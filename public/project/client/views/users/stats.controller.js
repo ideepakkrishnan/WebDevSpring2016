@@ -7,26 +7,42 @@
         .module("PerformXApp")
         .controller("StatsController", statsController);
 
-    function statsController($rootScope, $location, TeamService) {
+    function statsController($rootScope, $location, $routeParams, UserService, TeamService) {
         var vm = this;
 
         function init() {
+            vm.location = $location;
+
             if ($rootScope.currentUser) {
-                vm.userId = $rootScope.currentUser._id;
-                vm.username = $rootScope.currentUser.username;
-                vm.password = $rootScope.currentUser.password;
-                vm.firstName = $rootScope.currentUser.firstName;
-                vm.lastName = $rootScope.currentUser.lastName;
-                vm.userEmail = $rootScope.currentUser.email;
-                vm.teams = $rootScope.currentUser.teams;
-                vm.roles = $rootScope.currentUser.roles;
-                TeamService.fetchTeamDetails(vm.teams)
+                UserService
+                    .getUserByUsername($routeParams.username)
                     .then(
-                        function(response) {
-                            vm.myTeams = response.data;
+                        function (doc) {
+                            console.log("stats.controller - init() - user: " + JSON.stringify(doc));
+                            vm.selectedUser = doc.data;
+
+                            if (vm.selectedUser) {
+                                vm.username = vm.selectedUser.username;
+                                vm.password = vm.selectedUser.password;
+                                vm.firstName = vm.selectedUser.firstName;
+                                vm.lastName = vm.selectedUser.lastName;
+                                vm.userEmail = vm.selectedUser.email;
+                                vm.teams = vm.selectedUser.teams;
+                                vm.roles = vm.selectedUser.roles;
+                                TeamService.fetchTeamDetails(vm.teams)
+                                    .then(
+                                        function(response) {
+                                            console.log("stats.controller - init - teams: " + JSON.stringify(response));
+                                            vm.myTeams = response.data;
+                                        },
+                                        function (err) {
+                                            console.log(err);
+                                        }
+                                    );
+                            }
                         },
                         function (err) {
-                            console.log(err);
+                            console.log("stats.controller - init() - error: " + err.message);
                         }
                     );
 

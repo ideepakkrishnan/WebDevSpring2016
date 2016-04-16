@@ -26,29 +26,13 @@
                             <img class="media-object" width="50px" ng-src="{{team.image}}" alt="team.name">
                         </a>
                     </div>
-                    <div class="media-body" data-toggle="modal" data-target="#updateTeamModal"
-                         ng-click="model.selectTeam(team._id, team.name, team.description, team.image, team.users)">
+                    <div class="media-body" ng-click="model.location.url('/team/' + team._id)">
                         <h4 class="media-heading">{{team.name}}</h4>
                         {{team.description}}
                     </div>
                 </div>
             </div>
         </div>
-
-        <!--div class="col-sm-6">
-            <div class="media alert alert-warning" role="alert" ng-click="$location.url('/stats')">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="media-left">
-                    <img class="media-object" width="50px" src="http://www.villard.biz/assets/Uploads/projects/portrait-o.jpg" alt="team.name">
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Adam</h4>
-                    Northeastern Soccer, Northeastern Hockey
-                </div>
-            </div>
-        </div-->
     </div>
 
     <div class="row">

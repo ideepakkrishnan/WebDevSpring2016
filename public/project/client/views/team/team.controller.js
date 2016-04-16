@@ -16,6 +16,7 @@
             vm.updateTeam = updateTeam;
             vm.deleteTeam = deleteTeam;
             vm.getAffiliatedTeamDetails = getAffiliatedTeamDetails;
+            vm.location = $location;
 
             if ($rootScope.currentUser) {
                 // Initialize team data

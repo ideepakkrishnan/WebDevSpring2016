@@ -16,7 +16,9 @@ module.exports = function (db, mongoose, userModel) {
         findUsersByTeam: findUsersByTeam,
         createTeam: createTeam,
         updateTeam: updateTeam,
-        deleteTeam: deleteTeam
+        deleteTeam: deleteTeam,
+        addTeamMember: addTeamMember,
+        deleteTeamMember: deleteTeamMember
     };
     return api;
 
@@ -112,8 +114,8 @@ module.exports = function (db, mongoose, userModel) {
                 console.log("team.model: findUsersByTeam - error > " + err);
                 deferred.reject(err);
             } else {
-                console.log("team.model: findUsersByTeam - result > " + JSON.stringify(doc.data));
-                userModel.retrieveDataForAllUsers(doc.data).then(
+                console.log("team.model: findUsersByTeam - result > " + JSON.stringify(doc));
+                userModel.retrieveDataForSelectedUsernames(doc.users).then(
                     function (res) {
                         deferred.resolve(res);
                     },
@@ -122,6 +124,62 @@ module.exports = function (db, mongoose, userModel) {
                     });
             }
         });
+
+        return deferred.promise;
+    }
+
+    function addTeamMember(teamId, username) {
+        var deferred = q.defer();
+
+        TeamModel.update(
+            {_id: teamId},
+            {$push: {users: username}},
+            {upsert: true},
+            function (err, doc) {
+                if (err) {
+                    console.log("team.model: addTeamMember - error > " + err);
+                    deferred.reject(err);
+                } else {
+                    console.log("team.model: addTeamMember - result > " + JSON.stringify(doc));
+                    userModel.addTeamAffiliation(username, teamId).then(
+                        function (doc) {
+                            deferred.resolve(doc);
+                        },
+                        function (err) {
+                            console.log("team.model: addTeamAffiliation - error > " + err);
+                            deferred.reject(err);
+                        }
+                    );
+                }
+            });
+
+        return deferred.promise;
+    }
+
+    function deleteTeamMember(teamId, username) {
+        var deferred = q.defer();
+
+        TeamModel.update(
+            {_id: teamId},
+            {$pull: {users: username}},
+            {new: true},
+            function (err, doc) {
+                if (err) {
+                    console.log("team.model: deleteTeamMember - error > " + err);
+                    deferred.reject(err);
+                } else {
+                    console.log("team.model: deleteTeamMember - result > " + JSON.stringify(doc));
+                    userModel.deleteTeamAffiliation([username], teamId).then(
+                        function (doc) {
+                            deferred.resolve(doc);
+                        },
+                        function (err) {
+                            console.log("team.model: deleteTeamAffiliation - error > " + err);
+                            deferred.reject(err);
+                        }
+                    );
+                }
+            });
 
         return deferred.promise;
     }

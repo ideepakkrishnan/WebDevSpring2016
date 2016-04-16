@@ -54,11 +54,6 @@
                 controller: "TeamController",
                 controllerAs: "model"
             })
-            .when("/stats", {
-                templateUrl: "/project/client/views/users/stats.view.html",
-                controller: "StatsController",
-                controllerAs: "model"
-            })
             .when("/callback", {
                 templateUrl: "/project/client/views/provider/callback.view.html",
                 controller: "CallbackController",
@@ -69,9 +64,14 @@
                 controller: "DeveloperController",
                 controllerAs: "model"
             })
-            .when("/members", {
+            .when("/team/:id", {
                 templateUrl: "/project/client/views/team/members.view.html",
                 controller: "MembersController",
+                controllerAs: "model"
+            })
+            .when("/user/:username/stats", {
+                templateUrl: "/project/client/views/users/stats.view.html",
+                controller: "StatsController",
                 controllerAs: "model"
             })
             .otherwise({

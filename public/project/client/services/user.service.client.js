@@ -13,13 +13,14 @@
 
         var api = {
             findUserByCredentials: findUserByCredentials,
+            getUserByUsername: getUserByUsername,
             findAllUsers: findAllUsers,
             createUser: createUser,
             createNewUser: createNewUser,
             deleteUserById: deleteUserById,
             updateUser: updateUser,
             updateExistingUserById: updateExistingUserById,
-            searchUsingFirstName: searchUsingFirstName,
+            searchForName: searchForName,
             cacheUserLocally: cacheUserLocally,
             updateDeviceConnection: updateDeviceConnection,
             addPersonalGoal: addPersonalGoal,
@@ -44,6 +45,10 @@
             return $http.get("/api/project/admin/user");
         }
 
+        function getUserByUsername(username) {
+            return $http.get("/api/project/user/" + username);
+        }
+
         function createUser(user) {
             return $http.post("/api/project/user", user);
         }
@@ -64,8 +69,8 @@
             return $http.put("/api/project/user/" + userId, user);
         }
 
-        function searchUsingFirstName(firstName) {
-            return $http.get("/api/project/user/search" + firstName);
+        function searchForName(name) {
+            return $http.get("/api/project/user/search/" + name);
         }
 
         function updateDeviceConnection(userId, connDetails) {
@@ -85,11 +90,11 @@
         }
 
         function getDataForSelectedUsers(userIds) {
-            return $http.get("/api/project/user/filter/userIds", userIds);
+            return $http.get("/api/project/user/filter/userIds/" + userIds.splice(','));
         }
 
         function getDataForSelectedUsernames(usernames) {
-            return $http.get("/api/project/user/filter/usernames", usernames);
+            return $http.get("/api/project/user/filter/usernames/" + usernames.splice(','));
         }
 
         function addTeamAffiliation(username, teamDetails) {

@@ -15,7 +15,9 @@
             findUsersByTeam: findUsersByTeam,
             createTeam: createTeam,
             updateTeamById: updateTeamById,
-            deleteTeamById: deleteTeamById
+            deleteTeamById: deleteTeamById,
+            addTeamMember: addTeamMember,
+            deleteTeamMember: deleteTeamMember
         };
         return api;
 
@@ -37,6 +39,14 @@
 
         function deleteTeamById(teamId) {
             return $http.delete("/api/project/team/" + teamId);
+        }
+
+        function addTeamMember(teamId, username) {
+            return $http.put("/api/project/team/" + teamId + "/" + username);
+        }
+
+        function deleteTeamMember(teamId, username) {
+            return $http.delete("/api/project/team/" + teamId + "/" + username);
         }
     }
 })();

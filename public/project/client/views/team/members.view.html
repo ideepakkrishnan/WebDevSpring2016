@@ -1,21 +1,29 @@
-<h1 class="page-header">{{model.currentTeam.name}}</h1>
-<span id="helpBlock" class="help-block">Click on any team member to assign personal goals</span>
+<h1 class="page-header">Team Details</h1>
 
 <div ng-controller="MembersController" id='outer' class="container-fluid newSection">
     <div id="main" class="row">
-        <div class="col-sm-12 input-group">
-            <button type="button" class="btn btn-default">Add New Team</button>
-        </div>
 
         <div class="row">
-            <div class="col-sm-12 input-group">
-                <input ng-model="model.newMember" type="text" class="form-control searchTeamInput" placeholder="Enter First Name to search...">
+            <div class="col-xs-12 col-sm-12 col-md-12 input-group">
+                <div angucomplete-alt
+                     id="members"
+                     placeholder="Enter name to search..."
+                     pause="400"
+                     selected-object="model.addingUser"
+                     remote-url="/api/project/user/search/"
+                     title-field="firstName,lastName"
+                     description-field="email"
+                     input-class="form-control form-control-small"
+                     match-class="highlight">
+                </div>
+
             <span class="input-group-btn">
-              <button class="btn btn-default" type="button" data-toggle="modal" data-target="#newMemberModal" aria-label="Search" ng-click="model.searchForUser(model.newMember)">
-                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+              <button class="btn btn-default" type="button" ng-click="model.addToTeam(model.addingUser)">
+                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
               </button>
             </span>
             </div>
+        </div>
         </div>
 
         <div class="row newSection">
@@ -24,17 +32,29 @@
             </div>
         </div>
 
-        <div ng-repeat="currMember in model.currTeamMembers" class="col-sm-6">
-            <div class="media alert alert-warning" role="alert" ng-click="model.selectMember(currMember._id)">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" width="50px" ng-src="{{currMember.image}}" alt="currMember.username">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">{{currMember.firstName}} {{currMember.lastName}}</h4>
-                    <h4 class="media-heading">{{currMember.username}}</h4>
-                    {{currMember.email}}
+        <div class="row newSection">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <span id="helpBlock" class="help-block">Click on any team member to assign personal goals</span>
+            </div>
+        </div>
+
+        <div class="row newSection">
+            <div ng-repeat="currMember in model.currTeamMembers" class="col-sm-6">
+                <div class="media alert alert-warning" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                            ng-click="model.deleteTeamMember(currMember.username)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="media-left" ng-click="model.selectMember(currMember.username)">
+                        <a href="#">
+                            <img class="media-object" width="50px" ng-src="{{currMember.image}}" alt="image">
+                        </a>
+                    </div>
+                    <div class="media-body" ng-click="model.selectMember(currMember.username)">
+                        <h4 class="media-heading">{{currMember.firstName}} {{currMember.lastName}}</h4>
+                        <h4 class="media-heading">{{currMember.username}}</h4>
+                        {{currMember.email}}
+                    </div>
                 </div>
             </div>
         </div>

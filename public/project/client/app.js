@@ -4,5 +4,5 @@
 
 (function() {
     angular
-        .module("PerformXApp", ["ngRoute", "chart.js"]);
+        .module("PerformXApp", ["ngRoute", "chart.js", "angucomplete-alt"]);
 })();

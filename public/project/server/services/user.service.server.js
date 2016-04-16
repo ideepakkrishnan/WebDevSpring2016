@@ -7,14 +7,15 @@ var bcrypt = require('bcrypt-nodejs');
 module.exports = function(app, userModel) {
     app.post("/api/project/user", createUser);
     app.get("/api/project/user", getUserByCredentials);
+    app.get("/api/project/user/:username", getUserByUsername);
     app.put("/api/project/user/:id", updateUserById);
-    app.get("/api/project/user/search/:firstName", searchUsingFirstName);
+    app.get("/api/project/user/search/:name", searchForName);
     app.put("/api/project/user/:id/device", updateFitbitConnDetails);
     app.put("/api/project/user/:username/goals", addPersonalGoal);
     app.get("/api/project/user/:username/goals", retrievePersonalGoals);
     app.delete("/api/project/user/:username/goals", removePersonalGoal);
-    app.get("/api/project/user/filter/userIds", retrieveDataForSelectedUserIds);
-    app.get("/api/project/user/filter/usernames", retrieveDataForSelectedUsernames);
+    app.get("/api/project/user/filter/userIds/:uids", retrieveDataForSelectedUserIds);
+    app.get("/api/project/user/filter/usernames/:unames", retrieveDataForSelectedUsernames);
     app.put("/api/project/user/:username/teams", addTeamAffiliation);
     app.delete("/api/project/user/teams/:teamId", deleteTeamAffiliation);
     app.put("/api/project/user/:username/subscribers", addSubscriber);
@@ -43,6 +44,22 @@ module.exports = function(app, userModel) {
                         console.log("Unauthorized");
                         res.status(400).send(err);
                     }
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function getUserByUsername(req, res) {
+        var username = req.params.username;
+        
+        userModel
+            .findUserByUsername(username)
+            .then(
+                function (doc) {
+                    delete doc.password;
+                    res.json(doc);
                 },
                 function (err) {
                     res.status(400).send(err);
@@ -197,9 +214,9 @@ module.exports = function(app, userModel) {
             );
     }
 
-    function searchUsingFirstName(req, res) {
-        var firstName = req.params.firstName;
-        var searchResults = userModel.searchUsingFirstName(firstName)
+    function searchForName(req, res) {
+        var name = req.params.name;
+        userModel.searchForName(name)
             .then(
                 function (doc) {
                     res.json(doc);
@@ -266,7 +283,7 @@ module.exports = function(app, userModel) {
     }
 
     function retrieveDataForSelectedUserIds(req, res) {
-        var userIds = req.body;
+        var userIds = req.params.uids.split(',');
         var updatedUser = userModel.retrieveDataForSelectedUserIds(userIds)
             .then(
                 function (doc) {
@@ -279,7 +296,7 @@ module.exports = function(app, userModel) {
     }
 
     function retrieveDataForSelectedUsernames(req, res) {
-        var usernames = req.body;
+        var usernames = req.params.unames.split(',');
         var updatedUser = userModel.retrieveDataForSelectedUsernames(usernames)
             .then(
                 function (doc) {
@@ -294,7 +311,7 @@ module.exports = function(app, userModel) {
     function addTeamAffiliation(req, res) {
         var username = req.params.username;
         var teamId = req.body.teamId;
-        var updatedUser = userModel.addTeamAffiliation(username, teamId)
+        userModel.addTeamAffiliation(username, teamId)
             .then(
                 function (doc) {
                     console.log(doc.data);

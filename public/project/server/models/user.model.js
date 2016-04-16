@@ -18,7 +18,7 @@ module.exports = function (db, mongoose) {
         createUser: createUser,
         deleteUserById: deleteUserById,
         updateUser: updateUser,
-        searchUsingFirstName: searchUsingFirstName,
+        searchForName: searchForName,
         updateFitbitConnDetails: updateFitbitConnDetails,
         addPersonalGoal: addPersonalGoal,
         retrievePersonalGoals: retrievePersonalGoals,
@@ -125,10 +125,28 @@ module.exports = function (db, mongoose) {
         return deferred.promise;
     }
 
-    function searchUsingFirstName(firstName) {
+    function searchForName(name) {
         var deferred = q.defer();
 
-        //TODO: Add helper functions for search logic
+        var splitName = name.split(' '); // Split the name into first and last name
+        var filter = {};
+
+        if (splitName[0]) {
+            filter.firstName = {$regex: splitName[0], $options: "$i"};
+        }
+
+        if (splitName[1]) {
+            filter.lastName = {$regex: splitName[1], $options: "$i"};
+        }
+
+        UserModel.find(filter, function (err, doc) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                console.log("user.model - searchForName - result: " + JSON.stringify(doc));
+                deferred.resolve(doc);
+            }
+        });
 
         return deferred.promise;
     }
@@ -262,7 +280,7 @@ module.exports = function (db, mongoose) {
                     console.log("user.model: addTeamAffiliation - error > " + err);
                     deferred.reject(err);
                 } else {
-                    //console.log("user.model: addTeamAffiliation - result > " + JSON.stringify(doc.data));
+                    //console.log("user.model: addTeamAffiliation - result > " + JSON.stringify(doc));
                     UserModel.findOne({username: username}, function (err, res) {
                         if (err) {
                             console.log("user.model: addTeamAffiliation - error > " + err);
