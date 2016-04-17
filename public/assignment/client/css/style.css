@@ -161,19 +161,6 @@ body {
     content: '\25bc';
 }
 
-.highlight {
-    color: rgb(0, 76, 153);
-}
-
-.angucomplete-dropdown {
-    overflow-y: auto;
-    max-height: 200px;
-}
-
-#members img {
-    width: 35px;
-}
-
 @media only screen and (max-width: 767px) {
 
     .no-border {

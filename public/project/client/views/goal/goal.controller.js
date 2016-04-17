@@ -19,7 +19,7 @@
 
             /* Initialize global variables */
             if ($rootScope.currentUser) {
-                GoalService.findAllGoals()
+                GoalService.findAllGoalsForUsername($rootScope.currentUser.username)
                     .then(
                         function (response) {
                             vm.goals = response.data;
@@ -54,22 +54,10 @@
         };
 
         function addGoal() {
-            var types = [];
-            if (vm.weightGoal) {
-                types.push("weight");
-            }
-            if (vm.sleepGoal) {
-                types.push("sleep");
-            }
-            if (vm.activityGoal) {
-                types.push("activity");
-            }
-            if (vm.fatGoal) {
-                types.push("fat");
-            }
-
             var newGoal = {
-                "username": vm.username,
+                "name": vm.goalName,
+                "username": $rootScope.currentUser.username,
+                "assignedBy": $rootScope.currentUser.username,
                 "calories": vm.calories,
                 "weight": vm.weight,
                 "fat": vm.fat,
@@ -78,13 +66,26 @@
                 "duration": vm.duration,
                 "floors": vm.floors,
                 "date": (new Date(vm.date)).formatDDMMMYYYY(),
-                "type": types
+                "type": vm.goalType,
+                "frequency": vm.frequency
             };
 
-            GoalService.createGoal(newGoal)
+            GoalService
+                .createGoal(newGoal)
                 .then(
                     function(response) {
-                        vm.goals = response.data;
+                        console.log("goal.controller - addGoal - created goal: " + JSON.stringify(response));
+                        return GoalService.findAllGoalsForUsername($rootScope.currentUser.username);
+                    },
+                    function (err) {
+                        console.log("goal.controller - addGoal - error: " + err.message);
+                    }
+                )
+                .then(
+                    function (doc) {
+                        console.log("goal.controller - user goals: " + JSON.stringify(doc));
+                        vm._id = "";
+                        vm.goals = doc.data;
                         vm.username = "";
                         vm.calories = "";
                         vm.weight = "";
@@ -94,34 +95,22 @@
                         vm.duration = "";
                         vm.floors = "";
                         vm.date = "";
-                        vm.weightGoal = false;
-                        vm.sleepGoal = false;
-                        vm.activityGoal = false;
-                        vm.fatGoal = false;
+                        vm.goalType = "";
+                        vm.frequency = "";
+                        vm.goalName = "";
+                        $('#newGoalModal').modal('hide');
                     },
                     function (err) {
-                        console.log(err);
+                        console.log("goal.controller - addGoal - error: " + err.message);
                     }
                 );
         }
 
         function updateGoal() {
-            var types = [];
-            if (vm.weightGoal) {
-                types.push("weight");
-            }
-            if (vm.sleepGoal) {
-                types.push("sleep");
-            }
-            if (vm.activityGoal) {
-                types.push("activity");
-            }
-            if (vm.fatGoal) {
-                types.push("fat");
-            }
-
             var updatedGoal = {
-                "username": vm.username,
+                "name": vm.goalName,
+                "username": $rootScope.currentUser.username,
+                "assignedBy": $rootScope.currentUser.username,
                 "calories": vm.calories,
                 "weight": vm.weight,
                 "fat": vm.fat,
@@ -130,14 +119,25 @@
                 "duration": vm.duration,
                 "floors": vm.floors,
                 "date": (new Date(vm.date)).formatDDMMMYYYY(),
-                "type": types
+                "type": vm.goalType,
+                "frequency": vm.frequency
             };
 
             GoalService.updateGoal(vm._id, updatedGoal)
                 .then(
                     function(response) {
-                        vm.goals = response.data;
-                        vm._id = -1;
+                        console.log("goal.controller - updateGoal - created goal: " + JSON.stringify(response));
+                        return GoalService.findAllGoalsForUsername($rootScope.currentUser.username);
+                    },
+                    function (err) {
+                        console.log("goal.controller - updateGoal - error: " + err.message);
+                    }
+                )
+                .then(
+                    function (doc) {
+                        console.log("goal.controller - updateGoal - user goals: " + JSON.stringify(doc));
+                        vm.goals = doc.data;
+                        vm._id = "";
                         vm.username = "";
                         vm.calories = "";
                         vm.weight = "";
@@ -147,25 +147,36 @@
                         vm.duration = "";
                         vm.floors = "";
                         vm.date = "";
-                        vm.weightGoal = false;
-                        vm.sleepGoal = false;
-                        vm.activityGoal = false;
-                        vm.fatGoal = false;
+                        vm.goalType = "";
+                        vm.frequency = "";
+                        vm.goalName = "";
+                        $('#updateGoalModal').modal('hide');
                     },
                     function (err) {
-                        console.log(err);
+                        console.log("goal.controller - updateGoal - error: " + err.message);
                     }
                 );
         }
 
         function deleteGoal(goalId) {
-            GoalService.deleteGoalById(goalId)
+            GoalService
+                .deleteGoalById(goalId)
                 .then(
                     function(response) {
-                        vm.goals = response.data;
+                        console.log("goal.controller - deleteGoal - deleted goal: " + JSON.stringify(response));
+                        return GoalService.findAllGoalsForUsername($rootScope.currentUser.username);
                     },
                     function (err) {
-                        console.log(err);
+                        console.log("goal.controller - deleteGoal - error: " + err.message);
+                    }
+                )
+                .then(
+                    function (doc) {
+                        console.log("goal.controller - deleteGoal - user goals: " + JSON.stringify(doc));
+                        vm.goals = doc.data;
+                    },
+                    function (err) {
+                        console.log("goal.controller - deleteGoal - error: " + err.message);
                     }
                 );
         }
@@ -181,10 +192,9 @@
             vm.duration = goal.duration;
             vm.floors = goal.floors;
             vm.date = new Date(goal.date);
-            vm.weightGoal = goal.type.indexOf('weight') >= 0;
-            vm.sleepGoal = goal.type.indexOf('sleep') >= 0;
-            vm.activityGoal = goal.type.indexOf('activity') >= 0;
-            vm.fatGoal = goal.type.indexOf('fat') >= 0;
+            vm.goalType = goal.type;
+            vm.frequency = goal.frequency;
+            vm.goalName = goal.name;
         }
     }
 })();

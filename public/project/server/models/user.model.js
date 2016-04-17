@@ -186,7 +186,7 @@ module.exports = function (db, mongoose) {
                     console.log("user.model: addPersonalGoal - error > " + err);
                     deferred.reject(err);
                 } else {
-                    console.log("user.model: addPersonalGoal - result > " + JSON.stringify(doc.data));
+                    console.log("user.model: addPersonalGoal - result > " + JSON.stringify(res));
                     deferred.resolve(res);
                 }
             });

@@ -12,6 +12,9 @@
     function goalService($http) {
         var api = {
             findAllGoals: findAllGoals,
+            findAllGoalsForUsername: findAllGoalsForUsername,
+            findAllGoalsAssignedByUsername: findAllGoalsAssignedByUsername,
+            findAllGoalsAssignedToUserByWatcher: findAllGoalsAssignedToUserByWatcher,
             createGoal: createGoal,
             deleteGoalById: deleteGoalById,
             updateGoal: updateGoal
@@ -20,6 +23,18 @@
 
         function findAllGoals() {
             return $http.get("/api/project/user/goal");
+        }
+
+        function findAllGoalsForUsername(username) {
+            return $http.get("/api/project/user/" + username + "/goal");
+        }
+
+        function findAllGoalsAssignedByUsername(username) {
+            return $http.get("/api/project/user/" + username + "/goal/watch");
+        }
+
+        function findAllGoalsAssignedToUserByWatcher(assignedTo, assignedBy) {
+            return $http.get("/api/project/user/" + assignedTo + "/goal/watcher/" + assignedBy);
         }
 
         function createGoal(goal) {

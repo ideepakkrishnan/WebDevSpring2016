@@ -13,6 +13,9 @@ module.exports = function (db, mongoose, userModel) {
 
     var api = {
         findAllGoals: findAllGoals,
+        findGoalsForUser: findGoalsForUser,
+        findGoalsAssignedByUser: findGoalsAssignedByUser,
+        findGoalsAssignedToUserByWatcher: findGoalsAssignedToUserByWatcher,
         createGoal: createGoal,
         deleteGoalById: deleteGoalById,
         updateGoal: updateGoal
@@ -34,16 +37,64 @@ module.exports = function (db, mongoose, userModel) {
         return deferred.promise;
     }
 
+    function findGoalsForUser(username) {
+        var deferred = q.defer();
+
+        GoalModel.find({username: username}, function (err, doc) {
+            if (err) {
+                console.log("goal.model: findGoalsForUser - error > " + err);
+                deferred.reject(err);
+            } else {
+                console.log("goal.model: findGoalsForUser - result > " + doc.data);
+                deferred.resolve(doc);
+            }
+        });
+
+        return deferred.promise;
+    }
+
+    function findGoalsAssignedByUser(username) {
+        var deferred = q.defer();
+
+        GoalModel.find({assignedBy: username}, function (err, doc) {
+            if (err) {
+                console.log("goal.model: findGoalsAssignedByUser - error > " + err);
+                deferred.reject(err);
+            } else {
+                console.log("goal.model: findGoalsAssignedByUser - result > " + doc.data);
+                deferred.resolve(doc);
+            }
+        });
+
+        return deferred.promise;
+    }
+
+    function findGoalsAssignedToUserByWatcher(assignedTo, assignedBy) {
+        var deferred = q.defer();
+
+        GoalModel.find({username: assignedTo, assignedBy: assignedBy}, function (err, doc) {
+            if (err) {
+                console.log("goal.model: findGoalsAssignedToUserByWatcher - error > " + err);
+                deferred.reject(err);
+            } else {
+                console.log("goal.model: findGoalsAssignedToUserByWatcher - result > " + doc.data);
+                deferred.resolve(doc);
+            }
+        });
+
+        return deferred.promise;
+    }
+
     function createGoal(goal) {
         var deferred = q.defer();
 
         GoalModel.create(goal, function (err, doc) {
             if (err) {
-                console.log("goal.model: createGoal - error > " + err);
+                console.log("goal.model: createGoal - error > " + err.message);
                 deferred.reject(err);
             } else {
-                console.log("goal.model: createGoal - result > " + doc.data);
-                userModel.addPersonalGoal(doc.username, doc.data._id).then(
+                console.log("goal.model: createGoal - result > " + JSON.stringify(doc));
+                userModel.addPersonalGoal(doc.username, doc._id).then(
                     function (res) {
                         deferred.resolve(res);
                     },
@@ -65,21 +116,14 @@ module.exports = function (db, mongoose, userModel) {
                 console.log("goal.model: deleteGoalById - error > " + err);
                 deferred.reject(err);
             } else {
-                userModel.removePersonalGoal(res.data.username, goalId)
+                userModel.removePersonalGoal(res.username, goalId)
                     .then(
                         function (doc) {
-                            console.log("goal.model: deleteGoalById - result > " + JSON.stringify(doc.data));
-                            GoalModel.find({goalId: {$in: doc.data.goalIds}}, function (err, goals) {
-                                if (err) {
-                                    console.log("goal.model: deleteGoalById - error > " + err);
-                                    deferred.reject(err);
-                                } else {
-                                    deferred.resolve(goals);
-                                }
-                            });
+                            console.log("goal.model: deleteGoalById - result > " + JSON.stringify(doc));
+                            deferred.resolve(doc);
                         },
                         function (err) {
-                            console.log("goal.model: deleteGoalById - error > " + err);
+                            console.log("goal.model: deleteGoalById - error > " + err.message);
                             deferred.reject(err);
                         });
             }
@@ -93,25 +137,14 @@ module.exports = function (db, mongoose, userModel) {
 
         GoalModel.findByIdAndUpdate(
             goalId,
-            {$set: {
-                username: goal.username,
-                calories: goal.calories,
-                weight: goal.weight,
-                fat: goal.fat,
-                steps: goal.steps,
-                distance: goal.distance,
-                duration: goal.duration,
-                floors: goal.floors,
-                date: goal.date,
-                type: goal.type
-            }},
+            {$set: goal},
             {new: true},
             function (err, doc) {
                 if (err) {
-                    console.log("goal.model: updateGoal - error > " + err);
+                    console.log("goal.model: updateGoal - error > " + err.message);
                     deferred.reject(err);
                 } else {
-                    console.log("goal.model: updateGoal - result > " + err);
+                    console.log("goal.model: updateGoal - result > " + JSON.stringify(doc));
                     deferred.resolve(doc);
                 }
             });

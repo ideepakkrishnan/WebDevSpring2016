@@ -4,6 +4,9 @@
 
 module.exports = function(app, goalModel) {
     app.post("/api/project/user/goal", createGoal);
+    app.get("/api/project/user/:username/goal", getAllGoalsForUsername);
+    app.get("/api/project/user/:username/goal/watch", getAllGoalsAssignedByUsername);
+    app.get("/api/project/user/:assignedTo/goal/watcher/:assignedBy", getAllGoalsAssignedToUserByWatcher);
     app.get("/api/project/user/goal", getAllGoals);
     app.put("/api/project/user/goal/:id", updateGoalById);
     app.delete("/api/project/user/goal/:id", deleteGoalById);
@@ -16,6 +19,50 @@ module.exports = function(app, goalModel) {
                 },
                 function (err) {
                     res.status(400).send(err);
+                }
+            );
+    }
+
+    function getAllGoalsForUsername(req, res) {
+        var username = req.params.username;
+        goalModel
+            .findGoalsAssignedByUser(username)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function getAllGoalsAssignedByUsername(req, res) {
+        var username = req.params.username;
+        goalModel
+            .findGoalsAssignedByUser(username)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function getAllGoalsAssignedToUserByWatcher(req, res) {
+        var assignedToUser = req.params.assignedTo;
+        var assignedByUser = req.params.assignedBy;
+        
+        goalModel
+            .findGoalsAssignedToUserByWatcher(assignedToUser, assignedByUser)
+            .then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.json(err);
                 }
             );
     }

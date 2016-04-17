@@ -5,7 +5,9 @@
 module.exports = function (mongoose) {
     var goalSchema = mongoose.Schema({
         username: String,
-        type: [String],
+        name: String,
+        assignedBy: String,
+        type: String,
         calories: Number,
         weight: Number,
         fat: Number,
@@ -13,7 +15,8 @@ module.exports = function (mongoose) {
         distance: Number,
         duration: Number,
         floors: Number,
-        date: Date
+        date: Date,
+        frequency: Number
     }, {collection: 'performXgoal'});
     return goalSchema;
 };
