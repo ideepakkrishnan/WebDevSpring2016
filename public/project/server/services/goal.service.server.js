@@ -62,7 +62,7 @@ module.exports = function(app, goalModel) {
                     res.json(doc);
                 },
                 function (err) {
-                    res.json(err);
+                    res.status(400).send(err);
                 }
             );
     }
