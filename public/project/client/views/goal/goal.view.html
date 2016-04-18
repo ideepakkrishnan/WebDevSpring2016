@@ -15,33 +15,35 @@
     </div>
 
     <div id="main" class="row">
-        <div ng-repeat="goal in model.goals" class="col-xs-12 col-sm-6 col-md-6 callout-info callout">
+        <div ng-repeat="goal in model.goals" class="col-sm-12 col-sm-12 col-md-12 callout-info callout">
             <h4>{{goal.name}}</h4>
-            <p>
-                Alerts don't have default classes, only base and modifier classes. A default gray alert
-                doesn't make too much sense, so you're required to specify a type via contextual class.
-                Choose from success, info, warning, or danger.
-            </p>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-16" ng-if="goal.type == 'activity'">
+                    <canvas id="calorieDoughnut" class="chart chart-doughnut" chart-legend="true"
+                            chart-data="goal.aggregateCalorieData" chart-labels="goal.caloriesDoughnutLabels">
+                    </canvas>
+                </div>
+            </div>
 
             <div class="radio radio-info">
-                <input id="radioWeight{{goal._id}}" class="styled" type="radio"
-                       value="weight" ng-checked="goal.type == 'weight'" disabled/>
-                <label for="radioWeight{{goal._id}}">Weight</label>
+                <input id="radioCalories{{goal._id}}" class="styled" type="radio"
+                       value="calories" ng-checked="goal.type == 'calories'" disabled/>
+                <label for="radioCalories{{goal._id}}">Calories</label>
             </div>
             <div class="radio radio-info">
-                <input id="radioSleep{{goal._id}}" class="styled" type="radio"
-                       value="sleep" ng-checked="goal.type == 'sleep'" disabled/>
-                <label for="radioSleep{{goal._id}}">Sleep</label>
+                <input id="radioDistance{{goal._id}}" class="styled" type="radio"
+                       value="distance" ng-checked="goal.type == 'distance'" disabled/>
+                <label for="radioDistance{{goal._id}}">Distance</label>
             </div>
             <div class="radio radio-info">
-                <input id="radioActivity{{goal._id}}" class="styled" type="radio"
-                       value="activity" ng-checked="goal.type == 'activity'" disabled/>
-                <label for="radioActivity{{goal._id}}">Activity</label>
+                <input id="radioFloors{{goal._id}}" class="styled" type="radio"
+                       value="floors" ng-checked="goal.type == 'floors'" disabled/>
+                <label for="radioFloors{{goal._id}}">Floors</label>
             </div>
             <div class="radio radio-info">
-                <input id="radioFat{{goal._id}}" class="styled" type="radio"
-                       value="fat" ng-checked="goal.type == 'fat'" disabled/>
-                <label for="radioFat{{goal._id}}">Fat</label>
+                <input id="radioSteps{{goal._id}}" class="styled" type="radio"
+                       value="steps" ng-checked="goal.type == 'steps'" disabled/>
+                <label for="radioSteps{{goal._id}}">Steps</label>
             </div>
             <div class="row">
                 <div class="col-xs-12">
@@ -70,7 +72,7 @@
                             <input ng-model="model.goalName" type="text" class="form-control" placeholder="Goal Name">
                         </div>
                     </div>
-                    <div class="row" ng-show="model.goalType == 'activity'">
+                    <div class="row" ng-show="model.goalType == 'calories'">
                         <div class="col-xs-3 col-sm-3 col-md-3">
                             <div>Calories:</div>
                         </div>
@@ -78,23 +80,7 @@
                             <input ng-model="model.calories" type="number" class="form-control" placeholder="Calories">
                         </div>
                     </div>
-                    <div class="row" ng-show="model.goalType == 'weight'">
-                        <div class="col-xs-3 col-sm-3 col-md-3">
-                            <div>Weight:</div>
-                        </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
-                            <input ng-model="model.weight" type="number" class="form-control" placeholder="Weight">
-                        </div>
-                    </div>
-                    <div class="row" ng-show="model.goalType == 'fat'">
-                        <div class="col-xs-3 col-sm-3 col-md-3">
-                            <div>Fat:</div>
-                        </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
-                            <input ng-model="model.fat" type="number" class="form-control" placeholder="Fat">
-                        </div>
-                    </div>
-                    <div class="row" ng-show="model.goalType == 'activity'">
+                    <div class="row" ng-show="model.goalType == 'steps'">
                         <div class="col-xs-3 col-sm-3 col-md-3">
                             <div>Steps:</div>
                         </div>
@@ -102,7 +88,7 @@
                             <input ng-model="model.steps" type="number" class="form-control" placeholder="Steps">
                         </div>
                     </div>
-                    <div class="row" ng-show="model.goalType == 'activity'">
+                    <div class="row" ng-show="model.goalType == 'distance'">
                         <div class="col-xs-3 col-sm-3 col-md-3">
                             <div>Distance:</div>
                         </div>
@@ -110,15 +96,7 @@
                             <input ng-model="model.distance" type="number" class="form-control" placeholder="Distance">
                         </div>
                     </div>
-                    <div class="row" ng-show="model.goalType == 'sleep'">
-                        <div class="col-xs-3 col-sm-3 col-md-3">
-                            <div>Duration:</div>
-                        </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
-                            <input ng-model="model.duration" type="number" class="form-control" placeholder="Duration">
-                        </div>
-                    </div>
-                    <div class="row" ng-show="model.goalType == 'activity'">
+                    <div class="row" ng-show="model.goalType == 'floors'">
                         <div class="col-xs-3 col-sm-3 col-md-3">
                             <div>Floors:</div>
                         </div>
@@ -163,24 +141,24 @@
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <h5>Goal Type</h5>
                             <div class="radio radio-info">
-                                <input id="radioWeight" ng-model="model.goalType" class="styled" type="radio"
-                                       value="weight"/>
-                                <label for="radioWeight">Weight</label>
+                                <input id="radioCalories" ng-model="model.goalType" class="styled" type="radio"
+                                       value="calories"/>
+                                <label for="radioCalories">Calories</label>
                             </div>
                             <div class="radio radio-info">
-                                <input id="radioSleep" ng-model="model.goalType" class="styled" type="radio"
-                                       value="sleep"/>
-                                <label for="radioSleep">Sleep</label>
+                                <input id="radioDistance" ng-model="model.goalType" class="styled" type="radio"
+                                       value="distance"/>
+                                <label for="radioDistance">Distance</label>
                             </div>
                             <div class="radio radio-info">
-                                <input id="radioActivity" ng-model="model.goalType" class="styled" type="radio"
-                                       value="activity"/>
-                                <label for="radioActivity">Activity</label>
+                                <input id="radioFloors" ng-model="model.goalType" class="styled" type="radio"
+                                       value="floors"/>
+                                <label for="radioFloors">Floors</label>
                             </div>
                             <div class="radio radio-info">
-                                <input id="radioFat" ng-model="model.goalType" class="styled" type="radio"
-                                       value="fat"/>
-                                <label for="radioFat">Fat</label>
+                                <input id="radioSteps" ng-model="model.goalType" class="styled" type="radio"
+                                       value="steps"/>
+                                <label for="radioSteps">Steps</label>
                             </div>
                         </div>
                     </div>
@@ -210,7 +188,7 @@
                             <input ng-model="model.goalName" type="text" class="form-control" placeholder="Goal Name">
                         </div>
                     </div>
-                    <div class="row" ng-show="model.goalType == 'activity'">
+                    <div class="row" ng-show="model.goalType == 'calories'">
                         <div class="col-xs-3 col-sm-3 col-md-3">
                             <div>Calories:</div>
                         </div>
@@ -218,23 +196,7 @@
                             <input ng-model="model.calories" type="number" class="form-control" placeholder="Calories">
                         </div>
                     </div>
-                    <div class="row" ng-show="model.goalType == 'weight'">
-                        <div class="col-xs-3 col-sm-3 col-md-3">
-                            <div>Weight:</div>
-                        </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
-                            <input ng-model="model.weight" type="number" class="form-control" placeholder="Weight">
-                        </div>
-                    </div>
-                    <div class="row" ng-show="model.goalType == 'fat'">
-                        <div class="col-xs-3 col-sm-3 col-md-3">
-                            <div>Fat:</div>
-                        </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
-                            <input ng-model="model.fat" type="number" class="form-control" placeholder="Fat">
-                        </div>
-                    </div>
-                    <div class="row" ng-show="model.goalType == 'activity'">
+                    <div class="row" ng-show="model.goalType == 'steps'">
                         <div class="col-xs-3 col-sm-3 col-md-3">
                             <div>Steps:</div>
                         </div>
@@ -242,7 +204,7 @@
                             <input ng-model="model.steps" type="number" class="form-control" placeholder="Steps">
                         </div>
                     </div>
-                    <div class="row" ng-show="model.goalType == 'activity'">
+                    <div class="row" ng-show="model.goalType == 'distance'">
                         <div class="col-xs-3 col-sm-3 col-md-3">
                             <div>Distance:</div>
                         </div>
@@ -250,15 +212,7 @@
                             <input ng-model="model.distance" type="number" class="form-control" placeholder="Distance">
                         </div>
                     </div>
-                    <div class="row" ng-show="model.goalType == 'sleep'">
-                        <div class="col-xs-3 col-sm-3 col-md-3">
-                            <div>Duration:</div>
-                        </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
-                            <input ng-model="model.duration" type="number" class="form-control" placeholder="Duration">
-                        </div>
-                    </div>
-                    <div class="row" ng-show="model.goalType == 'activity'">
+                    <div class="row" ng-show="model.goalType == 'floors'">
                         <div class="col-xs-3 col-sm-3 col-md-3">
                             <div>Floors:</div>
                         </div>
@@ -303,24 +257,24 @@
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <h5>Goal Type</h5>
                             <div class="radio radio-info">
-                                <input id="radioEditWeight" ng-model="model.goalType" class="styled" type="radio"
-                                       value="weight" disabled/>
-                                <label for="radioWeight">Weight</label>
+                                <input id="radioEditCalories" ng-model="model.goalType" class="styled" type="radio"
+                                       value="calories" disabled/>
+                                <label for="radioEditCalories">Calories</label>
                             </div>
                             <div class="radio radio-info">
-                                <input id="radioEditSleep" ng-model="model.goalType" class="styled" type="radio"
-                                       value="sleep" disabled/>
-                                <label for="radioSleep">Sleep</label>
+                                <input id="radioEditDistance" ng-model="model.goalType" class="styled" type="radio"
+                                       value="distance" disabled/>
+                                <label for="radioEditDistance">Distance</label>
                             </div>
                             <div class="radio radio-info">
-                                <input id="radioEditActivity" ng-model="model.goalType" class="styled" type="radio"
-                                       value="activity" disabled/>
-                                <label for="radioActivity">Activity</label>
+                                <input id="radioEditFloors" ng-model="model.goalType" class="styled" type="radio"
+                                       value="floors" disabled/>
+                                <label for="radioEditFloors">Floors</label>
                             </div>
                             <div class="radio radio-info">
-                                <input id="radioEditFat" ng-model="model.goalType" class="styled" type="radio"
-                                       value="fat" disabled/>
-                                <label for="radioFat">Fat</label>
+                                <input id="radioEditSteps" ng-model="model.goalType" class="styled" type="radio"
+                                       value="steps" disabled/>
+                                <label for="radioEditSteps">Steps</label>
                             </div>
                         </div>
                     </div>

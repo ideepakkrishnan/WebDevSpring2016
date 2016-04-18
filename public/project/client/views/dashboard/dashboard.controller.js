@@ -7,7 +7,7 @@
         .module("PerformXApp")
         .controller("DashboardController", dashboardController);
 
-    function dashboardController($window, $rootScope, $location, $filter, DeviceService, TeamService, UserService) {
+    function dashboardController($window, $rootScope, $location, $filter, DeviceService, TeamService, UserService, HealthLogService) {
         var vm = this;
 
         function init() {
@@ -72,6 +72,10 @@
                     vm.activityData.then(function (data){
                         initializeChart(data, dates);
                     });
+
+                    var curr_date = new Date();
+                    curr_date = $filter('date')(curr_date, "yyyy-MM-dd");
+                    syncWeeklyData(curr_date);
                 }
 
                 // Initialize visualizations
@@ -218,6 +222,119 @@
             }
             vm.todayDistanceData = [netDistance, goals[6].distance - netDistance];
             vm.todayDistanceLabels = ["Distance Covered", "Away from goal"];
+        }
+
+        function syncWeeklyData(date) {
+            syncWeeklyActivityData(date);
+        }
+
+        function syncWeeklyActivityData(date) {
+            // Calorie data
+            DeviceService
+                .getWeeklyCalorieData(date)
+                .then(
+                    function (doc) {
+                        var healthDataObj = {
+                            username: vm.username,
+                            type: 'calories',
+                            healthdata: doc[0].data["activities-calories"],
+                            date: new Date()
+                        };
+                        return HealthLogService.createHealthLog(healthDataObj);
+                    },
+                    function (err) {
+                        console.log("dashboard.controller - getWeeklyCalorieData - error: " + err.message);
+                    }
+                )
+                .then(
+                    function (doc) {
+
+                    },
+                    function (err) {
+                        console.log("dashboard.controller - getWeeklyCalorieData - error: " + err.message);
+                    }
+                );
+
+            // Distance data
+            DeviceService
+                .getWeeklyDistanceData(date)
+                .then(
+                    function (doc) {
+                        console.log("dashboard.controller - getWeeklyDistanceData: " + JSON.stringify(doc));
+                        var healthDataObj = {
+                            username: vm.username,
+                            type: 'distance',
+                            healthdata: doc[0].data["activities-distance"],
+                            date: new Date()
+                        };
+                        return HealthLogService.createHealthLog(healthDataObj);
+                    },
+                    function (err) {
+                        console.log("dashboard.controller - getWeeklyDistanceData - error: " + err.message);
+                    }
+                )
+                .then(
+                    function (doc) {
+                        console.log("dashboard.controller - getWeeklyDistanceData - createHealthLog - result: " + JSON.stringify(doc));
+                    },
+                    function (err) {
+                        console.log("dashboard.controller - getWeeklyDistanceData - error: " + err.message);
+                    }
+                );
+
+            // Floors data
+            DeviceService
+                .getWeeklyFloorsData(date)
+                .then(
+                    function (doc) {
+                        console.log("dashboard.controller - getWeeklyFloorsData: " + JSON.stringify(doc));
+                        var healthDataObj = {
+                            username: vm.username,
+                            type: 'floors',
+                            healthdata: doc[0].data["activities-floors"],
+                            date: new Date()
+                        };
+                        return HealthLogService.createHealthLog(healthDataObj);
+                    },
+                    function (err) {
+                        console.log("dashboard.controller - getWeeklyFloorsData - error: " + err.message);
+                    }
+                )
+                .then(
+                    function (doc) {
+                        console.log("dashboard.controller - getWeeklyFloorsData - createHealthLog - result: " + JSON.stringify(doc));
+                    },
+                    function (err) {
+                        console.log("dashboard.controller - getWeeklyFloorsData - error: " + err.message);
+                    }
+                );
+
+            // Steps data
+            DeviceService
+                .getWeeklyStepsData(date)
+                .then(
+                    function (doc) {
+                        console.log("dashboard.controller - getWeeklyStepsData: " + JSON.stringify(doc));
+                        var healthDataObj = {
+                            username: vm.username,
+                            type: 'steps',
+                            healthdata: doc[0].data["activities-steps"],
+                            date: new Date()
+                        };
+                        return HealthLogService.createHealthLog(healthDataObj);
+                    },
+                    function (err) {
+                        console.log("dashboard.controller - getWeeklyStepsData - error: " + err.message);
+                    }
+                )
+                .then(
+                    function (doc) {
+                        console.log("dashboard.controller - getWeeklyStepsData - createHealthLog - result: " + JSON.stringify(doc));
+                    },
+                    function (err) {
+                        console.log("dashboard.controller - getWeeklyStepsData - error: " + err.message);
+                    }
+                );
         }
     }
 })();

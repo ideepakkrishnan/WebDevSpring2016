@@ -13,6 +13,7 @@ module.exports = function (db, mongoose, userModel) {
     var api = {
         findAllHealthLogs: findAllHealthLogs,
         findHealthLogsForUser: findHealthLogsForUser,
+        findSpecificHealthLogsForUser: findSpecificHealthLogsForUser,
         createHealthLog: createHealthLog,
         deleteHealthLogById: deleteHealthLogById,
         updateHealthLogById: updateHealthLogById
@@ -40,6 +41,21 @@ module.exports = function (db, mongoose, userModel) {
         HealthLogModel.find({username: username}, function (err, doc) {
             if (err) {
                 console.log("healthLog.model: findAllHealthLogs - error > " + err);
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
+            }
+        });
+
+        return deferred.promise;
+    }
+
+    function findSpecificHealthLogsForUser(username, type) {
+        var deferred = q.defer();
+
+        HealthLogModel.find({username: username, type: type}, function (err, doc) {
+            if (err) {
+                console.log("healthLog.model: findSpecificHealthLogsForUser - error > " + err);
                 deferred.reject(err);
             } else {
                 deferred.resolve(doc);

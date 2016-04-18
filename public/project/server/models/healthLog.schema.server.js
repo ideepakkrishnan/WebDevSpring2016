@@ -3,10 +3,13 @@
  */
 
 module.exports = function (mongoose) {
+
+    var GenericLogSchema = require("./genericLog.schema.server.js")(mongoose);
+
     var healthLogSchema = mongoose.Schema({
         username: String,
         type: String,
-        healthdata: [Object],
+        healthdata: [GenericLogSchema],
         date: Date
     }, {collection: 'performXhealthLog'});
     return healthLogSchema;
