@@ -331,3 +331,12 @@ body {
 .goalCompleteness {
     color: #70B4D1;
 }
+
+.jumbotron {
+    margin-bottom: 0px;
+    background-image: url(http://www.wallpaperswala.com/wp-content/uploads/2012/12/Hope-Solo-Nike-poster.jpg);
+    background-position: 0% 25%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+}

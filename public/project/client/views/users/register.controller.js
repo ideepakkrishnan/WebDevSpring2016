@@ -23,6 +23,20 @@
                 return false;
             }
 
+            var roles = [];
+
+            if (model.admin == 1) {
+                roles.push('admin');
+            }
+
+            if (model.watcher == 1) {
+                roles.push('watcher');
+            }
+
+            if (model.player == 1) {
+                roles.push('player');
+            }
+
             var newUser = {
                 "firstName": firstName,
                 "lastName": lastName,
@@ -30,6 +44,7 @@
                 "password": password,
                 "email": email,
                 "teams": [],
+                "roles": roles,
                 "goalIds": [],
                 "accessToken": "",
                 "expiresIn": 0,
