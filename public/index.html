@@ -44,22 +44,22 @@
         <div class="row mt">
             <div class="col-sm-4">
                 <a href="project/client/#/home" class="main-links">
-                <i class="ion-ios7-monitor-outline"></i>
-                <h3>Project</h3>
+                    <i class="ion-ios7-monitor-outline"></i>
+                    <h3>Project</h3>
                 </a>
             </div><!--/col-md-4-->
 
             <div class="col-sm-4">
                 <a href="assignment/client/#/home" class="main-links">
-                <i class="ion-ios7-browsers-outline"></i>
-                <h3>Assignment</h3>
+                    <i class="ion-ios7-browsers-outline"></i>
+                    <h3>Assignment</h3>
                 </a>
             </div><!--/col-md-4-->
 
             <div class="col-sm-4">
                 <a href="https://github.com/ideepakkrishnan/WebDevSpring2016" class="main-links">
-                <i class="ion-ios7-copy-outline"></i>
-                <h3>GitHub</h3>
+                    <i class="ion-ios7-copy-outline"></i>
+                    <h3>GitHub</h3>
                 </a>
             </div><!--/col-md-4-->
 
@@ -69,12 +69,17 @@
 
 <div class="container ptb">
     <div class="row">
-        <h2 class="centered mb">And this is a portfolio of my work done during<br/>CS 5610 - Web Fundamentals - Spring 2016</h2>
+        <h2 class="centered mb">And this is a portfolio of my work done during<br/>CS 5610 - Web Fundamentals - Spring
+            2016</h2>
         <div class="col-md-6">
-            <p>The assignment complementing the coursework was a MEAN stack based Form Maker. This web app allows a user to create online forms which can be edited through the app. Form Maker lets you perform CRUD operations on the fields within each form through a mobile-friendly design.</p>
+            <p>The assignment complementing the coursework was a MEAN stack based Form Maker. This web app allows a user
+                to create online forms which can be edited through the app. Form Maker lets you perform CRUD operations
+                on the fields within each form through a mobile-friendly design.</p>
         </div><!--/col-md-6-->
         <div class="col-md-6">
-            <p>My project for this coursework is a FitBit data visualization tool called PerformX. This web app lets a user sync their Fitbit and PerformX accounts to leverage real time physical activity data and plot graphs that gives you a glance of your fitness regimes over time.</p>
+            <p>My project for this coursework is a FitBit data visualization tool called PerformX. This web app lets a
+                user sync their Fitbit and PerformX accounts to leverage real time physical activity data and plot
+                graphs that gives you a glance of your fitness regimes over time.</p>
         </div><!--/col-md-6-->
     </div><!--/row-->
 </div><!-- /.container -->
@@ -91,7 +96,10 @@
         <div class="row centered">
             <h2>Application Architecture</h2>
             <div class="col-md-8 col-md-offset-2">
-                <p>Both Form Maker and PerformX follows the MVC architecture pattern where the app is divided into models, views and controllers where models manipulate the data and contain the core app logic, views specify the display of application data and controllers act as a bridge between the views and controllers converting data into formats expected by these components.</p>
+                <p>Both Form Maker and PerformX follows the MVC architecture pattern where the app is divided into
+                    models, views and controllers where models manipulate the data and contain the core app logic, views
+                    specify the display of application data and controllers act as a bridge between the views and
+                    controllers converting data into formats expected by these components.</p>
 
             </div><!--/col-md-8-->
         </div><!--/row-->
@@ -249,7 +257,8 @@
         <div class="row clients centered">
             <p>Powered by</p>
             <div class="col-sm-2 col-sm-offset-1">
-                <img src="http://orig01.deviantart.net/d472/f/2013/333/8/2/angularjs_by_abhishekghosh-d6w57fs.png" alt="Angular JS">
+                <img src="http://orig01.deviantart.net/d472/f/2013/333/8/2/angularjs_by_abhishekghosh-d6w57fs.png"
+                     alt="Angular JS">
             </div>
             <div class="col-sm-2">
                 <img src="https://strongloop.com/wp-content/uploads/2015/12/nodejs-logo.png" alt="Node JS">
@@ -258,7 +267,8 @@
                 <img src="http://static.tumblr.com/lbtm3t2/8PAn0kziu/mongodb-logo.png" alt="mongo DB">
             </div>
             <div class="col-sm-2">
-                <img src="http://www.unixstickers.com/image/cache/data/stickers/bootstrap/bootstrap.sh-600x600.png" alt="Bootstrap">
+                <img src="http://assets.toptal.io/uploads/blog/category/logo/80/twitter_bootstrap.png"
+                     alt="Bootstrap">
             </div>
             <div class="col-sm-2">
                 <img src="http://hervemedia.fr/images/jquery-logo.png" alt="jQuery">
@@ -266,6 +276,15 @@
         </div><!--/row-->
     </div><!--/container-->
 </div><!--/.G-->
+
+<div>
+    <div class="container mt">
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/bKU8tamzVr0"
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
 
 <div id="f" class="mt">
     <div class="container">
@@ -295,13 +314,13 @@
 
 <script>
     // Portfolio
-    (function($) {
+    (function ($) {
         "use strict";
         var $container = $('.portfolio'),
                 $items = $container.find('.portfolio-item'),
                 portfolioLayout = 'fitRows';
 
-        if( $container.hasClass('portfolio-centered') ) {
+        if ($container.hasClass('portfolio-centered')) {
             portfolioLayout = 'masonry';
         }
 
@@ -314,18 +333,17 @@
                 easing: 'linear',
                 queue: false
             },
-            masonry: {
-            }
+            masonry: {}
         }, refreshWaypoints());
 
         function refreshWaypoints() {
-            setTimeout(function() {
+            setTimeout(function () {
             }, 1000);
         }
 
-        $('nav.portfolio-filter ul a').on('click', function() {
+        $('nav.portfolio-filter ul a').on('click', function () {
             var selector = $(this).attr('data-filter');
-            $container.isotope({ filter: selector }, refreshWaypoints());
+            $container.isotope({filter: selector}, refreshWaypoints());
             $('nav.portfolio-filter ul a').removeClass('active');
             $(this).addClass('active');
             return false;
@@ -354,9 +372,9 @@
                     columnNumber = getColumnNumber(),
                     itemWidth = Math.floor(winWidth / columnNumber);
 
-            $container.find('.portfolio-item').each(function() {
-                $(this).css( {
-                    width : itemWidth + 'px'
+            $container.find('.portfolio-item').each(function () {
+                $(this).css({
+                    width: itemWidth + 'px'
                 });
             });
         }
