@@ -38,6 +38,9 @@
                         vm.teams = currUser.data.teams;
                         vm.roles = currUser.data.roles;
 
+                        // Initialize provider connection details
+                        retrieveConnectionDetails();
+
                         return TeamService.fetchTeamDetails(vm.teams);
                     },
                     function (err) {
@@ -48,9 +51,6 @@
                 .then(
                     function (response) {
                         vm.myTeams = response.data;
-
-                        // Initialize provider connection details
-                        retrieveConnectionDetails();
 
                         // Initialize provider profile data
                         if ($rootScope.account_user_id && $rootScope.access_token) {
@@ -106,11 +106,7 @@
         }
 
         function retrieveConnectionDetails() {
-            if (vm.currUser.accessToken && vm.currUser.accountUserId) {
-                $rootScope.access_token = vm.currUser.accessToken;
-                $rootScope.expires_in = vm.currUser.expiresIn;
-                $rootScope.account_user_id = vm.currUser.accountUserId;
-            } else if (JSON.parse(window.localStorage.getItem("fitbit"))) {
+            if (JSON.parse(window.localStorage.getItem("fitbit"))) {
                 console.log("Authorized");
                 $rootScope.access_token = JSON.parse(window.localStorage.getItem("fitbit")).oauth.access_token;
                 $rootScope.expires_in = JSON.parse(window.localStorage.getItem("fitbit")).oauth.expires_in;
