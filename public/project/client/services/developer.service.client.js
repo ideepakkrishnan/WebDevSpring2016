@@ -11,12 +11,17 @@
 
     function developerService($http) {
         var api = {
-            getAllAPIRequests: getAllAPIRequests
+            getAllAPIRequests: getAllAPIRequests,
+            generateContent: generateContent
         };
         return api;
 
         function getAllAPIRequests() {
             return $http.get("/api/project/api");
+        }
+
+        function generateContent() {
+            return $http.put("/api/project/api", {add: 1});
         }
     }
 })();

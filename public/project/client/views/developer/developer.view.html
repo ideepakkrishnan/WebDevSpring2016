@@ -7,13 +7,12 @@
             account through the dashboard.
         </small>
     </p>
-    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
 </div>
 
 <div ng-controller="DeveloperController" id='outer' class="container-fluid">
-    <div class="row">
+    <div class="row newSection">
         <div class="col-sm-3">
-            <div class="btn-group-vertical" role="group" aria-label="Available Requests">
+            <div class="btn-group-vertical col-sm-12" role="group" aria-label="Available Requests">
                 <button ng-click="model.selectRequest('activityData')" type="button" class="btn btn-default" data-dismiss="modal">Activity Data</button>
                 <button ng-click="model.selectRequest('profileData')" type="button" class="btn btn-default" data-dismiss="modal">Profile Data</button>
                 <button ng-click="model.selectRequest('userDevices')" type="button" class="btn btn-default" data-dismiss="modal">User Devices</button>

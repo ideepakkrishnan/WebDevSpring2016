@@ -37,6 +37,10 @@
                 roles.push('player');
             }
 
+            if (vm.developer == 1) {
+                roles.push('developer');
+            }
+
             var newUser = {
                 "firstName": firstName,
                 "lastName": lastName,

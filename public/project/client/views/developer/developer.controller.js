@@ -7,10 +7,14 @@
         .module("PerformXApp")
         .controller("DeveloperController", developerController);
 
-    function developerController($rootScope, DeveloperService, DeviceService) {
+    function developerController($rootScope, UserService, DeveloperService, DeviceService) {
         var vm = this;
 
         function init() {
+            DeveloperService.generateContent().then(function (doc) {
+                console.log(JSON.stringify(doc));
+            });
+
             UserService
                 .getCurrentUser()
                 .then(
@@ -28,7 +32,7 @@
                 )
                 .then(
                     function (response) {
-                        console.log(response.data);
+                        console.log(JSON.stringify(response.data));
                         vm.apiRequestList = response.data;
                     },
                     function (err) {
