@@ -8,7 +8,7 @@
         .module("PerformXApp")
         .controller("CallbackController", callbackController);
 
-    function callbackController($location, $rootScope, UserService) {
+    function callbackController($location, UserService) {
         var vm = this;
 
         function init() {
@@ -27,14 +27,13 @@
                             account_user_id: paramMap.user_id
                         }
                     };
-                    //window.localStorage.setItem("fitbit", JSON.stringify(fitbit));
-                    $rootScope.fitbitAuthDetails = fitbit;
+                    window.localStorage.setItem("fitbit", JSON.stringify(fitbit));
 
                     // Change this redirect link to wherever your dashboard is located.
-                    $location.path("#/dashboard");
+                    console.log(JSON.stringify(paramMap));
+                    //$location.path("#/dashboard");
                 } else {
                     alert("Problem authenticating");
-                    $rootScope.errorMessage = "Oh snap! We couldn't connect your FitBit account.";
                 }
             } else {
                 $location.path("#/home");

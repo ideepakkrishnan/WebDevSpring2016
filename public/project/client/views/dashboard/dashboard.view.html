@@ -2,17 +2,27 @@
 <p>Here is a quick snapshot of your activities in the past week</p>
 
 <div ng-controller="DashboardController" id='outer' class="container-fluid">
-    <div class="row">
+    <div id="deviceContainer" class="row newSection" ng-if="vm.activityData == null">
+        <blockquote>
+            <p>FitBit Sync</p>
+            <small>Connect your FitBit account</small>
+        </blockquote>
+        <div class="col-sm-12 input-group">
+            <button type="button" ng-click="model.connectAccount()" class="btn btn-warning">Sync with Fitbit</button>
+        </div>
+    </div>
+
+    <div class="row" ng-if="model.data">
         <canvas id="line" class="chart chart-line" chart-data="model.data"
                 chart-labels="model.labels" chart-legend="true" chart-series="model.series"
                 chart-click="model.chartHandle">
         </canvas>
     </div>
 
-    <div id="main" class="row newSection">
+    <div id="main" class="row newSection" ng-if="model.todayStepData">
         <blockquote>
-            <p>Personal Goals <span class="badge">3</span></p>
-            <small>A glance at your physical activities today</small>
+            <p>Glance</p>
+            <small>A snapshot of your physical activities today</small>
         </blockquote>
 
         <div class="col-sm-4">
@@ -148,7 +158,7 @@
         </div>
     </div>
 
-    <div id="teamsContainer" class="row newSection">
+    <div id="teamsContainer" class="row newSection" ng-if="model.myTeams.length > 0">
         <blockquote>
             <p>Teams <span class="badge">1</span></p>
             <small>Your affiliations</small>
@@ -164,70 +174,6 @@
                 <div class="media-body">
                     <h4 class="media-heading">{{team.name}}</h4>
                     {{team.description}}
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 input-group">
-            <input ng-model="model.newTeamName" type="text" class="form-control searchTeamInput" placeholder="Add new team...">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" aria-label="Search">
-                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                  </button>
-                </span>
-        </div>
-    </div>
-
-    <div id="deviceContainer" class="row newSection">
-        <blockquote>
-            <p>Devices <span class="badge">1</span></p>
-            <small>Your registered devices</small>
-        </blockquote>
-
-        <div class="col-sm-6">
-            <div class="media alert alert-warning" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="model.deleteTeam(team.teamId)">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" width="50px" src="http://www.tecnoadicto.net/blog/wp-content/uploads/2013/06/fitbit-flex.png" alt="Device">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Alice's Personal Fitbit</h4>
-                    32% Charge, 5 hours and 15 minutes remaining
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 input-group">
-            <!--button type="button" class="btn btn-warning" data-toggle="modal" data-target="#newDeviceModal">Sync with Fitbit</button-->
-            <button type="button" ng-click="model.connectAccount()" class="btn btn-warning">Sync with Fitbit</button>
-        </div>
-    </div>
-
-    <div class="modal fade" id="newDeviceModal" tabindex="-1" role="dialog" aria-labelledby="newDeviceModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="newDeviceModalLabel">Connect device</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-xs-3 col-sm-3 col-md-3">
-                            <img class="img-responsive" src="http://www.bertrand-soulier.com/wp-content/uploads/2015/01/logo-syncsolver.png" alt="New Device">
-                        </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,
-                            mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
-                            eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit
-                            amet elit iaculis pretium sit amet quis magna.
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" ng-click="model.connectAccount">Sync Data</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
