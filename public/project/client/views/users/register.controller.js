@@ -25,15 +25,15 @@
 
             var roles = [];
 
-            if (model.admin == 1) {
+            if (vm.admin == 1) {
                 roles.push('admin');
             }
 
-            if (model.watcher == 1) {
+            if (vm.watcher == 1) {
                 roles.push('watcher');
             }
 
-            if (model.player == 1) {
+            if (vm.player == 1) {
                 roles.push('player');
             }
 
