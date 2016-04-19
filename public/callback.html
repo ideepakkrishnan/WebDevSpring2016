@@ -5,7 +5,9 @@
     <title>Title</title>
 
     <script>
+        console.log(document.URL);
         var callbackResponse = (document.URL).split("#")[1];
+        console.log(callbackResponse);
         var responseParameters = (callbackResponse).split("&");
         var parameterMap = [];
         for(var i = 0; i < responseParameters.length; i++) {
@@ -22,7 +24,7 @@
             window.localStorage.setItem("fitbit", JSON.stringify(fitbit));
 
             // Change this redirect link to wherever your dashboard is located.
-            window.location.href = "http://localhost:3000/project/client/#/dashboard";
+            window.location.href = "http://webdevspring2016-krishnandeepak.rhcloud.com/project/client/#/dashboard";
         } else {
             alert("Problem authenticating");
         }
