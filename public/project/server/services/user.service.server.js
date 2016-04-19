@@ -181,7 +181,14 @@ module.exports = function(app, userModel) {
             )
             .then(
                 function (doc) {
-                    res.json(doc);
+                    // use the passport helper function to login the newly created user
+                    req.login(doc, function (err) {
+                        if (err) {
+                            res.status(400).send(err);
+                        } else {
+                            res.json(doc);
+                        }
+                    });
                 },
                 function (err) {
                     res.status(400).send(err);
