@@ -13,6 +13,7 @@
 
         function init() {
             vm.register = register;
+            vm.rootScope = $rootScope;
         }
         init();
 

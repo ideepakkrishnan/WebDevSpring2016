@@ -12,6 +12,7 @@
 
         function init() {
             vm.update = update;
+            vm.rootScope = $rootScope;
 
             UserService
                 .getCurrentUser()

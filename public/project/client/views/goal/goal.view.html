@@ -2,6 +2,11 @@
 <span id="helpBlock" class="help-block">Manage your personal fitness goals here</span>
 
 <div ng-controller="GoalController" id='outer' class="container-fluid newSection">
+    <div id="updateAlert" class="alert alert-danger alert-dismissible" role="alert" ng-show="model.rootScope.errorMessage">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="model.rootScope.errorMessage = null"><span aria-hidden="true">&times;</span></button>
+        <strong>Error!</strong> {{model.rootScope.errorMessage}}
+    </div>
+
     <div class="row input-group">
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#newGoalModal">Create a New
             Goal

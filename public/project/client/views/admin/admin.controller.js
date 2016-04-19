@@ -18,6 +18,7 @@
             vm.selectUser = selectUser;
             vm.order = order;
             vm.selectedUser = null;
+            vm.rootScope = $rootScope;
 
             /* Initialize global variables */
             UserService

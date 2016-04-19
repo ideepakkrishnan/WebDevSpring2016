@@ -12,6 +12,7 @@
 
         function init() {
             vm.location = $location;
+            vm.rootScope = $rootScope;
             vm.addGoal = addGoal;
             vm.updateGoal = updateGoal;
             vm.deleteGoal = deleteGoal;

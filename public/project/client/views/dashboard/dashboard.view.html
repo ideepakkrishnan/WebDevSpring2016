@@ -2,6 +2,10 @@
 <p>Here is a quick snapshot of your activities in the past week</p>
 
 <div ng-controller="DashboardController" id='outer' class="container-fluid">
+    <div id="updateAlert" class="alert alert-danger alert-dismissible" role="alert" ng-show="model.rootScope.errorMessage">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="model.rootScope.errorMessage = null"><span aria-hidden="true">&times;</span></button>
+        <strong>Error!</strong> {{model.rootScope.errorMessage}}
+    </div>
     <div id="deviceContainer" class="row newSection" ng-if="vm.activityData == null">
         <blockquote>
             <p>FitBit Sync</p>

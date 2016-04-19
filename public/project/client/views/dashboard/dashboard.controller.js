@@ -11,6 +11,7 @@
         var vm = this;
 
         function init() {
+            vm.rootScope = $rootScope;
             vm.connectAccount = connectAccount;
             vm.chartHandle = chartHandle;
 

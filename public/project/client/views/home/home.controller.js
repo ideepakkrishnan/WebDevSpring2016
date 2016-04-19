@@ -9,6 +9,7 @@
 
     function homeController($rootScope) {
         var vm = this;
+        vm.rootScope = $rootScope;
 
         function init() {
             if (JSON.parse(window.localStorage.getItem("fitbit"))) {

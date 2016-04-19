@@ -12,6 +12,7 @@
 
         function init() {
             vm.login = login;
+            vm.rootScope = $rootScope;
         }
         init();
 

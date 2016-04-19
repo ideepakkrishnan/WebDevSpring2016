@@ -11,6 +11,8 @@
         var vm = this;
 
         function init() {
+            vm.rootScope = $rootScope;
+
             DeveloperService.generateContent().then(function (doc) {
                 console.log(JSON.stringify(doc));
             });

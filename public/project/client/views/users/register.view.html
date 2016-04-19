@@ -1,91 +1,100 @@
 <h1 class="page-header">Register</h1>
 
-<form class="form-horizontal">
-    <div class="form-group">
-        <label for="inputUsername" class="col-sm-2 control-label">Username: </label>
-        <div class="col-sm-10">
-            <input ng-model="model.username" type="text" class="form-control" id="inputUsername" placeholder="Username">
-        </div>
+<div id='outer' class="container-fluid newSection">
+    <div id="updateAlert" class="alert alert-danger alert-dismissible" role="alert"
+         ng-show="model.rootScope.errorMessage">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                ng-click="model.rootScope.errorMessage = null"><span aria-hidden="true">&times;</span></button>
+        <strong>Error!</strong> {{model.rootScope.errorMessage}}
     </div>
-    <div class="form-group">
-        <label for="inputPassword" class="col-sm-2 control-label">Password: </label>
-        <div class="col-sm-10">
-            <input ng-model="model.password" type="password" class="form-control" id="inputPassword"
-                   placeholder="Password">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="inputVerifyPassword" class="col-sm-2 control-label">Verify Password: </label>
-        <div class="col-sm-10">
-            <input ng-model="model.verifyPassword" type="password" class="form-control" id="inputVerifyPassword"
-                   placeholder="Verify Password">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="inputFirstName" class="col-sm-2 control-label">First Name: </label>
-        <div class="col-sm-10">
-            <input ng-model="model.firstName" type="text" class="form-control" id="inputFirstName"
-                   placeholder="First Name">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="inputLastName" class="col-sm-2 control-label">Last Name: </label>
-        <div class="col-sm-10">
-            <input ng-model="model.lastName" type="text" class="form-control" id="inputLastName"
-                   placeholder="Last Name">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="inputEmail" class="col-sm-2 control-label">Email: </label>
-        <div class="col-sm-10">
-            <input ng-model="model.email" type="email" class="form-control" id="inputEmail" placeholder="Email">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="inputImage" class="col-sm-2 control-label">Profile Image: </label>
-        <div class="col-sm-10">
-            <input ng-model="model.image" type="url" class="form-control" id="inputImage"
-                   placeholder="Link to profile image">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="inputImage" class="col-sm-2 control-label">Role: </label>
-        <div class="col-sm-10">
-            <div class="row">
-                <div class="col-sm-10">
-                <label>
-                    <input ng-model="model.admin" type="checkbox"> Administrator
-                </label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-10">
-                <label>
-                    <input ng-model="model.watcher" type="checkbox"> Trainer
-                </label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-10">
-                <label>
-                    <input ng-model="model.player" type="checkbox"> Player
-                </label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-10">
-                    <label>
-                        <input ng-model="model.developer" type="checkbox"> Developer
-                    </label>
-                </div>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="inputUsername" class="col-sm-2 control-label">Username: </label>
+            <div class="col-sm-10">
+                <input ng-model="model.username" type="text" class="form-control" id="inputUsername"
+                       placeholder="Username">
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button ng-click="model.register(model.username, model.password, model.verifyPassword, model.firstName, model.lastName, model.email, model.image)"
-                    type="submit" class="btn btn-primary btn-block btn-lg">Register
-            </button>
+        <div class="form-group">
+            <label for="inputPassword" class="col-sm-2 control-label">Password: </label>
+            <div class="col-sm-10">
+                <input ng-model="model.password" type="password" class="form-control" id="inputPassword"
+                       placeholder="Password">
+            </div>
         </div>
-    </div>
-</form>
+        <div class="form-group">
+            <label for="inputVerifyPassword" class="col-sm-2 control-label">Verify Password: </label>
+            <div class="col-sm-10">
+                <input ng-model="model.verifyPassword" type="password" class="form-control" id="inputVerifyPassword"
+                       placeholder="Verify Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputFirstName" class="col-sm-2 control-label">First Name: </label>
+            <div class="col-sm-10">
+                <input ng-model="model.firstName" type="text" class="form-control" id="inputFirstName"
+                       placeholder="First Name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputLastName" class="col-sm-2 control-label">Last Name: </label>
+            <div class="col-sm-10">
+                <input ng-model="model.lastName" type="text" class="form-control" id="inputLastName"
+                       placeholder="Last Name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputEmail" class="col-sm-2 control-label">Email: </label>
+            <div class="col-sm-10">
+                <input ng-model="model.email" type="email" class="form-control" id="inputEmail" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputImage" class="col-sm-2 control-label">Profile Image: </label>
+            <div class="col-sm-10">
+                <input ng-model="model.image" type="url" class="form-control" id="inputImage"
+                       placeholder="Link to profile image">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputImage" class="col-sm-2 control-label">Role: </label>
+            <div class="col-sm-10">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <label>
+                            <input ng-model="model.admin" type="checkbox"> Administrator
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <label>
+                            <input ng-model="model.watcher" type="checkbox"> Trainer
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <label>
+                            <input ng-model="model.player" type="checkbox"> Player
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <label>
+                            <input ng-model="model.developer" type="checkbox"> Developer
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button ng-click="model.register(model.username, model.password, model.verifyPassword, model.firstName, model.lastName, model.email, model.image)"
+                        type="submit" class="btn btn-primary btn-block btn-lg">Register
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

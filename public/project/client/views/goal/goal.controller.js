@@ -12,6 +12,7 @@
 
         function init() {
             vm.goals = [];
+            vm.rootScope = $rootScope;
 
             /* Expose functions */
             vm.addGoal = addGoal;

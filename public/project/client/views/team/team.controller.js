@@ -19,6 +19,7 @@
             vm.deleteTeamMember = deleteTeamMember;
             vm.addUserToTeam = addUserToTeam;
             vm.location = $location;
+            vm.rootScope = $rootScope;
 
             UserService
                 .getCurrentUser()

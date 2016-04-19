@@ -13,6 +13,7 @@
         var vm = this;
 
         function init() {
+            vm.rootScope = $rootScope;
             vm.selectMember = selectMember;
             vm.searchForUser = searchForUser;
             vm.addToTeam = addToTeam;
