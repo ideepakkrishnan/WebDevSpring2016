@@ -7,7 +7,7 @@
         .module("PerformXApp")
         .controller("AdminController", adminController);
 
-    function adminController(UserService) {
+    function adminController($rootScope, UserService) {
         var vm = this;
 
         function init() {
@@ -29,22 +29,9 @@
                     },
                     function (err) {
                         console.log("admin.controller - init - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to fetch the user list. Please try again.";
                     }
                 );
-
-            var month = new Array();
-            month[0] = "Jan";
-            month[1] = "Feb";
-            month[2] = "Mar";
-            month[3] = "Apr";
-            month[4] = "May";
-            month[5] = "Jun";
-            month[6] = "Jul";
-            month[7] = "Aug";
-            month[8] = "Sep";
-            month[9] = "Oct";
-            month[10] = "Nov";
-            month[11] = "Dec";
         }
         init();
 
@@ -86,11 +73,11 @@
                     vm.watcher = false;
                     vm.admin = false;
 
-                    console.log("admin.controller - addUser - response: " + JSON.stringify(response));
                     vm.users = response.data;
                 },
                 function (err) {
                     console.log("admin.controller - addUser - error: " + err.message);
+                    $rootScope.errorMessage = "Oh snap! We were unable to create the user. Please try again.";
                 }
             );
         }
@@ -135,6 +122,7 @@
                     },
                     function (err) {
                         console.log("admin.controller - updateError - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to update the user details. Please try again.";
                     }
                 );
         }
@@ -148,6 +136,7 @@
                     },
                     function (err) {
                         console.log("admin.controller - deleteUser - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to delete the user. Please try again.";
                     }
                 );
         }

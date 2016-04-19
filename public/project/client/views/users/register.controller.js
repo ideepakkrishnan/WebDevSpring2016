@@ -19,6 +19,7 @@
         function register(username, password, verifyPassword, firstName, lastName, email, image) {
             if (password != verifyPassword) {
                 console.log("Bad password");
+                $rootScope.errorMessage = "The passwords doesn't match. Please correct this.";
                 return false;
             }
 
@@ -43,13 +44,14 @@
                 .then(
                     function(response) {
                         if (response) {
-                            $rootScope.currentUser = response.data;
+                            UserService.setCurrentUser(response.data);
                             UserService.cacheUserLocally(response.data);
                             $location.url("/profile");
                         }
                     },
                     function (err) {
                         console.log(err);
+                        $rootScope.errorMessage = "Oh snap! We were unable to register you. Please try again.";
                     }
                 );
         }

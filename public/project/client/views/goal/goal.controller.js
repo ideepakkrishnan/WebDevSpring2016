@@ -7,12 +7,11 @@
         .module("PerformXApp")
         .controller("GoalController", goalController);
 
-    function goalController($rootScope, $location, UserService, GoalService, HealthLogService) {
+    function goalController($rootScope, UserService, GoalService, HealthLogService) {
         var vm = this;
 
         function init() {
             vm.goals = [];
-            vm.currUsername = $rootScope.currentUser.username;
 
             /* Expose functions */
             vm.addGoal = addGoal;
@@ -20,23 +19,29 @@
             vm.deleteGoal = deleteGoal;
             vm.selectGoal = selectGoal;
             vm.doughnutLabels = doughnutLabels;
-
-            /* Initialize global variables */
-            if ($rootScope.currentUser) {
-                GoalService
-                    .findAllGoalsForUsername($rootScope.currentUser.username)
-                    .then(
-                        function (response) {
-                            vm.goals = response.data;
-                            renderCharts();
-                        },
-                        function (err) {
-                            console.log("goal.controller - init - Error: " + err.message);
-                        }
-                    );
-            } else {
-                $location.path("#/home");
-            }
+            
+            UserService
+                .getCurrentUser()
+                .then(
+                    function (currUser) {
+                        vm.currUser = currUser.data;
+                        vm.currUsername = currUser.data.username;
+                        return GoalService.findAllGoalsForUsername(vm.currUsername);
+                    },
+                    function (err) {
+                        $rootScope.errorMessage = "You should be logged in!";
+                    }
+                )
+                .then(
+                    function (response) {
+                        vm.goals = response.data;
+                        renderCharts();
+                    },
+                    function (err) {
+                        console.log("goal.controller - init error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to save the goal. Please try again.";
+                    }
+                );
         }
         init();
 
@@ -62,8 +67,8 @@
         function addGoal() {
             var newGoal = {
                 "name": vm.goalName,
-                "username": $rootScope.currentUser.username,
-                "assignedBy": $rootScope.currentUser.username,
+                "username": vm.currUsername,
+                "assignedBy": vm.currUsername,
                 "calories": vm.calories,
                 "weight": vm.weight,
                 "fat": vm.fat,
@@ -80,16 +85,15 @@
                 .createGoal(newGoal)
                 .then(
                     function(response) {
-                        console.log("goal.controller - addGoal - created goal: " + JSON.stringify(response));
-                        return GoalService.findAllGoalsForUsername($rootScope.currentUser.username);
+                        return GoalService.findAllGoalsForUsername(vm.currUsername);
                     },
                     function (err) {
                         console.log("goal.controller - addGoal - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to save the goal. Please try again.";
                     }
                 )
                 .then(
                     function (doc) {
-                        console.log("goal.controller - user goals: " + JSON.stringify(doc));
                         vm.goals = doc.data;
                         renderCharts();
 
@@ -111,6 +115,7 @@
                     },
                     function (err) {
                         console.log("goal.controller - addGoal - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve the goals for this user.";
                     }
                 );
         }
@@ -118,8 +123,8 @@
         function updateGoal() {
             var updatedGoal = {
                 "name": vm.goalName,
-                "username": $rootScope.currentUser.username,
-                "assignedBy": $rootScope.currentUser.username,
+                "username": vm.currUsername,
+                "assignedBy": vm.currUsername,
                 "calories": vm.calories,
                 "weight": vm.weight,
                 "fat": vm.fat,
@@ -135,16 +140,15 @@
             GoalService.updateGoal(vm._id, updatedGoal)
                 .then(
                     function(response) {
-                        console.log("goal.controller - updateGoal - created goal: " + JSON.stringify(response));
-                        return GoalService.findAllGoalsForUsername($rootScope.currentUser.username);
+                        return GoalService.findAllGoalsForUsername(vm.currUsername);
                     },
                     function (err) {
                         console.log("goal.controller - updateGoal - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to update the goal. Please try again.";
                     }
                 )
                 .then(
                     function (doc) {
-                        console.log("goal.controller - updateGoal - user goals: " + JSON.stringify(doc));
                         vm.goals = doc.data;
                         renderCharts();
 
@@ -166,6 +170,7 @@
                     },
                     function (err) {
                         console.log("goal.controller - updateGoal - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve your goals.";
                     }
                 );
         }
@@ -175,22 +180,21 @@
                 .deleteGoalById(goalId)
                 .then(
                     function(response) {
-                        console.log("goal.controller - deleteGoal - deleted goal: " + JSON.stringify(response));
-                        return GoalService.findAllGoalsForUsername($rootScope.currentUser.username);
+                        return GoalService.findAllGoalsForUsername(vm.currUsername);
                     },
                     function (err) {
                         console.log("goal.controller - deleteGoal - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to delete the goal. Please try again.";
                     }
                 )
                 .then(
                     function (doc) {
-                        console.log("goal.controller - deleteGoal - user goals: " + JSON.stringify(doc));
                         vm.goals = doc.data;
-
                         renderCharts();
                     },
                     function (err) {
                         console.log("goal.controller - deleteGoal - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve your goals.";
                     }
                 );
         }
@@ -235,7 +239,7 @@
                     // calorie data
                     vm.goals[i].caloriesDoughnutLabels = ["Calories Burned", "Left"];
                     HealthLogService
-                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'calories', i)
+                        .getSpecificHealthLogsForUser(vm.currUsername, 'calories', i)
                         .then(
                             function (doc) {
                                 vm.calorieLogs = doc.data.res[0].healthdata;
@@ -255,6 +259,7 @@
                             function (err) {
                                 console.log("goal.controller - getSpecificHealthLogsForUser - error: " + err.message);
                                 //vm.goals[doc.data.resForIndex].aggregateCalorieData = [0, 100];
+                                $rootScope.errorMessage = "Oh snap! We were unable to get the calorie goals for this user.";
                             }
                         );
                 } else if (vm.goals[i].type == 'distance') {
@@ -262,7 +267,7 @@
                     // distance data
                     vm.goals[i].distanceDoughnutLabels = ["Steps taken", "Left"];
                     HealthLogService
-                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'distance', i)
+                        .getSpecificHealthLogsForUser(vm.currUsername, 'distance', i)
                         .then(
                             function (doc) {
                                 vm.distanceLogs = doc.data.res[0].healthdata;
@@ -281,6 +286,7 @@
                             function (err) {
                                 console.log("goal.controller - getSpecificHealthLogsForUser - error: " + err.message);
                                 //vm.goals[thisIndex].aggregateDistanceData = [0, 100];
+                                $rootScope.errorMessage = "Oh snap! We were unable to get the distance goals for this user.";
                             }
                         );
                 } else if (vm.goals[i].type == 'floors') {
@@ -288,7 +294,7 @@
                     vm.goals[i].floorsDoughnutLabels = ["Floors climbed", "Left"];
                     console.log("Floors goal");
                     HealthLogService
-                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'floors', i)
+                        .getSpecificHealthLogsForUser(vm.currUsername, 'floors', i)
                         .then(
                             function (doc) {
                                 console.log("goal.controller floors goal - " + JSON.stringify(doc));
@@ -308,13 +314,14 @@
                             },
                             function (err) {
                                 console.log("goal.controller - getSpecificHealthLogsForUser - error: " + err.message);
+                                $rootScope.errorMessage = "Oh snap! We were unable to get the floors goals for this user.";
                             }
                         );
                 } else {
                     // steps data
                     vm.goals[i].floorsDoughnutLabels = ["Steps taken", "Left"];
                     HealthLogService
-                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'steps', i)
+                        .getSpecificHealthLogsForUser(vm.currUsername, 'steps', i)
                         .then(
                             function (doc) {
                                 vm.stepsLogs = doc.data.res[0].healthdata;
@@ -333,6 +340,7 @@
                             },
                             function (err) {
                                 console.log("goal.controller - getSpecificHealthLogsForUser - error: " + err.message);
+                                $rootScope.errorMessage = "Oh snap! We were unable to get the steps goals for this user.";
                             }
                         );
                 }

@@ -24,113 +24,72 @@
             }
 
             // Check if the user is logged in and redirect accordingly
-            if ($rootScope.currentUser) {
-                vm.userId = $rootScope.currentUser._id;
-                vm.username = $rootScope.currentUser.username;
-                vm.password = $rootScope.currentUser.password;
-                vm.firstName = $rootScope.currentUser.firstName;
-                vm.lastName = $rootScope.currentUser.lastName;
-                vm.userEmail = $rootScope.currentUser.email;
-                vm.teams = $rootScope.currentUser.teams;
-                vm.roles = $rootScope.currentUser.roles;
+            UserService
+                .getCurrentUser()
+                .then(
+                    function (currUser) {
+                        vm.currUser = currUser.data;
+                        vm.userId = currUser.data._id;
+                        vm.username = currUser.data.username;
+                        vm.password = currUser.data.password;
+                        vm.firstName = currUser.data.firstName;
+                        vm.lastName = currUser.data.lastName;
+                        vm.userEmail = currUser.data.email;
+                        vm.teams = currUser.data.teams;
+                        vm.roles = currUser.data.roles;
 
-                TeamService.fetchTeamDetails(vm.teams)
-                    .then(
-                        function(response) {
-                            vm.myTeams = response.data;
-                        },
-                        function (err) {
-                            console.log(err);
-                        }
-                    );
-
-                // Initialize provider connection details
-                retrieveConnectionDetails();
-
-                // Initialize provider profile data
-                if ($rootScope.account_user_id && $rootScope.access_token) {
-
-                    vm.profileData = DeviceService.getProfileData();
-                    vm.profileData.then(function (data) {
-                        console.log(data);
-                    });
-
-                    // Initialize activity data
-                    var dates = [];
-                    var past_days = 7;
-                    var today = new Date();
-
-                    for (var i=1; i<=past_days; i++) {
-                        var curr_date = new Date();
-                        curr_date.setDate(today.getDate() - (past_days - i));
-                        curr_date = $filter('date')(curr_date, "yyyy-MM-dd");
-
-                        dates.push(curr_date);
+                        return TeamService.fetchTeamDetails(vm.teams);
+                    },
+                    function (err) {
+                        console.log("profile.controller - init: " + err.message);
+                        $rootScope.errorMessage = "You are not logged in!";
                     }
+                )
+                .then(
+                    function (response) {
+                        vm.myTeams = response.data;
 
-                    vm.activityData = DeviceService.getActivityData(dates);
-                    vm.activityData.then(function (data){
-                        initializeChart(data, dates);
-                    });
+                        // Initialize provider connection details
+                        retrieveConnectionDetails();
 
-                    var curr_date = new Date();
-                    curr_date = $filter('date')(curr_date, "yyyy-MM-dd");
-                    syncWeeklyData(curr_date);
-                }
+                        // Initialize provider profile data
+                        if ($rootScope.account_user_id && $rootScope.access_token) {
 
-                // Initialize visualizations
-                var div1=d3.select(document.getElementById('div1'));
-                var div2=d3.select(document.getElementById('div2'));
-                var div3=d3.select(document.getElementById('div3'));
-                var div4=d3.select(document.getElementById('div4'));
+                            vm.profileData = DeviceService.getProfileData();
+                            vm.profileData.then(function (data) {
+                                console.log(data);
+                            });
 
-                start();
-            } else {
-                $location.path("#/home");
-            }
+                            // Initialize activity data
+                            var dates = [];
+                            var past_days = 7;
+                            var today = new Date();
+
+                            for (var i = 1; i <= past_days; i++) {
+                                var curr_date = new Date();
+                                curr_date.setDate(today.getDate() - (past_days - i));
+                                curr_date = $filter('date')(curr_date, "yyyy-MM-dd");
+
+                                dates.push(curr_date);
+                            }
+
+                            vm.activityData = DeviceService.getActivityData(dates);
+                            vm.activityData.then(function (data) {
+                                initializeChart(data, dates);
+                            });
+
+                            var curr_date = new Date();
+                            curr_date = $filter('date')(curr_date, "yyyy-MM-dd");
+                            syncWeeklyData(curr_date);
+                        }
+                    },
+                    function (err) {
+                        console.log(err);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve the team details.";
+                    }
+                );
         }
         init();
-
-        function onClick1() {
-
-        }
-
-        function onClick2() {
-
-        }
-
-        function onClick3() {
-
-        }
-
-        function labelFunction(val,min,max) {
-
-        }
-
-        function start() {
-            var rp1 = radialProgress(document.getElementById('div1'))
-                .label("Sleep")
-                .onClick(onClick1)
-                .diameter(150)
-                .value(78)
-                .render();
-
-            var rp2 = radialProgress(document.getElementById('div2'))
-                .label("Activity")
-                .onClick(onClick2)
-                .diameter(150)
-                .value(132)
-                .render();
-
-            var rp3 = radialProgress(document.getElementById('div3'))
-                .label("Weight")
-                .onClick(onClick3)
-                .diameter(150)
-                .minValue(100)
-                .maxValue(200)
-                .value(150)
-                .render();
-        }
 
         function connectAccount() {
             vm.fitbit_client_id = "227G2P";
@@ -147,7 +106,11 @@
         }
 
         function retrieveConnectionDetails() {
-            if (JSON.parse(window.localStorage.getItem("fitbit"))) {
+            if (vm.currUser.accessToken && vm.currUser.accountUserId) {
+                $rootScope.access_token = vm.currUser.accessToken;
+                $rootScope.expires_in = vm.currUser.expiresIn;
+                $rootScope.account_user_id = vm.currUser.accountUserId;
+            } else if (JSON.parse(window.localStorage.getItem("fitbit"))) {
                 console.log("Authorized");
                 $rootScope.access_token = JSON.parse(window.localStorage.getItem("fitbit")).oauth.access_token;
                 $rootScope.expires_in = JSON.parse(window.localStorage.getItem("fitbit")).oauth.expires_in;
@@ -165,6 +128,7 @@
                 }
             } else {
                 console.log("Unauthorized");
+                $rootScope.errorMessage = "Oh snap! We are crippled. You haven't connected your FitBit account.";
             }
         }
 
@@ -244,6 +208,7 @@
                     },
                     function (err) {
                         console.log("dashboard.controller - getWeeklyCalorieData - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve the calorie measurements.";
                     }
                 )
                 .then(
@@ -252,6 +217,7 @@
                     },
                     function (err) {
                         console.log("dashboard.controller - getWeeklyCalorieData - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to update your health logs at the moment.";
                     }
                 );
 
@@ -260,7 +226,6 @@
                 .getWeeklyDistanceData(date)
                 .then(
                     function (doc) {
-                        console.log("dashboard.controller - getWeeklyDistanceData: " + JSON.stringify(doc));
                         var healthDataObj = {
                             username: vm.username,
                             type: 'distance',
@@ -271,14 +236,16 @@
                     },
                     function (err) {
                         console.log("dashboard.controller - getWeeklyDistanceData - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve the distance measurements.";
                     }
                 )
                 .then(
                     function (doc) {
-                        console.log("dashboard.controller - getWeeklyDistanceData - createHealthLog - result: " + JSON.stringify(doc));
+                        //console.log("dashboard.controller - getWeeklyDistanceData - createHealthLog - result: " + JSON.stringify(doc));
                     },
                     function (err) {
                         console.log("dashboard.controller - getWeeklyDistanceData - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to update your health logs at the moment.";
                     }
                 );
 
@@ -287,7 +254,6 @@
                 .getWeeklyFloorsData(date)
                 .then(
                     function (doc) {
-                        console.log("dashboard.controller - getWeeklyFloorsData: " + JSON.stringify(doc));
                         var healthDataObj = {
                             username: vm.username,
                             type: 'floors',
@@ -298,14 +264,16 @@
                     },
                     function (err) {
                         console.log("dashboard.controller - getWeeklyFloorsData - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve the floors measurements.";
                     }
                 )
                 .then(
                     function (doc) {
-                        console.log("dashboard.controller - getWeeklyFloorsData - createHealthLog - result: " + JSON.stringify(doc));
+                        //console.log("dashboard.controller - getWeeklyFloorsData - createHealthLog - result: " + JSON.stringify(doc));
                     },
                     function (err) {
                         console.log("dashboard.controller - getWeeklyFloorsData - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to update your health logs at the moment.";
                     }
                 );
 
@@ -314,7 +282,6 @@
                 .getWeeklyStepsData(date)
                 .then(
                     function (doc) {
-                        console.log("dashboard.controller - getWeeklyStepsData: " + JSON.stringify(doc));
                         var healthDataObj = {
                             username: vm.username,
                             type: 'steps',
@@ -325,14 +292,16 @@
                     },
                     function (err) {
                         console.log("dashboard.controller - getWeeklyStepsData - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve your steps measurements.";
                     }
                 )
                 .then(
                     function (doc) {
-                        console.log("dashboard.controller - getWeeklyStepsData - createHealthLog - result: " + JSON.stringify(doc));
+                        //console.log("dashboard.controller - getWeeklyStepsData - createHealthLog - result: " + JSON.stringify(doc));
                     },
                     function (err) {
                         console.log("dashboard.controller - getWeeklyStepsData - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to update your health logs at the moment.";
                     }
                 );
         }

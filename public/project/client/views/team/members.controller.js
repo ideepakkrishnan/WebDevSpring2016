@@ -9,7 +9,7 @@
         .module("PerformXApp")
         .controller("MembersController", membersController);
 
-    function membersController($location, $routeParams, UserService, TeamService) {
+    function membersController($location, $rootScope, $routeParams, UserService, TeamService) {
         var vm = this;
 
         function init() {
@@ -26,11 +26,11 @@
                 .then(
                     function (doc) {
                         vm.currentTeam = doc.data[0];
-                        console.log("members.controller - init - currentTeam: " + vm.currentTeam);
                         return TeamService.findUsersByTeam($routeParams.id);
                     },
                     function (err) {
                         console.log("members.controller - init - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve the team stats. Please try again.";
                     }
                 )
                 .then(
@@ -39,6 +39,7 @@
                     },
                     function (err) {
                         console.log("members.controller - init - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve the team member stats.";
                     }
                 );
         }
@@ -57,6 +58,7 @@
                     },
                     function (err) {
                         console.log("Error while searching for user: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to search. Please try again.";
                     }
                 );
         }
@@ -72,6 +74,7 @@
                     },
                     function (err) {
                         console.log("Error while adding a new team member: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to add this user to the team. Please try again.";
                     }
                 )
                 .then(
@@ -83,6 +86,7 @@
                     },
                     function (err) {
                         console.log("Error while fetching team details: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve the team stats";
                     }
                 )
                 .then(
@@ -91,6 +95,7 @@
                     },
                     function (err) {
                         console.log("Error while retrieving team members details: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve the team member stats.";
                     }
                 );
         }
@@ -104,11 +109,11 @@
                     },
                     function (err) {
                         console.log("Error while adding a new team member: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to delete the team member. Please try again.";
                     }
                 )
                 .then(
                     function (doc) {
-                        console.log("members.controller - addToTeam - fetched team details: " + JSON.stringify(doc));
                         if (doc.data.length > 0) {
                             vm.currentTeam = doc.data[0];
                             return UserService.getDataForSelectedUsernames(vm.currentTeam.users);
@@ -116,6 +121,7 @@
                     },
                     function (err) {
                         console.log("Error while fetching team details: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve the team stats.";
                     }
                 )
                 .then(
@@ -124,6 +130,7 @@
                     },
                     function (err) {
                         console.log("Error while retrieving team members details: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve the team member stats.";
                     }
                 );
         }
@@ -143,6 +150,7 @@
                 },
                 function (err) {
                     console.log("Error while deleting team: " + err);
+                    $rootScope.errorMessage = "Oh snap! We were unable to delete the team. Please try again.";
                 }
             );
         }
@@ -159,12 +167,12 @@
                 .updateTeamById(vm.updatedTeamId, updatedTeamInfo)
                 .then(
                     function (doc) {
-                        console.log("Updated team details: " + JSON.stringify(doc.data));
                         vm.currentTeam = doc.data;
                         $('#updateTeamModal').modal('hide');
                     },
                     function (err) {
                         console.log("Error while updating team details: " + err);
+                        $rootScope.errorMessage = "Oh snap! We were unable to update the team stats. Please try again.";
                     }
                 );
 

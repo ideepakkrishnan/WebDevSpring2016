@@ -73,7 +73,7 @@ module.exports = function (db, mongoose) {
                 console.log("user.model: createUser - error > " + err);
                 deferred.reject(err);
             } else {
-                console.log("user.model: createUser - result > " + JSON.stringify(doc.data));
+                console.log("user.model: createUser - result > " + JSON.stringify(doc));
                 deferred.resolve(doc);
             }
         });

@@ -7,33 +7,39 @@
         .module("PerformXApp")
         .controller("DeveloperController", developerController);
 
-    function developerController($rootScope, $location, DeveloperService, DeviceService) {
+    function developerController($rootScope, DeveloperService, DeviceService) {
         var vm = this;
 
         function init() {
-            if ($rootScope.currentUser) {
-                vm.selectRequest = selectRequest;
-                vm.makeRequest = makeRequest;
-                vm.account_user_id = $rootScope.account_user_id;
-
-                DeveloperService.getAllAPIRequests()
-                    .then(
-                        function (response) {
-                            console.log(response.data);
-                            vm.apiRequestList = response.data;
-                        },
-                        function (err) {
-                            console.log(err);
-                        }
-                    );
-            } else {
-                $location.path("#/home");
-            }
+            UserService
+                .getCurrentUser()
+                .then(
+                    function (currUser) {
+                        vm.currUser = currUser.data;
+                        vm.selectRequest = selectRequest;
+                        vm.makeRequest = makeRequest;
+                        vm.account_user_id = $rootScope.account_user_id;
+                        return DeveloperService.getAllAPIRequests();
+                    },
+                    function (err) {
+                        console.log("profile.controller - init: " + err.message);
+                        $rootScope.errorMessage = "You are not logged in!";
+                    }
+                )
+                .then(
+                    function (response) {
+                        console.log(response.data);
+                        vm.apiRequestList = response.data;
+                    },
+                    function (err) {
+                        console.log("developer.controller - init() - error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve the API requests. Please try again.";
+                    }
+                );
         }
         init();
 
         function selectRequest(requestName) {
-            console.log("Searching for: " + requestName);
             for (var i=0; i<vm.apiRequestList.length; i++) {
                 if (vm.apiRequestList[i].reqName == requestName) {
                     vm.currentRequest = vm.apiRequestList[i];

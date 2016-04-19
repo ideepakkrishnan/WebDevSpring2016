@@ -16,18 +16,24 @@
         init();
 
         function login(username, password) {
-            UserService.findUserByCredentials(username, password)
+            var user = {
+                username: username,
+                password: password
+            };
+
+            UserService
+                .login(user)
                 .then(
                     function (response) {
                         if (response) {
-                            console.log("login.controller - login - user: " + JSON.stringify(response));
-                            $rootScope.currentUser = response.data;
                             UserService.cacheUserLocally(response.data);
+                            UserService.setCurrentUser(response.data);
                             $location.url("/profile");
                         }
                     },
                     function (err) {
                         console.log(err);
+                        $rootScope.errorMessage = "We couldn't log you in. Please try again.";
                     }
                 );
         }

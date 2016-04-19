@@ -2,31 +2,112 @@
  * Created by ideepakkrishnan on 24-03-2016.
  */
 
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt-nodejs');
 
 module.exports = function(app, userModel) {
+
+    // Checks whether the session is authenticated
+    var auth = function (req, res, next) {
+        console.log("user.service.server - checking if authorized");
+        if (!req.isAuthenticated()) {
+            console.log("user.service.server - Unauthorized");
+            res.send(401);
+        } else {
+            console.log("user.service.server - Authorize. Passing down the chain.");
+            next(); // Callback function given by express to continue in the chain
+        }
+    };
+
+    app.post("/api/project/login", passport.authenticate('local'), login);
+    app.get("/api/project/loggedIn", loggedIn);
+    app.post("/api/project/logout", logout);
     app.post("/api/project/user", createUser);
     app.get("/api/project/user", getUserByCredentials);
-    app.get("/api/project/user/:username", getUserByUsername);
-    app.put("/api/project/user/:id", updateUserById);
+    app.get("/api/project/user/:username", auth, getUserByUsername);
+    app.put("/api/project/user/:id", auth, updateUserById);
     app.get("/api/project/user/search/:name", searchForName);
-    app.put("/api/project/user/:id/device", updateFitbitConnDetails);
-    app.put("/api/project/user/:username/goals", addPersonalGoal);
-    app.get("/api/project/user/:username/goals", retrievePersonalGoals);
-    app.delete("/api/project/user/:username/goals", removePersonalGoal);
-    app.get("/api/project/user/filter/userIds/:uids", retrieveDataForSelectedUserIds);
-    app.get("/api/project/user/filter/usernames/:unames", retrieveDataForSelectedUsernames);
-    app.put("/api/project/user/:username/teams", addTeamAffiliation);
-    app.delete("/api/project/user/teams/:teamId", deleteTeamAffiliation);
-    app.put("/api/project/user/:username/subscribers", addSubscriber);
-    app.delete("/api/project/user/:username/subscribers", deleteSubscriber);
-    app.put("/api/project/user/:username/watching", addToWatching);
-    app.delete("/api/project/user/:username/subscribers", deleteFromWatching);
+    app.put("/api/project/user/:id/device", auth, updateFitbitConnDetails);
+    app.put("/api/project/user/:username/goals", auth, addPersonalGoal);
+    app.get("/api/project/user/:username/goals", auth, retrievePersonalGoals);
+    app.delete("/api/project/user/:username/goals", auth, removePersonalGoal);
+    app.get("/api/project/user/filter/userIds/:uids", auth, retrieveDataForSelectedUserIds);
+    app.get("/api/project/user/filter/usernames/:unames", auth, retrieveDataForSelectedUsernames);
+    app.put("/api/project/user/:username/teams", auth, addTeamAffiliation);
+    app.delete("/api/project/user/teams/:teamId", auth, deleteTeamAffiliation);
+    app.put("/api/project/user/:username/subscribers", auth, addSubscriber);
+    app.delete("/api/project/user/:username/subscribers", auth, deleteSubscriber);
+    app.put("/api/project/user/:username/watching", auth, addToWatching);
+    app.delete("/api/project/user/:username/subscribers", auth, deleteFromWatching);
     // Admin specific
-    app.post("/api/project/admin/user", createNewUser);
-    app.put("/api/project/admin/user/:id", updateExistingUserById);
-    app.delete("/api/project/admin/user/:id", deleteUserById);
-    app.get("/api/project/admin/user", getAllUsers);
+    app.post("/api/project/admin/user", auth, createNewUser);
+    app.put("/api/project/admin/user/:id", auth, updateExistingUserById);
+    app.delete("/api/project/admin/user/:id", auth, deleteUserById);
+    app.get("/api/project/admin/user", auth, getAllUsers);
+
+    passport.use(new LocalStrategy(localStrategy));
+
+    passport.serializeUser(serializeUser);
+    passport.deserializeUser(deserializeUser);
+
+    function localStrategy(username, password, done) {
+        userModel
+            .findUserByUsername(username)
+            .then(
+                function (user) {
+                    console.log("Comparing: " + password + " and " + user.password);
+                    if (user && bcrypt.compareSync(password, user.password)) {
+                        console.log("Authenticated");
+                        return done(null, user);
+                    } else {
+                        console.log("Restricted");
+                        return done(null, false);
+                    }
+                },
+                function (err) {
+                    if (err) {
+                        return done(err);
+                    }
+                }
+            );
+    }
+
+    function serializeUser(user, done) {
+        done(null, user);
+    }
+
+    function deserializeUser(user, done) {
+        userModel
+            .findUserByUsername(user.username)
+            .then(
+                function(user){
+                    done(null, user);
+                },
+                function(err){
+                    done(err, null);
+                }
+            );
+    }
+
+    function login(req, res) {
+        var user = req.user;
+        res.json(user);
+    }
+
+    function loggedIn(req, res) {
+        res.send(req.isAuthenticated() ? req.user : '0');
+    }
+
+    function logout(req, res) {
+        req.logOut();
+        res.send(200);
+    }
+
+    function isAdmin(user) {
+        console.log("user.model - isAdmin - argument passed: " + JSON.stringify(user));
+        return (user.roles.indexOf("admin") != -1);
+    }
 
     function getUserByCredentials(req, res) {
         var username = req.query.username;

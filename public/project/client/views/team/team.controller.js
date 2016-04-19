@@ -20,12 +20,19 @@
             vm.addUserToTeam = addUserToTeam;
             vm.location = $location;
 
-            if ($rootScope.currentUser) {
-                // Initialize team data
-                getAffiliatedTeamDetails();
-            } else {
-                $location.path("#/home");
-            }
+            UserService
+                .getCurrentUser()
+                .then(
+                    function (currUser) {
+                        vm.currUser = currUser.data;
+                        UserService.setCurrentUser(vm.currUser);
+                        getAffiliatedTeamDetails();
+                    },
+                    function (err) {
+                        console.log("team.controller - init error: " + err.message);
+                        $rootScope.errorMessage = "You are not logged in!";
+                    }
+                );
         }
 
         init();
@@ -51,15 +58,16 @@
                         },
                         function (err) {
                             console.log(err);
+                            $rootScope.errorMessage = "Oh snap! We were unable to create the team.";
                         })
                     .then(
                         function (doc) {
-                            console.log("After adding team affiliation: " + JSON.stringify(doc.data));
                             $rootScope.currentUser = doc.data;
                             return TeamService.fetchTeamDetails(doc.data.teams);
                         },
                         function (err) {
                             console.log("Error while adding team affiliation" + err);
+                            $rootScope.errorMessage = "Oh snap! We were unable to affiliate you to the team.";
                         }
                     )
                     .then(
@@ -69,6 +77,7 @@
                         },
                         function (err) {
                             console.log("Error while fetching team details: " + err);
+                            $rootScope.errorMessage = "Oh snap! We were unable to fetch the team details.";
                         }
                     );
             }
@@ -90,11 +99,11 @@
                 .updateTeamById(vm.updatedTeamId, updatedTeamInfo)
                 .then(
                     function (doc) {
-                        console.log("Updated team details: " + JSON.stringify(doc.data));
                         getAffiliatedTeamDetails();
                     },
                     function (err) {
                         console.log("Error while updating team details: " + err);
+                        $rootScope.errorMessage = "Oh snap! We were update team details. Please try again.";
                     }
                 );
 
@@ -112,6 +121,7 @@
                 },
                 function (err) {
                     console.log("Error while deleting team: " + err);
+                    $rootScope.errorMessage = "Oh snap! We were unable to delete the team. Please try again.";
                 }
             );
         }
@@ -131,6 +141,7 @@
                 },
                 function (err) {
                     console.log("Error while fetching team details: " + err);
+                    $rootScope.errorMessage = "Oh snap! We were unable to fetch your team affiliations.";
                 }
             );
         }
@@ -144,6 +155,7 @@
                     },
                     function (err) {
                         console.log("team.controller - deleteTeamMember - Error: " + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to remove the team member. Please try again.";
                     }
                 ).then(
                 function (doc) {
@@ -151,14 +163,15 @@
                 },
                 function (err) {
                     console.log("team.controller - deleteTeamMember - Error: " + err.message);
+                    $rootScope.errorMessage = "Oh snap! We were unable to delete the member's affiliation to the team.";
                 }).then(
                 function (doc) {
-                    console.log("team.controller - deleteTeamMember - user: " + JSON.stringify(doc));
-                    $rootScope.currentUser = doc.data;
+                    UserService.setCurrentUser(doc.data);
                     getAffiliatedTeamDetails();
                 },
                 function (err) {
                     console.log("team.controller - deleteTeamMember - Error: " + err.message);
+                    $rootScope.errorMessage = "Oh snap! We were unable to fetch your updated details.";
                 }
             );
         }
@@ -172,21 +185,21 @@
                 .addTeamAffiliation($rootScope.currentUser.username, teamDetails)
                 .then(
                     function (doc) {
-                        console.log("After adding team affiliation: " + JSON.stringify(doc.data));
                         $rootScope.currentUser = doc.data;
                         return TeamService.addTeamMember(team.originalObject._id, doc.data.username);
                     },
                     function (err) {
                         console.log("Error while adding team affiliation" + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to add the team to this user. Please try again.";
                     }
                 )
                 .then(
                     function (doc) {
-                        console.log("team.controller - addUserToTeam - Updated team: " + JSON.stringify(doc));
                         return TeamService.fetchTeamDetails($rootScope.currentUser.teams);
                     },
                     function (err) {
                         console.log("Error while adding team affiliation" + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to add the user to this team";
                     }
                 )
                 .then(
@@ -195,6 +208,7 @@
                     },
                     function (err) {
                         console.log("Error while adding team affiliation" + err.message);
+                        $rootScope.errorMessage = "Oh snap! We were unable to retrieve the updated team details.";
                     }
                 );
         }

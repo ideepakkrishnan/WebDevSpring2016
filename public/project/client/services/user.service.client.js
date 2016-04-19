@@ -9,7 +9,7 @@
         .module("PerformXApp")
         .factory("UserService", userService);
 
-    function userService($http) {
+    function userService($http, $rootScope) {
 
         var api = {
             findUserByCredentials: findUserByCredentials,
@@ -33,9 +33,25 @@
             addSubscriber: addSubscriber,
             deleteSubscriber: deleteSubscriber,
             addToWatching: addToWatching,
-            deleteFromWatching: deleteFromWatching
+            deleteFromWatching: deleteFromWatching,
+            getCurrentUser: getCurrentUser,
+            login: login,
+            logout: logout,
+            setCurrentUser: setCurrentUser
         };
         return api;
+
+        function login(user) {
+            return $http.post("/api/project/login", user);
+        }
+
+        function getCurrentUser() {
+            return $http.get("/api/project/loggedIn");
+        }
+
+        function logout() {
+            return $http.post("/api/project/logout");
+        }
 
         function findUserByCredentials(username, password) {
             return $http.get("/api/project/user?username=" + username + "&password=" + password);
@@ -119,6 +135,10 @@
 
         function deleteFromWatching(username, subscriberId) {
             return $http.delete("/api/project/user/" + username + "/subscribers", subscriberId);
+        }
+
+        function setCurrentUser(user) {
+            $rootScope.currentUser = user;
         }
 
         function cacheUserLocally(user) {
