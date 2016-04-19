@@ -17,6 +17,9 @@
             vm.searchForUser = searchForUser;
             vm.addToTeam = addToTeam;
             vm.deleteTeamMember = deleteTeamMember;
+            vm.selectTeam = selectTeam;
+            vm.deleteTeam = deleteTeam;
+            vm.updateTeam = updateTeam;
 
             TeamService
                 .fetchTeamDetails($routeParams.id)
@@ -123,6 +126,53 @@
                         console.log("Error while retrieving team members details: " + err.message);
                     }
                 );
+        }
+
+        function selectTeam() {
+            vm.updatedTeamId = vm.currentTeam._id;
+            vm.updatedTeamName = vm.currentTeam.name;
+            vm.updatedTeamDesc = vm.currentTeam.description;
+            vm.updatedTeamImage = vm.currentTeam.image;
+            vm.updatedTeamMembers = vm.currentTeam.users;
+        }
+
+        function deleteTeam() {
+            TeamService.deleteTeamById(vm.currentTeam._id).then(
+                function (doc) {
+                    $location.url('/team');
+                },
+                function (err) {
+                    console.log("Error while deleting team: " + err);
+                }
+            );
+        }
+
+        function updateTeam() {
+            var updatedTeamInfo = {
+                name: vm.updatedTeamName,
+                description: vm.updatedTeamDesc,
+                image: vm.updatedTeamImage,
+                users: vm.updatedTeamMembers
+            }
+
+            TeamService
+                .updateTeamById(vm.updatedTeamId, updatedTeamInfo)
+                .then(
+                    function (doc) {
+                        console.log("Updated team details: " + JSON.stringify(doc.data));
+                        vm.currentTeam = doc.data;
+                        $('#updateTeamModal').modal('hide');
+                    },
+                    function (err) {
+                        console.log("Error while updating team details: " + err);
+                    }
+                );
+
+            vm.updatedTeamId = null;
+            vm.updatedTeamName = "";
+            vm.updatedTeamDesc = "";
+            vm.updatedTeamImage = "";
+            vm.updatedTeamMembers = [];
         }
     }
 })();

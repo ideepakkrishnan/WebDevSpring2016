@@ -16,6 +16,8 @@
             vm.updateTeam = updateTeam;
             vm.deleteTeam = deleteTeam;
             vm.getAffiliatedTeamDetails = getAffiliatedTeamDetails;
+            vm.deleteTeamMember = deleteTeamMember;
+            vm.addUserToTeam = addUserToTeam;
             vm.location = $location;
 
             if ($rootScope.currentUser) {
@@ -25,6 +27,7 @@
                 $location.path("#/home");
             }
         }
+
         init();
 
         function createTeam() {
@@ -130,6 +133,70 @@
                     console.log("Error while fetching team details: " + err);
                 }
             );
+        }
+
+        function deleteTeamMember(teamId) {
+            TeamService
+                .deleteTeamMember(teamId, $rootScope.currentUser.username)
+                .then(
+                    function (doc) {
+                        return UserService.deleteTeamAffiliation(teamId, [$rootScope.currentUser._id]);
+                    },
+                    function (err) {
+                        console.log("team.controller - deleteTeamMember - Error: " + err.message);
+                    }
+                ).then(
+                function (doc) {
+                    return UserService.getUserByUsername($rootScope.currentUser.username);
+                },
+                function (err) {
+                    console.log("team.controller - deleteTeamMember - Error: " + err.message);
+                }).then(
+                function (doc) {
+                    console.log("team.controller - deleteTeamMember - user: " + JSON.stringify(doc));
+                    $rootScope.currentUser = doc.data;
+                    getAffiliatedTeamDetails();
+                },
+                function (err) {
+                    console.log("team.controller - deleteTeamMember - Error: " + err.message);
+                }
+            );
+        }
+
+        function addUserToTeam(team) {
+            var teamDetails = {
+                teamId: team.originalObject._id
+            };
+
+            UserService
+                .addTeamAffiliation($rootScope.currentUser.username, teamDetails)
+                .then(
+                    function (doc) {
+                        console.log("After adding team affiliation: " + JSON.stringify(doc.data));
+                        $rootScope.currentUser = doc.data;
+                        return TeamService.addTeamMember(team.originalObject._id, doc.data.username);
+                    },
+                    function (err) {
+                        console.log("Error while adding team affiliation" + err.message);
+                    }
+                )
+                .then(
+                    function (doc) {
+                        console.log("team.controller - addUserToTeam - Updated team: " + JSON.stringify(doc));
+                        return TeamService.fetchTeamDetails($rootScope.currentUser.teams);
+                    },
+                    function (err) {
+                        console.log("Error while adding team affiliation" + err.message);
+                    }
+                )
+                .then(
+                    function (doc) {
+                        vm.myTeams = doc.data;
+                    },
+                    function (err) {
+                        console.log("Error while adding team affiliation" + err.message);
+                    }
+                );
         }
     }
 })();

@@ -7,10 +7,13 @@
         .module("PerformXApp")
         .controller("GoalController", goalController);
 
-    function goalController($rootScope, $location, GoalService, HealthLogService) {
+    function goalController($rootScope, $location, UserService, GoalService, HealthLogService) {
         var vm = this;
 
         function init() {
+            vm.goals = [];
+            vm.currUsername = $rootScope.currentUser.username;
+
             /* Expose functions */
             vm.addGoal = addGoal;
             vm.updateGoal = updateGoal;
@@ -25,115 +28,10 @@
                     .then(
                         function (response) {
                             vm.goals = response.data;
-                            for (var i = 0; i < vm.goals.length; i++) {
-                                vm.currIndex = i;
-                                if (vm.goals[i].type == 'calories') {
-                                    // calorie data
-                                    vm.goals[i].caloriesDoughnutLabels = ["Calories Burned", "Left"];
-                                    HealthLogService
-                                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'calories')
-                                        .then(
-                                            function (doc) {
-                                                vm.calorieLogs = doc.data[0].healthdata;
-
-                                                console.log("goal.controller - init - getSpecificHealthLogsForUser: " + JSON.stringify(vm.goals));
-                                                if (vm.goals[vm.currIndex].frequency == 1) {
-                                                    vm.goals[vm.currIndex].aggregateCalorieData = [vm.calorieLogs[6].value, goals[vm.currIndex].calories - vm.calorieLogs[6].value];
-                                                } else {
-                                                    var netVal = 0;
-                                                    for (var j = 0; j < vm.calorieLogs.length; j++) {
-                                                        netVal = netVal + vm.calorieLogs[j].value;
-                                                    }
-                                                    vm.goals[vm.currIndex].aggregateCalorieData = [netVal, (vm.goals[vm.currIndex].calories - netVal) > 0 ? (vm.goals[vm.currIndex].calories - netVal) : 0];
-                                                    console.log(JSON.stringify(vm.goals[vm.currIndex]));
-                                                }
-                                            },
-                                            function (err) {
-                                                console.log("goal.controller - getSpecificHealthLogsForUser - error: " + err.message);
-                                                vm.goals[vm.currIndex].aggregateCalorieData = [0, 100];
-                                            }
-                                        );
-                                } else if (vm.goals[i].type == 'distance') {
-
-                                    // distance data
-                                    vm.goals[i].distanceDoughnutLabels = ["Steps taken", "Left"];
-                                    HealthLogService
-                                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'distance')
-                                        .then(
-                                            function (doc) {
-                                                vm.distanceLogs = doc.data[0].healthdata;
-
-                                                if (vm.goals[vm.currIndex].frequency == 1) {
-                                                    vm.goals[vm.currIndex].aggregateDistanceData = [vm.distanceLogs[6].value, vm.goals[vm.currIndex].distance - vm.distanceLogs[6].value];
-                                                } else {
-                                                    var netVal = 0;
-                                                    for (var j = 0; j < vm.distanceLogs.length; j++) {
-                                                        netVal = netVal + vm.distanceLogs[j].value;
-                                                    }
-                                                    vm.goals[vm.currIndex].aggregateDistanceData = [netVal, (vm.goals[vm.currIndex].distance - netVal) > 0 ? (vm.goals[vm.currIndex].distance - netVal) : 0];
-                                                    console.log(JSON.stringify(vm.goals[vm.currIndex]));
-                                                }
-                                            },
-                                            function (err) {
-                                                console.log("goal.controller - getSpecificHealthLogsForUser - error: " + err.message);
-                                                vm.goals[vm.currIndex].aggregateDistanceData = [0, 100];
-                                            }
-                                        );
-                                } else if (vm.goals[i].type == 'floors') {
-                                    // floors data
-                                    vm.goals[i].floorsDoughnutLabels = ["Floors climbed", "Left"];
-                                    HealthLogService
-                                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'floors')
-                                        .then(
-                                            function (doc) {
-                                                vm.floorsLogs = doc.data[0].healthdata;
-
-                                                if (vm.goals[vm.currIndex].frequency == 1) {
-                                                    vm.goals[vm.currIndex].aggregateFloorData = [vm.floorsLogs[6].value, vm.goals[vm.currIndex].floors - vm.floorsLogs[6].value];
-                                                } else {
-                                                    var netVal = 0;
-                                                    for (var j = 0; j < vm.floorsLogs.length; j++) {
-                                                        netVal = netVal + vm.floorsLogs[j].value;
-                                                    }
-                                                    vm.goals[vm.currIndex].aggregateFloorData = [netVal, (vm.goals[vm.currIndex].floors - netVal) > 0 ? (vm.goals[vm.currIndex].floors - netVal) : 0];
-                                                    console.log(JSON.stringify(vm.goals[vm.currIndex]));
-                                                }
-                                            },
-                                            function (err) {
-                                                console.log("goal.controller - getSpecificHealthLogsForUser - error: " + err.message);
-                                                vm.goals[vm.currIndex].aggregateFloorData = [0, 100];
-                                            }
-                                        );
-                                } else {
-                                    // steps data
-                                    vm.goals[i].floorsDoughnutLabels = ["Steps taken", "Left"];
-                                    HealthLogService
-                                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'steps')
-                                        .then(
-                                            function (doc) {
-                                                vm.stepsLogs = doc.data[0].healthdata;
-
-                                                if (vm.goals[vm.currIndex].frequency == 1) {
-                                                    vm.goals[vm.currIndex].aggregateStepsData = [vm.stepsLogs[6].value, vm.goals[vm.currIndex].steps - vm.stepsLogs[6].value];
-                                                } else {
-                                                    var netVal = 0;
-                                                    for (var j = 0; j < vm.stepsLogs.length; j++) {
-                                                        netVal = netVal + vm.stepsLogs[j].value;
-                                                    }
-                                                    vm.goals[vm.currIndex].aggregateStepsData = [netVal, (vm.goals[vm.currIndex].steps - netVal) > 0 ? (vm.goals[vm.currIndex].steps - netVal) : 0];
-                                                    console.log(JSON.stringify(vm.goals[vm.currIndex]));
-                                                }
-                                            },
-                                            function (err) {
-                                                console.log("goal.controller - getSpecificHealthLogsForUser - error: " + err.message);
-                                                vm.goals[vm.currIndex].aggregateStepsData = [0, 100];
-                                            }
-                                        );
-                                }
-                            }
+                            renderCharts();
                         },
                         function (err) {
-                            console.log("Error: " + err.message);
+                            console.log("goal.controller - init - Error: " + err.message);
                         }
                     );
             } else {
@@ -192,6 +90,9 @@
                 .then(
                     function (doc) {
                         console.log("goal.controller - user goals: " + JSON.stringify(doc));
+                        vm.goals = doc.data;
+                        renderCharts();
+
                         vm._id = "";
                         vm.goals = doc.data;
                         vm.username = "";
@@ -245,6 +146,9 @@
                     function (doc) {
                         console.log("goal.controller - updateGoal - user goals: " + JSON.stringify(doc));
                         vm.goals = doc.data;
+                        renderCharts();
+
+                        // Clear all fields
                         vm._id = "";
                         vm.username = "";
                         vm.calories = "";
@@ -282,6 +186,8 @@
                     function (doc) {
                         console.log("goal.controller - deleteGoal - user goals: " + JSON.stringify(doc));
                         vm.goals = doc.data;
+
+                        renderCharts();
                     },
                     function (err) {
                         console.log("goal.controller - deleteGoal - error: " + err.message);
@@ -320,6 +226,116 @@
                 return ["Floors climbed", "Left"];
             } else {
                 return ["Distance covered", "Left"];
+            }
+        }
+
+        function renderCharts() {
+            for (var i = 0; i < vm.goals.length; i++) {
+                if (vm.goals[i].type == 'calories') {
+                    // calorie data
+                    vm.goals[i].caloriesDoughnutLabels = ["Calories Burned", "Left"];
+                    HealthLogService
+                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'calories', i)
+                        .then(
+                            function (doc) {
+                                vm.calorieLogs = doc.data.res[0].healthdata;
+                                var thisIndex = doc.data.resForIndex;
+
+                                //console.log("goal.controller - init - getSpecificHealthLogsForUser: " + JSON.stringify(vm.goals));
+                                if (vm.goals[thisIndex].frequency == 1) {
+                                    vm.goals[thisIndex].aggregateCalorieData = [vm.calorieLogs[6].value, vm.goals[thisIndex].calories - vm.calorieLogs[6].value];
+                                } else {
+                                    var netVal = 0;
+                                    for (var j = 0; j < vm.calorieLogs.length; j++) {
+                                        netVal = netVal + vm.calorieLogs[j].value;
+                                    }
+                                    vm.goals[thisIndex].aggregateCalorieData = [netVal, (vm.goals[thisIndex].calories - netVal) > 0 ? (vm.goals[thisIndex].calories - netVal) : 0];
+                                }
+                            },
+                            function (err) {
+                                console.log("goal.controller - getSpecificHealthLogsForUser - error: " + err.message);
+                                //vm.goals[doc.data.resForIndex].aggregateCalorieData = [0, 100];
+                            }
+                        );
+                } else if (vm.goals[i].type == 'distance') {
+
+                    // distance data
+                    vm.goals[i].distanceDoughnutLabels = ["Steps taken", "Left"];
+                    HealthLogService
+                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'distance', i)
+                        .then(
+                            function (doc) {
+                                vm.distanceLogs = doc.data.res[0].healthdata;
+                                var thisIndex = doc.data.resForIndex;
+
+                                if (vm.goals[thisIndex].frequency == 1) {
+                                    vm.goals[thisIndex].aggregateDistanceData = [vm.distanceLogs[6].value, vm.goals[thisIndex].distance - vm.distanceLogs[6].value];
+                                } else {
+                                    var netVal = 0;
+                                    for (var j = 0; j < vm.distanceLogs.length; j++) {
+                                        netVal = netVal + vm.distanceLogs[j].value;
+                                    }
+                                    vm.goals[thisIndex].aggregateDistanceData = [netVal, (vm.goals[thisIndex].distance - netVal) > 0 ? (vm.goals[thisIndex].distance - netVal) : 0];
+                                }
+                            },
+                            function (err) {
+                                console.log("goal.controller - getSpecificHealthLogsForUser - error: " + err.message);
+                                //vm.goals[thisIndex].aggregateDistanceData = [0, 100];
+                            }
+                        );
+                } else if (vm.goals[i].type == 'floors') {
+                    // floors data
+                    vm.goals[i].floorsDoughnutLabels = ["Floors climbed", "Left"];
+                    console.log("Floors goal");
+                    HealthLogService
+                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'floors', i)
+                        .then(
+                            function (doc) {
+                                console.log("goal.controller floors goal - " + JSON.stringify(doc));
+                                vm.floorsLogs = doc.data.res[0].healthdata;
+                                var thisIndex = doc.data.resForIndex;
+
+                                if (vm.goals[thisIndex].frequency == 1) {
+                                    vm.goals[thisIndex].aggregateFloorData = [vm.floorsLogs[6].value, vm.goals[thisIndex].floors - vm.floorsLogs[6].value];
+                                } else {
+                                    var netVal = 0;
+                                    for (var j = 0; j < vm.floorsLogs.length; j++) {
+                                        netVal = netVal + vm.floorsLogs[j].value;
+                                    }
+                                    vm.goals[thisIndex].aggregateFloorData = [netVal, (vm.goals[thisIndex].floors - netVal) > 0 ? (vm.goals[thisIndex].floors - netVal) : 0];
+                                    console.log(JSON.stringify(vm.goals[thisIndex]));
+                                }
+                            },
+                            function (err) {
+                                console.log("goal.controller - getSpecificHealthLogsForUser - error: " + err.message);
+                            }
+                        );
+                } else {
+                    // steps data
+                    vm.goals[i].floorsDoughnutLabels = ["Steps taken", "Left"];
+                    HealthLogService
+                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'steps', i)
+                        .then(
+                            function (doc) {
+                                vm.stepsLogs = doc.data.res[0].healthdata;
+                                var thisIndex = doc.data.resForIndex;
+
+                                if (vm.goals[thisIndex].frequency == 1) {
+                                    vm.goals[thisIndex].aggregateStepsData = [vm.stepsLogs[6].value, vm.goals[thisIndex].steps - vm.stepsLogs[6].value];
+                                } else {
+                                    var netVal = 0;
+                                    for (var j = 0; j < vm.stepsLogs.length; j++) {
+                                        netVal = netVal + vm.stepsLogs[j].value;
+                                    }
+                                    vm.goals[thisIndex].aggregateStepsData = [netVal, (vm.goals[thisIndex].steps - netVal) > 0 ? (vm.goals[thisIndex].steps - netVal) : 0];
+                                    console.log(JSON.stringify(vm.goals[thisIndex]));
+                                }
+                            },
+                            function (err) {
+                                console.log("goal.controller - getSpecificHealthLogsForUser - error: " + err.message);
+                            }
+                        );
+                }
             }
         }
     }

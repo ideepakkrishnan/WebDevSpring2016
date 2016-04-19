@@ -26,7 +26,7 @@ module.exports = function(app, goalModel) {
     function getAllGoalsForUsername(req, res) {
         var username = req.params.username;
         goalModel
-            .findGoalsAssignedByUser(username)
+            .findGoalsForUser(username)
             .then(
                 function (doc) {
                     res.json(doc);

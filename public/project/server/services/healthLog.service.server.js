@@ -5,7 +5,7 @@
 module.exports = function(app, healthLogModel) {
     app.post("/api/project/healthLog", createHealthLog);
     app.get("/api/project/healthLog/user/:username", getHealthLogsForUser);
-    app.get("/api/project/healthLog/user/:username/:type", getSpecificHealthLogsForUser);
+    app.get("/api/project/healthLog/user/:username/:type/:index", getSpecificHealthLogsForUser);
     app.get("/api/project/healthLog", getAllHealthLogs);
     app.put("/api/project/healthLog/:id", updateHealthLogById);
     app.delete("/api/project/healthLog/:id", deleteHealthLogById);
@@ -41,11 +41,16 @@ module.exports = function(app, healthLogModel) {
     function getSpecificHealthLogsForUser(req, res) {
         var username = req.params.username;
         var type = req.params.type;
+        var index = req.params.index;
         healthLogModel
             .findSpecificHealthLogsForUser(username, type)
             .then(
                 function (doc) {
-                    res.json(doc);
+                    var result = {
+                        resForIndex: index,
+                        res: doc
+                    };
+                    res.json(result);
                 },
                 function (err) {
                     res.status(400).send(err);

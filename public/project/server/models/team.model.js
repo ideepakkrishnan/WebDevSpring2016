@@ -18,7 +18,8 @@ module.exports = function (db, mongoose, userModel) {
         updateTeam: updateTeam,
         deleteTeam: deleteTeam,
         addTeamMember: addTeamMember,
-        deleteTeamMember: deleteTeamMember
+        deleteTeamMember: deleteTeamMember,
+        searchForTeamName: searchForTeamName
     };
     return api;
 
@@ -180,6 +181,25 @@ module.exports = function (db, mongoose, userModel) {
                     );
                 }
             });
+
+        return deferred.promise;
+    }
+
+    function searchForTeamName(name) {
+        var deferred = q.defer();
+
+        var filter = {
+            name: {$regex: name, $options: "$i"}
+        };
+
+        TeamModel.find(filter, function (err, doc) {
+            if (err) {
+                console.log("team.model - searchForTeamName - error: " + err.message);
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
+            }
+        });
 
         return deferred.promise;
     }

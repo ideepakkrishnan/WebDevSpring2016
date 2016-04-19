@@ -61,7 +61,7 @@ module.exports = function (db, mongoose, userModel) {
                 console.log("goal.model: findGoalsAssignedByUser - error > " + err);
                 deferred.reject(err);
             } else {
-                console.log("goal.model: findGoalsAssignedByUser - result > " + doc.data);
+                console.log("goal.model: findGoalsAssignedByUser - result > " + JSON.stringify(doc));
                 deferred.resolve(doc);
             }
         });

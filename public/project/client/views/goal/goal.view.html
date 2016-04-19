@@ -2,26 +2,73 @@
 <span id="helpBlock" class="help-block">Manage your personal fitness goals here</span>
 
 <div ng-controller="GoalController" id='outer' class="container-fluid newSection">
-    <div class="col-sm-12 input-group">
+    <div class="row input-group">
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#newGoalModal">Create a New
             Goal
         </button>
     </div>
 
-    <div class="row newSection">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="divider"></div>
-        </div>
-    </div>
-
     <div id="main" class="row">
-        <div ng-repeat="goal in model.goals" class="col-sm-12 col-sm-12 col-md-12 callout-info callout">
+        <div ng-repeat="goal in model.goals" class="col-xs-12 col-sm-6 col-md-6 callout-info callout">
             <h4>{{goal.name}}</h4>
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-16" ng-if="goal.type == 'activity'">
-                    <canvas id="calorieDoughnut" class="chart chart-doughnut" chart-legend="true"
+
+            <div class="row" ng-if="goal.assignedBy != model.currUsername">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="alert alert-info" role="alert">Challenged by {{goal.assignedBy}}</div>
+                </div>
+            </div>
+
+            <div class="row newSection">
+                <div class="col-xs-12 col-sm-12 col-md-12" ng-if="goal.type == 'calories'">
+                    <canvas class="chart chart-doughnut" chart-legend="true"
                             chart-data="goal.aggregateCalorieData" chart-labels="goal.caloriesDoughnutLabels">
                     </canvas>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12" ng-if="goal.type == 'distance'">
+                    <canvas class="chart chart-doughnut" chart-legend="true"
+                            chart-data="goal.aggregateDistanceData" chart-labels="goal.distanceDoughnutLabels">
+                    </canvas>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12" ng-if="goal.type == 'floors'">
+                    <canvas class="chart chart-doughnut" chart-legend="true"
+                            chart-data="goal.aggregateFloorData" chart-labels="goal.floorsDoughnutLabels">
+                    </canvas>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12" ng-if="goal.type == 'steps'">
+                    <canvas class="chart chart-doughnut" chart-legend="true"
+                            chart-data="goal.aggregateStepsData" chart-labels="goal.floorsDoughnutLabels">
+                    </canvas>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center" ng-if="goal.type == 'calories'">
+                    <h3 class="goalCompleteness">{{goal.aggregateCalorieData[0]}} calories</h3>
+                    <span class="help-block">burned for a target of {{goal.calories}} calories</span>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center" ng-if="goal.type == 'distance'">
+                    <h3 class="goalCompleteness">{{goal.aggregateDistanceData[0] | number:2}} miles</h3>
+                    <span class="help-block">covered towards a target of {{goal.distance | number:0}} miles</span>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center" ng-if="goal.type == 'floors'">
+                    <h3 class="goalCompleteness">{{goal.aggregateFloorData[0]}} floors</h3>
+                    <span class="help-block">climbed towards a target of {{goal.floors}} floors</span>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center" ng-if="goal.type == 'steps'">
+                    <h3 class="goalCompleteness">{{goal.aggregateStepsData[0]}} steps</h3>
+                    <span class="help-block">covered towards a target of {{goal.steps}} steps</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="divider"></div>
                 </div>
             </div>
 
@@ -45,10 +92,19 @@
                        value="steps" ng-checked="goal.type == 'steps'" disabled/>
                 <label for="radioSteps{{goal._id}}">Steps</label>
             </div>
+
             <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="divider"></div>
+                </div>
+            </div>
+
+            <div class="row newSection">
                 <div class="col-xs-12">
                     <button type="button" class="btn btn-primary" ng-click="model.selectGoal(goal)"
-                            data-toggle="modal" data-target="#updateGoalModal">Edit</button>
+                            ng-if="goal.assignedBy == model.currUsername"
+                            data-toggle="modal" data-target="#updateGoalModal">Edit
+                    </button>
                     <button type="button" class="btn btn-default" ng-click="model.deleteGoal(goal._id)">Delete</button>
                 </div>
             </div>

@@ -7,8 +7,8 @@
         </div>
         <div class="col-sm-9">
             <div class="col-sm-9">
-                {{model.username}}<br/>
-                {{model.userEmail}}
+                <span class="text-primary">{{model.username}}</span><br/>
+                <span class="text-muted">{{model.userEmail}}</span>
             </div>
             <div ng-repeat="team in model.myTeams" class="col-sm-6 newSection">
                 <div class="media alert alert-warning" role="alert">
@@ -26,119 +26,220 @@
         </div>
     </div>
 
+    <div class="row newSection">
+        <blockquote>
+            <p>Ready for a challenge?</p>
+            <small>This is how you are performing with respect to {{model.firstName}} today</small>
+        </blockquote>
+
+        <div class="col-sm-12">
+            <canvas id="radar" class="chart chart-radar" chart-data="model.radarData" chart-legend="true"
+                    chart-labels="model.radarLabels" chart-colours="['#FDB45C', '#803690']"
+                    chart-series="model.radarSeries">
+            </canvas>
+        </div>
+    </div>
+
+    <div class="row newSection">
+        <blockquote>
+            <p>Glance</p>
+            <small>{{model.firstName}}'s performance during the past week</small>
+        </blockquote>
+
+        <div class="col-sm-12">
+
+        </div>
+        <canvas id="line" class="chart chart-line" chart-data="model.chartData"
+                chart-labels="model.chartLabels" chart-legend="true" chart-series="model.chartSeries"
+                chart-click="model.chartHandle">
+        </canvas>
+    </div>
+
     <div id="main" class="row newSection">
         <blockquote>
-            <p>Goals <span class="badge">3</span></p>
-            <small>Adam is lagging behind in certain goals you set for him!</small>
+            <p>Goals <span class="badge">{{model.goals.length}}</span></p>
+            <small>You may challenge {{model.firstName}} by setting fitness goals!</small>
         </blockquote>
 
-        <div id="div1" class="col-sm-3"></div>
-        <div id="div2" class="col-sm-3"></div>
-        <div id="div3" class="col-sm-3"></div>
-        <div class="col-sm-12">
-            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#newGoalModal">Add a new goal</button>
-            <button type="button" class="btn btn-default">View goals</button>
+        <div class="col-xs-12">
+            <div ng-repeat="goal in model.goals" class="col-xs-12 col-sm-6 col-md-6 callout-info callout">
+                <h4>{{goal.name}}</h4>
+
+                <div class="row newSection">
+                    <div class="col-xs-12 col-sm-12 col-md-12" ng-if="goal.type == 'calories'">
+                        <canvas class="chart chart-doughnut" chart-legend="true"
+                                chart-data="goal.aggregateCalorieData" chart-labels="goal.caloriesDoughnutLabels">
+                        </canvas>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12" ng-if="goal.type == 'distance'">
+                        <canvas class="chart chart-doughnut" chart-legend="true"
+                                chart-data="goal.aggregateDistanceData" chart-labels="goal.distanceDoughnutLabels">
+                        </canvas>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12" ng-if="goal.type == 'floors'">
+                        <canvas class="chart chart-doughnut" chart-legend="true"
+                                chart-data="goal.aggregateFloorData" chart-labels="goal.floorsDoughnutLabels">
+                        </canvas>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12" ng-if="goal.type == 'steps'">
+                        <canvas class="chart chart-doughnut" chart-legend="true"
+                                chart-data="goal.aggregateStepsData" chart-labels="goal.floorsDoughnutLabels">
+                        </canvas>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 text-center" ng-if="goal.type == 'calories'">
+                        <h3 class="goalCompleteness">{{goal.aggregateCalorieData[0]}} calories</h3>
+                        <span class="help-block">burned for a target of {{goal.calories}} calories</span>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 text-center" ng-if="goal.type == 'distance'">
+                        <h3 class="goalCompleteness">{{goal.aggregateDistanceData[0] | number:2}} miles</h3>
+                        <span class="help-block">covered towards a target of {{goal.distance | number:0}} miles</span>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 text-center" ng-if="goal.type == 'floors'">
+                        <h3 class="goalCompleteness">{{goal.aggregateFloorData[0]}} floors</h3>
+                        <span class="help-block">climbed towards a target of {{goal.floors}} floors</span>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 text-center" ng-if="goal.type == 'steps'">
+                        <h3 class="goalCompleteness">{{goal.aggregateStepsData[0]}} steps</h3>
+                        <span class="help-block">covered towards a target of {{goal.steps}} steps</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="divider"></div>
+                    </div>
+                </div>
+
+                <div class="radio radio-info">
+                    <input id="radioCalories{{goal._id}}" class="styled" type="radio"
+                           value="calories" ng-checked="goal.type == 'calories'" disabled/>
+                    <label for="radioCalories{{goal._id}}">Calories</label>
+                </div>
+                <div class="radio radio-info">
+                    <input id="radioDistance{{goal._id}}" class="styled" type="radio"
+                           value="distance" ng-checked="goal.type == 'distance'" disabled/>
+                    <label for="radioDistance{{goal._id}}">Distance</label>
+                </div>
+                <div class="radio radio-info">
+                    <input id="radioFloors{{goal._id}}" class="styled" type="radio"
+                           value="floors" ng-checked="goal.type == 'floors'" disabled/>
+                    <label for="radioFloors{{goal._id}}">Floors</label>
+                </div>
+                <div class="radio radio-info">
+                    <input id="radioSteps{{goal._id}}" class="styled" type="radio"
+                           value="steps" ng-checked="goal.type == 'steps'" disabled/>
+                    <label for="radioSteps{{goal._id}}">Steps</label>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="divider"></div>
+                    </div>
+                </div>
+
+                <div class="row newSection">
+                    <div class="col-xs-12">
+                        <button type="button" class="btn btn-primary" ng-click="model.selectGoal(goal)"
+                                data-toggle="modal" data-target="#updateGoalModal">Edit</button>
+                        <button type="button" class="btn btn-default" ng-click="model.deleteGoal(goal._id)">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newGoalModal">New Challenge</button>
+            </div>
         </div>
     </div>
 
-    <div class="row newSection">
-        <blockquote>
-            <p>Vitals Alert <span class="badge">0</span></p>
-            <small>You may set a vitals alert for Adam</small>
-        </blockquote>
-
-        <div class="col-sm-12">
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#newVitalsAlertModal">Set Vitals Alert</button>
-            <button type="button" class="btn btn-default">Remove Vitals Alert</button>
-        </div>
-    </div>
-
-    <div class="row newSection">
-        <blockquote>
-            <p>User options </p>
-            <small>Admin settings for this user</small>
-        </blockquote>
-
-        <div class="col-sm-12">
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#newBlockModal">Block User</button>
-            <button type="button" class="btn btn-default">Remove Ban</button>
-        </div>
-    </div>
-
-    <!-- New Goal Modal -->
     <div class="modal fade" id="newGoalModal" tabindex="-1" role="dialog" aria-labelledby="newGoalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="newGoalLabel">Add a personal goal</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="newGoalLabel">Set a challenge for {{model.firstName}}</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row" ng-show="model.goalType">
                         <div class="col-xs-3 col-sm-3 col-md-3">
-                            <div>Calories: </div>
+                            <div>Name:</div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="model.goalName" type="text" class="form-control" placeholder="Goal Name">
+                        </div>
+                    </div>
+                    <div class="row" ng-show="model.goalType == 'calories'">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Calories:</div>
                         </div>
                         <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
                             <input ng-model="model.calories" type="number" class="form-control" placeholder="Calories">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" ng-show="model.goalType == 'steps'">
                         <div class="col-xs-3 col-sm-3 col-md-3">
-                            <div>Weight: </div>
-                        </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
-                            <input ng-model="model.weight" type="number" class="form-control" placeholder="Weight">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-3 col-sm-3 col-md-3">
-                            <div>Fat: </div>
-                        </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
-                            <input ng-model="model.fat" type="number" class="form-control" placeholder="Fat">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-3 col-sm-3 col-md-3">
-                            <div>Steps: </div>
+                            <div>Steps:</div>
                         </div>
                         <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
                             <input ng-model="model.steps" type="number" class="form-control" placeholder="Steps">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" ng-show="model.goalType == 'distance'">
                         <div class="col-xs-3 col-sm-3 col-md-3">
-                            <div>Distance: </div>
+                            <div>Distance:</div>
                         </div>
                         <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
                             <input ng-model="model.distance" type="number" class="form-control" placeholder="Distance">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" ng-show="model.goalType == 'floors'">
                         <div class="col-xs-3 col-sm-3 col-md-3">
-                            <div>Duration: </div>
-                        </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
-                            <input ng-model="model.duration" type="number" class="form-control" placeholder="Duration">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-3 col-sm-3 col-md-3">
-                            <div>Floors: </div>
+                            <div>Floors:</div>
                         </div>
                         <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
                             <input ng-model="model.floors" type="number" class="form-control" placeholder="Floors">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" ng-show="model.goalType">
                         <div class="col-xs-3 col-sm-3 col-md-3">
-                            <div>Date: </div>
+                            <div>Start Date:</div>
                         </div>
                         <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
                             <input ng-model="model.date" type="date" class="form-control">
                         </div>
                     </div>
-                    <div class="row newSection">
+                    <div class="row newSection" ng-show="model.goalType">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="divider"></div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="model.goalType">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <h5>Frequency</h5>
+                            <div class="radio radio-info">
+                                <input id="radioDaily" ng-model="model.frequency" class="styled" type="radio"
+                                       value="1"/>
+                                <label for="radioDaily">Daily</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input id="radioWeekly" ng-model="model.frequency" class="styled" type="radio"
+                                       value="7"/>
+                                <label for="radioWeekly">Weekly</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row newSection" ng-show="model.goalType">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="divider"></div>
                         </div>
@@ -146,83 +247,147 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <h5>Goal Type</h5>
-                            <label class="checkbox-inline">
-                                <input ng-model="model.weightGoal" type="checkbox" value="weight" />
-                                Weight
-                            </label>
-                            <label class="checkbox-inline">
-                                <input ng-model="model.sleepGoal" type="checkbox" value="sleep" />
-                                Sleep
-                            </label>
-                            <label class="checkbox-inline">
-                                <input ng-model="model.activityGoal" type="checkbox" value="activity" />
-                                Activity
-                            </label>
-                            <label class="checkbox-inline">
-                                <input ng-model="model.fatGoal" type="checkbox" value="fat" />
-                                Fat
-                            </label>
+                            <div class="radio radio-info">
+                                <input id="radioCalories" ng-model="model.goalType" class="styled" type="radio"
+                                       value="calories"/>
+                                <label for="radioCalories">Calories</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input id="radioDistance" ng-model="model.goalType" class="styled" type="radio"
+                                       value="distance"/>
+                                <label for="radioDistance">Distance</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input id="radioFloors" ng-model="model.goalType" class="styled" type="radio"
+                                       value="floors"/>
+                                <label for="radioFloors">Floors</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input id="radioSteps" ng-model="model.goalType" class="styled" type="radio"
+                                       value="steps"/>
+                                <label for="radioSteps">Steps</label>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Add Goal</button>
+                    <button type="button" class="btn btn-primary" ng-click="model.addGoal()">Add Goal</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="newVitalsAlertModal" tabindex="-1" role="dialog" aria-labelledby="newVitalsAlertLabel">
+    <div class="modal fade" id="updateGoalModal" tabindex="-1" role="dialog" aria-labelledby="updateGoalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="newVitalsAlertLabel">Set Vitals Alert</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="updateGoalLabel">Edit personal goal</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row" ng-show="model.goalType">
                         <div class="col-xs-3 col-sm-3 col-md-3">
-                            <img class="img-responsive" src="http://www.publicdomainpictures.net/pictures/60000/velka/heart-rate-ekg-ecg-heart-beat.jpg" alt="Vitals Alert">
+                            <div>Name:</div>
                         </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,
-                            mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
-                            eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit
-                            amet elit iaculis pretium sit amet quis magna.
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="model.goalName" type="text" class="form-control" placeholder="Goal Name">
+                        </div>
+                    </div>
+                    <div class="row" ng-show="model.goalType == 'calories'">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Calories:</div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="model.calories" type="number" class="form-control" placeholder="Calories">
+                        </div>
+                    </div>
+                    <div class="row" ng-show="model.goalType == 'steps'">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Steps:</div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="model.steps" type="number" class="form-control" placeholder="Steps">
+                        </div>
+                    </div>
+                    <div class="row" ng-show="model.goalType == 'distance'">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Distance:</div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="model.distance" type="number" class="form-control" placeholder="Distance">
+                        </div>
+                    </div>
+                    <div class="row" ng-show="model.goalType == 'floors'">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Floors:</div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="model.floors" type="number" class="form-control" placeholder="Floors">
+                        </div>
+                    </div>
+                    <div class="row" ng-show="model.goalType">
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div>Start Date:</div>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-md-9 control-edit-options">
+                            <input ng-model="model.date" type="date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row newSection" ng-show="model.goalType">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="divider"></div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="model.goalType">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <h5>Frequency</h5>
+                            <div class="radio radio-info">
+                                <input id="radioEditDaily" ng-model="model.frequency" class="styled" type="radio"
+                                       value="1"/>
+                                <label for="radioDaily">Daily</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input id="radioEditWeekly" ng-model="model.frequency" class="styled" type="radio"
+                                       value="7"/>
+                                <label for="radioWeekly">Weekly</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row newSection" ng-show="model.goalType">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="divider"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <h5>Goal Type</h5>
+                            <div class="radio radio-info">
+                                <input id="radioEditCalories" ng-model="model.goalType" class="styled" type="radio"
+                                       value="calories" disabled/>
+                                <label for="radioEditCalories">Calories</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input id="radioEditDistance" ng-model="model.goalType" class="styled" type="radio"
+                                       value="distance" disabled/>
+                                <label for="radioEditDistance">Distance</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input id="radioEditFloors" ng-model="model.goalType" class="styled" type="radio"
+                                       value="floors" disabled/>
+                                <label for="radioEditFloors">Floors</label>
+                            </div>
+                            <div class="radio radio-info">
+                                <input id="radioEditSteps" ng-model="model.goalType" class="styled" type="radio"
+                                       value="steps" disabled/>
+                                <label for="radioEditSteps">Steps</label>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger">Set Alert</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="newBlockModal" tabindex="-1" role="dialog" aria-labelledby="newBlockLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="newBlockLabel">Block User</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-xs-3 col-sm-3 col-md-3">
-                            <img class="img-responsive" src="http://png.clipart.me/graphics/thumbs/134/prohibition-sign_134537165.jpg" alt="Block User">
-                        </div>
-                        <div class="col-xs-9 col-sm-9 col-md-9">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,
-                            mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed
-                            eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit
-                            amet elit iaculis pretium sit amet quis magna.
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger">Block User</button>
+                    <button type="button" class="btn btn-primary" ng-click="model.updateGoal()">Update Goal</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

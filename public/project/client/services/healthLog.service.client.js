@@ -28,8 +28,8 @@
             return $http.get("/api/project/healthLog/user/" + username);
         }
 
-        function getSpecificHealthLogsForUser(username, type) {
-            return $http.get("/api/project/healthLog/user/" + username + "/" + type);
+        function getSpecificHealthLogsForUser(username, type, i) {
+            return $http.get("/api/project/healthLog/user/" + username + "/" + type + "/" + i);
         }
 
         function getAllHealthLogs() {
