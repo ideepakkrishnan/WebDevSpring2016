@@ -57,7 +57,7 @@
 
                             // Initialize user stats
                             HealthLogService
-                                .getSpecificHealthLogsForUser(vm.username, 'calories', 0)
+                                .getSpecificHealthLogsForUser(vm.selectedUser.username, 'calories', 0)
                                 .then(
                                     function (doc) {
                                         var calorieData = doc.data.res[0].healthdata;
@@ -73,7 +73,7 @@
                                         vm.chartLabels = measuredDates;
                                         vm.chartData.push(calorieMeasures);
                                         vm.radarFriendData.push(calorieData[6].value);
-                                        return HealthLogService.getSpecificHealthLogsForUser(vm.username, 'distance', 0);
+                                        return HealthLogService.getSpecificHealthLogsForUser(vm.selectedUser.username, 'distance', 0);
                                     },
                                     function (err) {
                                         console.log("stats.controller - getSpecificHealthLogsForUser - calories init - error: " + err.message);
@@ -89,7 +89,7 @@
 
                                     vm.chartData.push(distanceMeasures);
                                     vm.radarFriendData.push(distanceData[6].value * 1609.344);
-                                    return HealthLogService.getSpecificHealthLogsForUser(vm.username, 'steps', 0);
+                                    return HealthLogService.getSpecificHealthLogsForUser(vm.selectedUser.username, 'steps', 0);
                                 },
                                 function (err) {
                                     console.log("stats.controller - getSpecificHealthLogsForUser - distance init - error: " + err.message);
@@ -155,7 +155,7 @@
 
                             // Initialize goals set for this user by the currently logged in user
                             GoalService
-                                .findAllGoalsAssignedToUserByWatcher(vm.username, $rootScope.currentUser.username)
+                                .findAllGoalsAssignedToUserByWatcher(vm.selectedUser.username, $rootScope.currentUser.username)
                                 .then(
                                     function (response) {
                                         vm.goals = response.data;
@@ -197,7 +197,7 @@
         function addGoal() {
             var newGoal = {
                 "name": vm.goalName,
-                "username": vm.username,
+                "username": vm.selectedUser.username,
                 "assignedBy": $rootScope.currentUser.username,
                 "calories": vm.calories,
                 "weight": vm.weight,
@@ -215,7 +215,7 @@
                 .createGoal(newGoal)
                 .then(
                     function(response) {
-                        return GoalService.findAllGoalsAssignedToUserByWatcher(vm.username, $rootScope.currentUser.username);
+                        return GoalService.findAllGoalsAssignedToUserByWatcher(vm.selectedUser.username, $rootScope.currentUser.username);
                     },
                     function (err) {
                         console.log("goal.controller - addGoal - error: " + err.message);
@@ -229,7 +229,6 @@
 
                         vm._id = "";
                         vm.goals = doc.data;
-                        vm.username = "";
                         vm.calories = "";
                         vm.weight = "";
                         vm.fat = "";
@@ -253,7 +252,7 @@
         function updateGoal() {
             var updatedGoal = {
                 "name": vm.goalName,
-                "username": vm.username,
+                "username": vm.selectedUser.username,
                 "assignedBy": $rootScope.currentUser.username,
                 "calories": vm.calories,
                 "weight": vm.weight,
@@ -270,7 +269,7 @@
             GoalService.updateGoal(vm._id, updatedGoal)
                 .then(
                     function(response) {
-                        return GoalService.findAllGoalsAssignedToUserByWatcher(vm.username, $rootScope.currentUser.username);
+                        return GoalService.findAllGoalsAssignedToUserByWatcher(vm.selectedUser.username, $rootScope.currentUser.username);
                     },
                     function (err) {
                         console.log("goal.controller - updateGoal - error: " + err.message);
@@ -285,7 +284,6 @@
 
                         // Clear all fields
                         vm._id = "";
-                        vm.username = "";
                         vm.calories = "";
                         vm.weight = "";
                         vm.fat = "";
@@ -311,7 +309,7 @@
                 .deleteGoalById(goalId)
                 .then(
                     function(response) {
-                        return GoalService.findAllGoalsAssignedToUserByWatcher(vm.username, $rootScope.currentUser.username);
+                        return GoalService.findAllGoalsAssignedToUserByWatcher(vm.selectedUser.username, $rootScope.currentUser.username);
                     },
                     function (err) {
                         console.log("goal.controller - deleteGoal - error: " + err.message);
@@ -371,7 +369,7 @@
                     // calorie data
                     vm.goals[i].caloriesDoughnutLabels = ["Calories Burned", "Left"];
                     HealthLogService
-                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'calories', i)
+                        .getSpecificHealthLogsForUser(vm.selectedUser.username, 'calories', i)
                         .then(
                             function (doc) {
                                 vm.calorieLogs = doc.data.res[0].healthdata;
@@ -399,7 +397,7 @@
                     // distance data
                     vm.goals[i].distanceDoughnutLabels = ["Steps taken", "Left"];
                     HealthLogService
-                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'distance', i)
+                        .getSpecificHealthLogsForUser(vm.selectedUser.username, 'distance', i)
                         .then(
                             function (doc) {
                                 vm.distanceLogs = doc.data.res[0].healthdata;
@@ -426,7 +424,7 @@
                     vm.goals[i].floorsDoughnutLabels = ["Floors climbed", "Left"];
                     console.log("Floors goal");
                     HealthLogService
-                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'floors', i)
+                        .getSpecificHealthLogsForUser(vm.selectedUser.username, 'floors', i)
                         .then(
                             function (doc) {
                                 vm.floorsLogs = doc.data.res[0].healthdata;
@@ -452,7 +450,7 @@
                     // steps data
                     vm.goals[i].floorsDoughnutLabels = ["Steps taken", "Left"];
                     HealthLogService
-                        .getSpecificHealthLogsForUser($rootScope.currentUser.username, 'steps', i)
+                        .getSpecificHealthLogsForUser(vm.selectedUser.username, 'steps', i)
                         .then(
                             function (doc) {
                                 vm.stepsLogs = doc.data.res[0].healthdata;

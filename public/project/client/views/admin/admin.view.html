@@ -58,6 +58,12 @@
                         Admin
                     </label>
                 </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="model.developer" value="developer" />
+                        Developer
+                    </label>
+                </div>
             </td>
             <td data-title="Action">
                 <div class="btn-group" role="group">
@@ -92,6 +98,12 @@
                     <label>
                         <input type="checkbox" value="admin" ng-checked="user.roles.indexOf('admin') >= 0" />
                         Admin
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="developer" ng-checked="user.roles.indexOf('developer') >= 0" />
+                        Developer
                     </label>
                 </div>
             </td>

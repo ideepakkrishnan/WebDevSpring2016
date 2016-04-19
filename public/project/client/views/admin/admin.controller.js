@@ -46,6 +46,9 @@
             if (vm.admin) {
                 roles.push("admin");
             }
+            if (vm.developer) {
+                roles.push("developer");
+            }
             UserService.createNewUser(
                 {
                     "firstName": vm.newFirstName,
@@ -72,7 +75,7 @@
                     vm.player = false;
                     vm.watcher = false;
                     vm.admin = false;
-
+                    vm.developer = false;
                     vm.users = response.data;
                 },
                 function (err) {
@@ -92,6 +95,9 @@
             }
             if (vm.admin) {
                 roles.push("admin");
+            }
+            if (vm.developer) {
+                roles.push("developer");
             }
 
             var updatedDetails = {
@@ -119,6 +125,7 @@
                         vm.player = false;
                         vm.watcher = false;
                         vm.admin = false;
+                        vm.developer = false;
                     },
                     function (err) {
                         console.log("admin.controller - updateError - error: " + err.message);
@@ -150,6 +157,7 @@
             vm.player = user.roles.indexOf('player') >= 0;
             vm.watcher = user.roles.indexOf('watcher') >= 0;
             vm.admin = user.roles.indexOf('admin') >= 0;
+            vm.developer = user.roles.indexOf('developer') >= 0;
         }
 
         function order(predicate) {
