@@ -49,8 +49,7 @@
                                 ng-click="model.deleteTeamMember(team._id)">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <div class="media-left" data-toggle="modal" data-target="#updateTeamModal"
-                             ng-click="model.selectTeam(team._id, team.name, team.description, team.image, team.users)">
+                        <div class="media-left" ng-click="model.location.url('/team/' + team._id)">
                             <img class="media-object" width="50px" ng-src="{{team.image}}" alt="team.name">
                         </div>
                         <div class="media-body" ng-click="model.location.url('/team/' + team._id)">
