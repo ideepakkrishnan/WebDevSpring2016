@@ -4,8 +4,6 @@
         <a href="#/dashboard">Dashboard</a>
     </li>
     <li ng-show="currentUser.roles.indexOf('player') >= 0" ng-class="{'active': $location.url() == '/goals'}"><a href="#/goals">Goals</a></li>
-    <li ng-show="currentUser.roles.indexOf('player') >= 0" ng-class="{'active': $location.url() == '/users'}"><a href="#/users">Watchers</a></li>
-    <li ng-show="currentUser.roles.indexOf('player') >= 0" ng-class="{'active': $location.url() == '/settings'}"><a href="#/settings">Settings</a></li>
     <li ng-show="currentUser.roles.indexOf('player') >= 0 || currentUser.roles.indexOf('watcher') >= 0"
         ng-class="{'active': $location.url() == '/team'}">
         <a href="#/team">My Teams</a>

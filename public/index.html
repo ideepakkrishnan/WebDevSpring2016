@@ -1,22 +1,379 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Web Dev Spring 2016 - Deepak Krishnan</title>
-</head>
-<body>
-<section class='container'>
-          <hgroup>
-            <h1>Welcome to Web Development Spring 2016 Home</h1>
-          </hgroup>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="My home page">
+    <meta name="author" content="krishnan[dot]d[at]husky[dot]neu[dot]edu">
+    <link rel="icon" href="home/img/favicon.ico">
 
+    <title>Deepak Krishnan</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="home/css/ionicons.min.css" rel="stylesheet">
+    <link href="home/css/style.css" rel="stylesheet">
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="home/js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div id="h">
+    <div class="logo">
+        <h2>CS 5610</h2>
+    </div><!--/logo-->
+    <div class="container centered">
         <div class="row">
-          <a href="assignment/client/index_old.html">Assignments</a><br/>
-          <a href="project/client/index.html">Project</a><br/>
-          <a href="experiments/index.html">Experiments</a><br/>
-          <a href="https://github.com/ideepakkrishnan/WebDevSpring2016">Public GitHub link</a>
+            <div class="col-md-8 col-md-offset-2">
+                <h1>Hello, my name is <b>Deepak Krishnan</b>.<br/>I create for the web.</h1>
+            </div>
+        </div><!--/row-->
+
+        <div class="row mt">
+            <div class="col-sm-4">
+                <a href="project/client/#/home" class="main-links">
+                <i class="ion-ios7-monitor-outline"></i>
+                <h3>Project</h3>
+                </a>
+            </div><!--/col-md-4-->
+
+            <div class="col-sm-4">
+                <a href="assignment/client/#/home" class="main-links">
+                <i class="ion-ios7-browsers-outline"></i>
+                <h3>Assignment</h3>
+                </a>
+            </div><!--/col-md-4-->
+
+            <div class="col-sm-4">
+                <a href="https://github.com/ideepakkrishnan/WebDevSpring2016" class="main-links">
+                <i class="ion-ios7-copy-outline"></i>
+                <h3>GitHub</h3>
+                </a>
+            </div><!--/col-md-4-->
+
+        </div><!--/row-->
+    </div><!--/container-->
+</div><!--H-->
+
+<div class="container ptb">
+    <div class="row">
+        <h2 class="centered mb">And this is a portfolio of my work done during<br/>CS 5610 - Web Fundamentals - Spring 2016</h2>
+        <div class="col-md-6">
+            <p>The assignment complementing the coursework was a MEAN stack based Form Maker. This web app allows a user to create online forms which can be edited through the app. Form Maker lets you perform CRUD operations on the fields within each form through a mobile-friendly design.</p>
+        </div><!--/col-md-6-->
+        <div class="col-md-6">
+            <p>My project for this coursework is a FitBit data visualization tool called PerformX. This web app lets a user sync their Fitbit and PerformX accounts to leverage real time physical activity data and plot graphs that gives you a glance of your fitness regimes over time.</p>
+        </div><!--/col-md-6-->
+    </div><!--/row-->
+</div><!-- /.container -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <img src="home/img/items.png" class="img-responsive" alt="">
         </div>
-</section>
+    </div><!--/row-->
+</div><!--/.container-->
+
+<div id="g">
+    <div class="container">
+        <div class="row centered">
+            <h2>Application Architecture</h2>
+            <div class="col-md-8 col-md-offset-2">
+                <p>Both Form Maker and PerformX follows the MVC architecture pattern where the app is divided into models, views and controllers where models manipulate the data and contain the core app logic, views specify the display of application data and controllers act as a bridge between the views and controllers converting data into formats expected by these components.</p>
+
+            </div><!--/col-md-8-->
+        </div><!--/row-->
+    </div><!--/.container-->
+    <!--div class="portfolio-centered mt">
+        <div class="recentitems portfolio">
+
+            <div class="portfolio-item graphic-design">
+                <div class="he-wrap tpl6">
+                    <img src="home/img/portfolio/portfolio_09.jpg" class="img-responsive" alt="">
+                    <div class="he-view">
+                        <div class="bg a0" data-animate="fadeIn">
+                            <h3 class="a1" data-animate="fadeInDown">A Graphic Design Item</h3>
+                            <a data-rel="prettyPhoto" href="home/img/portfolio/portfolio_09.jpg" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-search"></i></a>
+                            <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item web-design">
+                <div class="he-wrap tpl6">
+                    <img src="home/img/portfolio/portfolio_02.jpg" class="img-responsive" alt="">
+                    <div class="he-view">
+                        <div class="bg a0" data-animate="fadeIn">
+                            <h3 class="a1" data-animate="fadeInDown">A Web Design Item</h3>
+                            <a data-rel="prettyPhoto" href="home/img/portfolio/portfolio_02.jpg" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-search"></i></a>
+                            <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item graphic-design">
+                <div class="he-wrap tpl6">
+                    <img src="home/img/portfolio/portfolio_03.jpg" class="img-responsive" alt="">
+                    <div class="he-view">
+                        <div class="bg a0" data-animate="fadeIn">
+                            <h3 class="a1" data-animate="fadeInDown">A Graphic Design Item</h3>
+                            <a data-rel="prettyPhoto" href="home/img/portfolio/portfolio_03.jpg" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-search"></i></a>
+                            <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item graphic-design">
+                <div class="he-wrap tpl6">
+                    <img src="home/img/portfolio/portfolio_04.jpg" class="img-responsive" alt="">
+                    <div class="he-view">
+                        <div class="bg a0" data-animate="fadeIn">
+                            <h3 class="a1" data-animate="fadeInDown">A Graphic Design Item</h3>
+                            <a data-rel="prettyPhoto" href="home/img/portfolio/portfolio_04.jpg" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-search"></i></a>
+                            <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item books">
+                <div class="he-wrap tpl6">
+                    <img src="home/img/portfolio/portfolio_05.jpg" class="img-responsive" alt="">
+                    <div class="he-view">
+                        <div class="bg a0" data-animate="fadeIn">
+                            <h3 class="a1" data-animate="fadeInDown">A Book Design Item</h3>
+                            <a data-rel="prettyPhoto" href="home/img/portfolio/portfolio_05.jpg" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-search"></i></a>
+                            <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item graphic-design">
+                <div class="he-wrap tpl6">
+                    <img src="home/img/portfolio/portfolio_06.jpg" class="img-responsive" alt="">
+                    <div class="he-view">
+                        <div class="bg a0" data-animate="fadeIn">
+                            <h3 class="a1" data-animate="fadeInDown">A Graphic Design Item</h3>
+                            <a data-rel="prettyPhoto" href="home/img/portfolio/portfolio_06.jpg" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-search"></i></a>
+                            <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item web-design">
+                <div class="he-wrap tpl6">
+                    <img src="home/img/portfolio/portfolio_07.jpg" class="img-responsive" alt="">
+                    <div class="he-view">
+                        <div class="bg a0" data-animate="fadeIn">
+                            <h3 class="a1" data-animate="fadeInDown">A Web Design Item</h3>
+                            <a data-rel="prettyPhoto" href="home/img/portfolio/portfolio_07.jpg" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-search"></i></a>
+                            <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item graphic-design">
+                <div class="he-wrap tpl6">
+                    <img src="home/img/portfolio/portfolio_08.jpg" class="img-responsive" alt="">
+                    <div class="he-view">
+                        <div class="bg a0" data-animate="fadeIn">
+                            <h3 class="a1" data-animate="fadeInDown">A Graphic Design Item</h3>
+                            <a data-rel="prettyPhoto" href="home/img/portfolio/portfolio_08.jpg" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-search"></i></a>
+                            <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item graphic-design">
+                <div class="he-wrap tpl6">
+                    <img src="home/img/portfolio/portfolio_01.jpg" class="img-responsive" alt="">
+                    <div class="he-view">
+                        <div class="bg a0" data-animate="fadeIn">
+                            <h3 class="a1" data-animate="fadeInDown">A Graphic Design Item</h3>
+                            <a data-rel="prettyPhoto" href="home/img/portfolio/portfolio_01.jpg" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-search"></i></a>
+                            <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-item books">
+                <div class="he-wrap tpl6">
+                    <img src="home/assets/portfolio/portfolio_10.jpg" class="img-responsive" alt="">
+                    <div class="he-view">
+                        <div class="bg a0" data-animate="fadeIn">
+                            <h3 class="a1" data-animate="fadeInDown">A Book Design Item</h3>
+                            <a data-rel="prettyPhoto" href="home/img/portfolio/portfolio_10.jpg" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-search"></i></a>
+                            <a href="single-project.html" class="dmbutton a2" data-animate="fadeInUp"><i class="ion-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div-->
+</div>
+
+<div id="sep">
+    <div class="container">
+        <div class="row centered">
+            <div class="col-md-8 col-md-offset-2">
+                <h1>I am a student at Northeastern University</h1>
+                <h3 class="mb">where I am pursuing my<br/>Masters in Computer Science.</h3>
+                <a href="http://www.northeastern.edu/" class="btn btn-conf btn-clear">Visit NEU</a>
+            </div>
+        </div><!--/row-->
+    </div><!--/container-->
+</div><!--/.sep-->
+
+<div>
+    <div class="container mt">
+        <div class="row clients centered">
+            <p>Powered by</p>
+            <div class="col-sm-2 col-sm-offset-1">
+                <img src="http://orig01.deviantart.net/d472/f/2013/333/8/2/angularjs_by_abhishekghosh-d6w57fs.png" alt="Angular JS">
+            </div>
+            <div class="col-sm-2">
+                <img src="https://strongloop.com/wp-content/uploads/2015/12/nodejs-logo.png" alt="Node JS">
+            </div>
+            <div class="col-sm-2">
+                <img src="http://static.tumblr.com/lbtm3t2/8PAn0kziu/mongodb-logo.png" alt="mongo DB">
+            </div>
+            <div class="col-sm-2">
+                <img src="http://www.unixstickers.com/image/cache/data/stickers/bootstrap/bootstrap.sh-600x600.png" alt="Bootstrap">
+            </div>
+            <div class="col-sm-2">
+                <img src="http://hervemedia.fr/images/jquery-logo.png" alt="jQuery">
+            </div>
+        </div><!--/row-->
+    </div><!--/container-->
+</div><!--/.G-->
+
+<div id="f" class="mt">
+    <div class="container">
+        <div class="row centered">
+            <div class="col-md-8 col-md-offset-2">
+                <a href="https://twitter.com/ideepakkrishnan"><i class="ion-social-twitter"></i></a>
+                <a href="mailto:krishnan.d@husky.neu.edu"><i class="ion-email"></i></a>
+                <a href="https://www.linkedin.com/in/ideepakkrishnan"><i class="ion-social-linkedin"></i></a>
+                <a href="https://www.facebook.com/ideepakkrishnan"><i class="ion-social-facebook"></i></a>
+            </div><!--/col-md-8-->
+        </div>
+    </div><!--/container-->
+</div><!--/.F-->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="home/js/retina-1.1.0.js"></script>
+<script src="home/js/jquery.hoverdir.js"></script>
+<script src="home/js/jquery.hoverex.min.js"></script>
+<script src="home/js/jquery.prettyPhoto.js"></script>
+<script src="home/js/jquery.isotope.min.js"></script>
+<script src="home/js/custom.js"></script>
+
+
+<script>
+    // Portfolio
+    (function($) {
+        "use strict";
+        var $container = $('.portfolio'),
+                $items = $container.find('.portfolio-item'),
+                portfolioLayout = 'fitRows';
+
+        if( $container.hasClass('portfolio-centered') ) {
+            portfolioLayout = 'masonry';
+        }
+
+        $container.isotope({
+            filter: '*',
+            animationEngine: 'best-available',
+            layoutMode: portfolioLayout,
+            animationOptions: {
+                duration: 750,
+                easing: 'linear',
+                queue: false
+            },
+            masonry: {
+            }
+        }, refreshWaypoints());
+
+        function refreshWaypoints() {
+            setTimeout(function() {
+            }, 1000);
+        }
+
+        $('nav.portfolio-filter ul a').on('click', function() {
+            var selector = $(this).attr('data-filter');
+            $container.isotope({ filter: selector }, refreshWaypoints());
+            $('nav.portfolio-filter ul a').removeClass('active');
+            $(this).addClass('active');
+            return false;
+        });
+
+        function getColumnNumber() {
+            var winWidth = $(window).width(),
+                    columnNumber = 1;
+
+            if (winWidth > 1200) {
+                columnNumber = 5;
+            } else if (winWidth > 950) {
+                columnNumber = 4;
+            } else if (winWidth > 600) {
+                columnNumber = 3;
+            } else if (winWidth > 400) {
+                columnNumber = 2;
+            } else if (winWidth > 250) {
+                columnNumber = 1;
+            }
+            return columnNumber;
+        }
+
+        function setColumns() {
+            var winWidth = $(window).width(),
+                    columnNumber = getColumnNumber(),
+                    itemWidth = Math.floor(winWidth / columnNumber);
+
+            $container.find('.portfolio-item').each(function() {
+                $(this).css( {
+                    width : itemWidth + 'px'
+                });
+            });
+        }
+
+        function setPortfolio() {
+            setColumns();
+            $container.isotope('reLayout');
+        }
+
+        $container.imagesLoaded(function () {
+            setPortfolio();
+        });
+
+        $(window).on('resize', function () {
+            setPortfolio();
+        });
+    })(jQuery);
+</script>
 </body>
 </html>

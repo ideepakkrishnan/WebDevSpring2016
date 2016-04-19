@@ -148,121 +148,6 @@
         </div>
     </div>
 
-    <div id="watchersContainer" class="row newSection">
-        <blockquote>
-            <p>Watchers <span class="badge">1</span></p>
-            <small>People tracking your progress</small>
-        </blockquote>
-
-        <div class="col-sm-6">
-            <div class="media alert alert-warning" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" width="50px" src="http://www.villard.biz/assets/Uploads/projects/portrait-o.jpg" alt="team.name">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Adam</h4>
-                    Northeastern Soccer, Northeastern Hockey
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 input-group">
-            <input ng-model="model.newWatcherName" type="text" class="form-control searchTeamInput" placeholder="Add new watcher...">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button" aria-label="Search" data-toggle="modal" data-target="#newWatcherModal">
-                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-              </button>
-            </span>
-        </div>
-    </div>
-
-    <!-- New Watcher Modal -->
-    <div class="modal fade" id="newWatcherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Search members</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="col-sm-6">
-                                <div class="media alert alert-warning" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <div class="media-left">
-                                        <a href="#">
-                                            <img class="media-object" width="50px" src="http://www.villard.biz/assets/Uploads/projects/portrait-o.jpg" alt="team.name">
-                                        </a>
-                                    </div>
-                                    <div class="media-body">
-                                        <h4 class="media-heading">Adam</h4>
-                                        Northeastern Soccer, Northeastern Hockey
-                                    </div>
-                                </div>
-                            </div>
-                            <div ng-repeat="team in model.myTeams" class="col-sm-6">
-                                <div class="media alert alert-warning" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="deleteTeam(team.teamId)">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <div class="media-left">
-                                        <a href="#">
-                                            <img class="media-object" width="50px" ng-src="{{team.image}}" alt="team.name">
-                                        </a>
-                                    </div>
-                                    <div class="media-body">
-                                        <h4 class="media-heading">{{team.name}}</h4>
-                                        {{team.description}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="divider"></div>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <h5>Permissions</h5>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="goalSetting" checked="checked" />
-                                    Set my personal goals
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="activityAlert" />
-                                    Set activity alerts
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="accessVitals"/>
-                                    Access my vitals
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Add watcher</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div id="teamsContainer" class="row newSection">
         <blockquote>
             <p>Teams <span class="badge">1</span></p>
@@ -270,10 +155,7 @@
         </blockquote>
 
         <div ng-repeat="team in model.myTeams" class="col-sm-6">
-            <div class="media alert alert-warning" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="model.deleteTeam(team.teamId)">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <div class="media alert alert-warning" role="alert" ng-click="model.location.url('/team/' + team._id)">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object" width="50px" ng-src="{{team.image}}" alt="team.name">
