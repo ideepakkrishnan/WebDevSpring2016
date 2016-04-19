@@ -2,8 +2,8 @@
  * Created by ideepakkrishnan on 18-03-2016.
  */
 
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+//var passport = require('passport');
+//var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt-nodejs');
 
 module.exports = function(app, userModel) {
@@ -21,25 +21,25 @@ module.exports = function(app, userModel) {
     };
 
     // Available end points
-    app.post("/api/assignment/login", passport.authenticate('local'), login);
-    app.post("/api/assignment/register", createUser);
+    //app.post("/api/assignment/login", passport.authenticate('local'), login);
+    //app.post("/api/assignment/register", createUser);
     app.get("/api/assignment/user", getUserByCredentials);
     app.get("/api/assignment/user/:id", getUserById);
     app.get("/api/assignment/user", getUserByUsername);
     app.put("/api/assignment/user/:id", auth, updateUserById);
-    app.get("/api/assignment/loggedIn", loggedIn);
-    app.post("/api/assignment/logout", logout);
+    //app.get("/api/assignment/loggedIn", loggedIn);
+    //app.post("/api/assignment/logout", logout);
     app.post("/api/assignment/admin/user", auth, createNewUser);
     app.get("/api/assignment/admin/user", auth, getAllUsers);
     app.get("/api/assignment/admin/user/:id", auth, getExistingUserById);
     app.delete("/api/assignment/admin/user/:id", auth, deleteUserById);
     app.put("/api/assignment/admin/user/:id", auth, updateExistingUserById);
 
-    passport.use(new LocalStrategy(localStrategy));
+    //passport.use(new LocalStrategy(localStrategy));
 
     // Helper functions that encipher and decipher cookies
-    passport.serializeUser(serializeUser); // decides what goes to the client
-    passport.deserializeUser(deserializeUser);
+    /*passport.serializeUser(serializeUser); // decides what goes to the client
+    passport.deserializeUser(deserializeUser);*/
 
     function createUser(req, res) {
         var user = req.body;
@@ -84,7 +84,7 @@ module.exports = function(app, userModel) {
 
     // passport helper functions: localStrategy, serializeUser, deserializeUser
     // Important Note: Configuration that glues passport with this application
-    function localStrategy(username, password, done) {
+    /*function localStrategy(username, password, done) {
         userModel
             .findUserByUsername(username)
             .then(
@@ -126,7 +126,7 @@ module.exports = function(app, userModel) {
     function login(req, res) {
         var user = req.user;
         res.json(user);
-    }
+    }*/
 
     function getAllUsers(req, res) {
         if (isAdmin(req.user)) {
@@ -240,14 +240,14 @@ module.exports = function(app, userModel) {
         }
     }
 
-    function loggedIn(req, res) {
+    /*function loggedIn(req, res) {
         res.send(req.isAuthenticated() ? req.user : '0');
     }
 
     function logout(req, res) {
         req.logOut();
         res.send(200);
-    }
+    }*/
 
     function isAdmin(user) {
         console.log("user.model - isAdmin - argument passed: " + JSON.stringify(user));
