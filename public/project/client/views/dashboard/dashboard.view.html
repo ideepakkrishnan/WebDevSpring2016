@@ -6,7 +6,7 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="model.rootScope.errorMessage = null"><span aria-hidden="true">&times;</span></button>
         <strong>Error!</strong> {{model.rootScope.errorMessage}}
     </div>
-    <div id="deviceContainer" class="row newSection" ng-if="vm.activityData == null">
+    <div id="deviceContainer" class="row newSection" ng-hide="model.activityData">
         <blockquote>
             <p>FitBit Sync</p>
             <small>Connect your FitBit account</small>
@@ -16,7 +16,12 @@
         </div>
     </div>
 
-    <div class="row" ng-if="model.data">
+    <div class="row newSection" ng-if="model.data">
+        <blockquote>
+            <p>Glance</p>
+            <small>A snapshot of your physical activities today</small>
+        </blockquote>
+
         <canvas id="line" class="chart chart-line" chart-data="model.data"
                 chart-labels="model.labels" chart-legend="true" chart-series="model.series"
                 chart-click="model.chartHandle">
@@ -24,11 +29,6 @@
     </div>
 
     <div id="main" class="row newSection" ng-if="model.todayStepData">
-        <blockquote>
-            <p>Glance</p>
-            <small>A snapshot of your physical activities today</small>
-        </blockquote>
-
         <div class="col-sm-4">
             <canvas id="stepDoughnut" class="chart chart-doughnut" chart-legend="true"
                     chart-data="model.todayStepData" chart-labels="model.todayStepLabels">
@@ -164,7 +164,7 @@
 
     <div id="teamsContainer" class="row newSection" ng-if="model.myTeams.length > 0">
         <blockquote>
-            <p>Teams <span class="badge">1</span></p>
+            <p>Teams <span class="badge">{{model.myTeams.length}}</span></p>
             <small>Your affiliations</small>
         </blockquote>
 
